@@ -1029,6 +1029,15 @@ html.dark .cal-day.has-data:hover { background: rgba(212,147,46,0.10); }
   // Disable tab switching entirely — this is a focused single-period report
   window.switchTab = function() {};
 
+  // After page load: ensure dissatisfiedData is populated and re-trigger satis analysis
+  window.addEventListener('load', function() {
+    var _disKey = '/api/ai/dissatisfied/results?period=2026-04-29';
+    if (STATIC_API[_disKey] && typeof dissatisfiedData !== 'undefined') {
+      dissatisfiedData['2026-04-29'] = STATIC_API[_disKey];
+    }
+    if (typeof renderSatisAnalysis === 'function') { renderSatisAnalysis(); }
+  });
+
   // Override URLSearchParams so existing tab-routing code picks up the right tab/period
   var _Orig = window.URLSearchParams;
   function _StaticParams(init) {
