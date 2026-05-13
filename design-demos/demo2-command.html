@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>周报 04.29–05.05 · Demo 2 指挥室式</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0f1117;
+  --surface:   #181c25;
+  --surface-2: #1e2433;
+  --border:    #2a3044;
+  --text:      #e2e8f0;
+  --text-2:    #94a3b8;
+  --text-3:    #5a6478;
+  --red:       #f87171;
+  --red-dim:   rgba(248,113,113,0.12);
+  --green:     #4ade80;
+  --green-dim: rgba(74,222,128,0.10);
+  --amber:     #fbbf24;
+  --amber-dim: rgba(251,191,36,0.12);
+  --blue:      #60a5fa;
+  --sidebar:   220px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  width: var(--sidebar);
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 28px 0;
+  display: flex;
+  flex-direction: column;
+}
+.sidebar-brand {
+  padding: 0 20px 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.sidebar-brand-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 4px;
+}
+.sidebar-brand-period {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+}
+.nav-section-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 12px 20px 6px;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-2);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: all 0.15s;
+  cursor: pointer;
+}
+.nav-item:hover { color: var(--text); background: var(--surface-2); }
+.nav-item.active { color: var(--text); border-left-color: var(--blue); background: var(--surface-2); }
+.nav-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.nav-dot.red    { background: var(--red); }
+.nav-dot.green  { background: var(--green); }
+.nav-dot.amber  { background: var(--amber); }
+.nav-dot.neutral{ background: var(--text-3); }
+
+.sidebar-status {
+  margin-top: auto;
+  padding: 16px 20px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text-3);
+  line-height: 1.5;
+}
+
+/* ── Main content ── */
+.main {
+  flex: 1;
+  overflow-x: hidden;
+  padding: 36px 40px 60px;
+  max-width: 900px;
+}
+
+/* ── Page header ── */
+.page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 36px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.page-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+.page-subtitle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-3);
+  margin-top: 4px;
+}
+.status-pills { display: flex; gap: 8px; }
+.pill {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.pill.fail  { background: var(--red-dim);   color: var(--red); }
+.pill.pass  { background: var(--green-dim); color: var(--green); }
+.pill.amber { background: var(--amber-dim); color: var(--amber); }
+
+/* ── Section ── */
+.section { margin-bottom: 44px; }
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.section-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 3px;
+  background: var(--surface-2);
+  color: var(--text-3);
+}
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+/* ── Metric grid ── */
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.metric-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+.metric-card.fail::before { background: var(--red); }
+.metric-card.pass::before { background: var(--green); }
+.metric-card.neutral::before { background: var(--border); }
+.metric-card-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-3);
+  margin-bottom: 8px;
+  letter-spacing: 0.04em;
+}
+.metric-card-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.metric-card.fail .metric-card-value  { color: var(--red); }
+.metric-card.pass .metric-card-value  { color: var(--green); }
+.metric-card.neutral .metric-card-value { color: var(--text-2); }
+.metric-card-target {
+  font-size: 11px;
+  color: var(--text-3);
+}
+
+/* ── Analysis panel ── */
+.analysis-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.analysis-panel-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface-2);
+}
+.analysis-panel-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+.analysis-panel-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+.analysis-panel-badge.red   { background: var(--red-dim);   color: var(--red); }
+.analysis-panel-badge.amber { background: var(--amber-dim); color: var(--amber); }
+
+.analysis-panel-body { padding: 16px; }
+.reason-list, .suggest-list { list-style: none; padding: 0; }
+.reason-list li, .suggest-list li {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-2);
+  padding: 7px 0 7px 16px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.reason-list li:last-child, .suggest-list li:last-child { border-bottom: none; }
+.reason-list li::before {
+  content: '▸';
+  position: absolute; left: 0;
+  color: var(--red); font-size: 10px; top: 10px;
+}
+.suggest-list li::before {
+  content: '→';
+  position: absolute; left: 0;
+  color: var(--blue); font-size: 11px; top: 8px;
+}
+.analysis-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.mini-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 10px;
+}
+
+/* ── Agent bar ── */
+.agent-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 54px;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 7px;
+  font-size: 12px;
+}
+.agent-name { color: var(--text-2); text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+.agent-bar-bg { background: var(--border); border-radius: 2px; height: 5px; }
+.agent-bar-fill { height: 5px; border-radius: 2px; }
+.agent-bar-fill.over  { background: var(--red); }
+.agent-bar-fill.ok    { background: var(--text-3); }
+.agent-val { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-3); }
+
+/* ── Dissatisfied agent section ── */
+.agent-overview-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-bottom: 28px;
+}
+.agent-overview-table th {
+  text-align: left;
+  padding: 9px 12px 9px 0;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  border-bottom: 1px solid var(--border);
+}
+.agent-overview-table td {
+  padding: 11px 12px 11px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-2);
+  vertical-align: middle;
+}
+.agent-overview-table tr:last-child td { border-bottom: none; }
+.agent-overview-table .agent-col { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text); font-weight: 500; }
+.issue-count { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--red); }
+.good-count  { font-family: 'JetBrains Mono', monospace; font-weight: 500; color: var(--green); }
+.neutral-count { font-family: 'JetBrains Mono', monospace; color: var(--text-3); }
+.issue-tag {
+  display: inline-block;
+  padding: 1px 7px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 500;
+  background: var(--red-dim);
+  color: var(--red);
+  margin-right: 4px;
+  margin-bottom: 2px;
+  white-space: nowrap;
+}
+
+/* ── Agent detail card ── */
+.agent-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+.agent-card-header {
+  padding: 14px 18px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.agent-card-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+.agent-card-stats { display: flex; gap: 16px; align-items: center; }
+.agent-stat { font-size: 12px; }
+.agent-stat .val { font-family: 'JetBrains Mono', monospace; font-weight: 600; margin-right: 3px; }
+.agent-stat .val.bad  { color: var(--red); }
+.agent-stat .val.good { color: var(--green); }
+.agent-stat .lbl { color: var(--text-3); }
+
+.ticket-group-label {
+  padding: 10px 18px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  border-bottom: 1px solid var(--border);
+}
+.ticket-group-label.bad-group  { color: var(--red);   background: rgba(248,113,113,0.04); }
+.ticket-group-label.good-group { color: var(--green); background: rgba(74,222,128,0.04); }
+
+.ticket-item {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+}
+.ticket-item:last-child { border-bottom: none; }
+.ticket-item.bad-ticket  { background: rgba(248,113,113,0.03); }
+.ticket-item.good-ticket { background: transparent; }
+
+.ticket-item-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+.ticket-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+.ticket-cat {
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 3px;
+  background: var(--surface-2);
+  color: var(--text-3);
+}
+.ticket-id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text-3);
+  margin-left: auto;
+}
+
+.ticket-cause {
+  font-size: 12px;
+  color: var(--text-2);
+  line-height: 1.55;
+  margin-bottom: 10px;
+}
+
+.ticket-issue-row {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.ticket-suggest-block {
+  background: var(--surface-2);
+  border-radius: 4px;
+  padding: 10px 14px;
+  margin-top: 8px;
+}
+.suggest-item {
+  font-size: 12px;
+  color: var(--text-2);
+  line-height: 1.55;
+  padding: 5px 0 5px 14px;
+  position: relative;
+  border-bottom: 1px solid var(--border);
+}
+.suggest-item:last-child { border-bottom: none; }
+.suggest-item::before {
+  content: '→';
+  position: absolute; left: 0;
+  color: var(--blue);
+  font-size: 10px;
+  top: 7px;
+}
+.suggest-level {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--amber);
+  margin-bottom: 2px;
+}
+
+.ticket-good-desc {
+  font-size: 12px;
+  color: var(--text-3);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* ── QA table ── */
+.qa-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.qa-table th {
+  text-align: left;
+  padding: 8px 12px 8px 0;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  border-bottom: 1px solid var(--border);
+}
+.qa-table td {
+  padding: 10px 12px 10px 0;
+  color: var(--text-2);
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.qa-table tr:last-child td { border-bottom: none; }
+.type-badge {
+  display: inline-block;
+  padding: 1px 7px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 600;
+  background: var(--amber-dim);
+  color: var(--amber);
+}
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <div class="sidebar-brand-label">Moomoo CA · 周报</div>
+    <div class="sidebar-brand-period">2026-04-29 ~ 05-05</div>
+  </div>
+
+  <div class="nav-section-label">在线客服 R1</div>
+  <a class="nav-item active" href="#r1-metrics">
+    <span class="nav-dot red"></span>指标概览
+  </a>
+  <a class="nav-item" href="#r1-satis">
+    <span class="nav-dot red"></span>满意度分析
+  </a>
+  <a class="nav-item" href="#r1-duration">
+    <span class="nav-dot amber"></span>处理时长分析
+  </a>
+
+  <div class="nav-section-label">电话客服 R2</div>
+  <a class="nav-item" href="#r2-metrics">
+    <span class="nav-dot green"></span>指标概览
+  </a>
+  <a class="nav-item" href="#r2-analysis">
+    <span class="nav-dot amber"></span>时长关注点
+  </a>
+
+  <div class="nav-section-label">质检</div>
+  <a class="nav-item" href="#qa">
+    <span class="nav-dot neutral"></span>差错工单
+  </a>
+
+  <div class="nav-section-label">工单明细</div>
+  <a class="nav-item" href="#dis-overview">
+    <span class="nav-dot red"></span>坐席概览
+  </a>
+  <a class="nav-item" href="#dis-macariuschoo">
+    <span class="nav-dot red"></span>macariuschoo
+  </a>
+  <a class="nav-item" href="#dis-bryanlee">
+    <span class="nav-dot red"></span>bryanlee
+  </a>
+  <a class="nav-item" href="#dis-bardzhang">
+    <span class="nav-dot red"></span>bardzhang
+  </a>
+  <a class="nav-item" href="#dis-others">
+    <span class="nav-dot green"></span>其他坐席
+  </a>
+
+  <div class="sidebar-status">
+    数据截至 2026-05-08<br>
+    自动生成报表
+  </div>
+</nav>
+
+<!-- Main -->
+<main class="main">
+
+  <div class="page-header">
+    <div>
+      <div class="page-title">Apr 29 – May 5, 2026</div>
+      <div class="page-subtitle">MOOMOO CA · WEEKLY REPORT</div>
+    </div>
+    <div class="status-pills">
+      <span class="pill fail">在线 3项未达标</span>
+      <span class="pill pass">电话 全部达标</span>
+    </div>
+  </div>
+
+  <!-- R1 Metrics -->
+  <section class="section" id="r1-metrics">
+    <div class="section-header">
+      <span class="section-tag">R1</span>
+      <span class="section-title">在线客服 · 咨询量 130</span>
+    </div>
+    <div class="metric-grid">
+      <div class="metric-card fail">
+        <div class="metric-card-label">满意度</div>
+        <div class="metric-card-value">88.46%</div>
+        <div class="metric-card-target">目标 ≥93% · 差 4.54pp</div>
+      </div>
+      <div class="metric-card fail">
+        <div class="metric-card-label">非常满意度</div>
+        <div class="metric-card-value">69.00%</div>
+        <div class="metric-card-target">目标 ≥80% · 差 11.0pp</div>
+      </div>
+      <div class="metric-card fail">
+        <div class="metric-card-label">均处理时长</div>
+        <div class="metric-card-value">15.68m</div>
+        <div class="metric-card-target">目标 ≤14.5m · 超 1.18m</div>
+      </div>
+      <div class="metric-card pass">
+        <div class="metric-card-label">30s 接通率</div>
+        <div class="metric-card-value">100%</div>
+        <div class="metric-card-target">目标 ≥95% ✓</div>
+      </div>
+      <div class="metric-card pass">
+        <div class="metric-card-label">一次解决率</div>
+        <div class="metric-card-value">96.92%</div>
+        <div class="metric-card-target">目标 ≥95% ✓</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- R1 Satis -->
+  <section class="section" id="r1-satis">
+    <div class="section-header">
+      <span class="section-tag">R1</span>
+      <span class="section-title">满意度未达标分析</span>
+    </div>
+    <div class="analysis-panel">
+      <div class="analysis-panel-header">
+        <span class="analysis-panel-title">不满意工单根因（17单）</span>
+        <span class="analysis-panel-badge red">满意度 88.46%</span>
+      </div>
+      <div class="analysis-panel-body">
+        <div class="analysis-cols">
+          <div>
+            <div class="mini-label">原因</div>
+            <ul class="reason-list">
+              <li>入金类（7单）— EFT/出金时效预期不满足，多次催促缺乏主动管理</li>
+              <li>账户类（4单）— 股权转让限制、FOP转仓不支持限制，客户转折才得知</li>
+              <li>账户开户类（2单）— TFSA/RRSP注销时效问题，催促后未给明确预期</li>
+            </ul>
+          </div>
+          <div>
+            <div class="mini-label">建议</div>
+            <ul class="suggest-list">
+              <li>加强时效预期管理培训，主动告知流程占位时间</li>
+              <li>产品队列/出金App添加时效提示，转仓前增加流程预告</li>
+              <li>Manager跟进确定注销账户SLA，对齐客服话术</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- R1 Duration -->
+  <section class="section" id="r1-duration">
+    <div class="section-header">
+      <span class="section-tag">R1</span>
+      <span class="section-title">处理时长超标分析</span>
+    </div>
+    <div class="analysis-panel">
+      <div class="analysis-panel-header">
+        <span class="analysis-panel-title">超标分类 · 坐席影响</span>
+        <span class="analysis-panel-badge amber">均时长 15.68m → 目标 14.5m</span>
+      </div>
+      <div class="analysis-panel-body">
+        <div class="analysis-cols">
+          <div>
+            <div class="mini-label">超时分类 Top 3</div>
+            <div class="agent-row">
+              <div class="agent-name">入金</div>
+              <div class="agent-bar-bg"><div class="agent-bar-fill over" style="width:85%"></div></div>
+              <div class="agent-val">24.11m</div>
+            </div>
+            <div class="agent-row">
+              <div class="agent-name">账户</div>
+              <div class="agent-bar-bg"><div class="agent-bar-fill over" style="width:81%"></div></div>
+              <div class="agent-val">22.86m</div>
+            </div>
+            <div class="agent-row">
+              <div class="agent-name">转账开户</div>
+              <div class="agent-bar-bg"><div class="agent-bar-fill over" style="width:79%"></div></div>
+              <div class="agent-val">22.41m</div>
+            </div>
+          </div>
+          <div>
+            <div class="mini-label">坐席时长影响 Top 3</div>
+            <div class="agent-row">
+              <div class="agent-name">bryanlee</div>
+              <div class="agent-bar-bg"><div class="agent-bar-fill over" style="width:63%"></div></div>
+              <div class="agent-val">17.89m</div>
+            </div>
+            <div class="agent-row">
+              <div class="agent-name">bardzhang</div>
+              <div class="agent-bar-bg"><div class="agent-bar-fill over" style="width:69%"></div></div>
+              <div class="agent-val">19.62m</div>
+            </div>
+            <div class="agent-row">
+              <div class="agent-name">calventan</div>
+              <div class="agent-bar-bg"><div class="agent-bar-fill over" style="width:80%"></div></div>
+              <div class="agent-val">22.53m</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- R2 -->
+  <section class="section" id="r2-metrics">
+    <div class="section-header">
+      <span class="section-tag">R2</span>
+      <span class="section-title">电话客服 · 来电 654 通 · 全部达标</span>
+    </div>
+    <div class="metric-grid">
+      <div class="metric-card pass">
+        <div class="metric-card-label">满意度</div>
+        <div class="metric-card-value">98.28%</div>
+        <div class="metric-card-target">目标 ≥93% ✓</div>
+      </div>
+      <div class="metric-card pass">
+        <div class="metric-card-label">均通话时长</div>
+        <div class="metric-card-value">7.70m</div>
+        <div class="metric-card-target">目标 ≤8m ✓</div>
+      </div>
+      <div class="metric-card pass">
+        <div class="metric-card-label">一次解决率</div>
+        <div class="metric-card-value">97.94%</div>
+        <div class="metric-card-target">目标 ≥95% ✓</div>
+      </div>
+      <div class="metric-card pass">
+        <div class="metric-card-label">接通率</div>
+        <div class="metric-card-value">98.93%</div>
+        <div class="metric-card-target">目标 ≥95% ✓</div>
+      </div>
+      <div class="metric-card pass">
+        <div class="metric-card-label">10s 接通率</div>
+        <div class="metric-card-value">87.77%</div>
+        <div class="metric-card-target">目标 ≥80% ✓</div>
+      </div>
+      <div class="metric-card neutral">
+        <div class="metric-card-label">服务天数</div>
+        <div class="metric-card-value">5天</div>
+        <div class="metric-card-target">正常运营</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- R2 analysis -->
+  <section class="section" id="r2-analysis">
+    <div class="section-header">
+      <span class="section-tag">R2</span>
+      <span class="section-title">通话时长关注点</span>
+    </div>
+    <div class="analysis-panel">
+      <div class="analysis-panel-header">
+        <span class="analysis-panel-title">超时分类分析（接近目标线 8m）</span>
+        <span class="analysis-panel-badge amber">均值 7.70m</span>
+      </div>
+      <div class="analysis-panel-body">
+        <ul class="reason-list">
+          <li>营销类 11.40m（13通）— 产品对比、深度探讨、方案细节等复杂咨询</li>
+          <li>转账开户类 11.35m（12通）— TFSA/RRSP/Margin 账户类型选择及资产转移等长流程</li>
+          <li>calventan 均值 10.97m（29通）— 个人影响值最大，需针对性辅导查找优化空间</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- QA -->
+  <section class="section" id="qa">
+    <div class="section-header">
+      <span class="section-tag">QA</span>
+      <span class="section-title">差错工单 · 本周无致命差错</span>
+    </div>
+    <div class="analysis-panel">
+      <div class="analysis-panel-body">
+        <table class="qa-table">
+          <thead>
+            <tr><th>工单号</th><th>坐席</th><th>类型</th><th>问题描述</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>TK-20260501-001</td>
+              <td>bardzhang</td>
+              <td><span class="type-badge">一般</span></td>
+              <td>EFT 时效问询未主动提供等待说明，导致二次联系</td>
+            </tr>
+            <tr>
+              <td>TK-20260502-008</td>
+              <td>audreychoo</td>
+              <td><span class="type-badge">一般</span></td>
+              <td>FOP 转仓流程说明不完整，遗漏纸质账户限制</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 不满意工单坐席明细 ── -->
+  <section class="section" id="dis-overview">
+    <div class="section-header">
+      <span class="section-tag">工单明细</span>
+      <span class="section-title">不满意工单 · 坐席明细（17单）</span>
+    </div>
+
+    <div class="analysis-panel">
+      <div class="analysis-panel-header">
+        <span class="analysis-panel-title">坐席概览</span>
+        <span class="analysis-panel-badge red">6名坐席 · 有问题工单 6张</span>
+      </div>
+      <div class="analysis-panel-body" style="padding:0">
+        <table class="agent-overview-table">
+          <thead>
+            <tr>
+              <th style="padding-left:18px">坐席</th>
+              <th>总工单</th>
+              <th>有坐席问题</th>
+              <th>处理良好</th>
+              <th>问题类型</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding-left:18px"><span class="agent-col">macariuschoo</span></td>
+              <td><span class="neutral-count">6</span></td>
+              <td><span class="issue-count">2</span></td>
+              <td><span class="good-count">4</span></td>
+              <td><span class="issue-tag">未有效安抚</span><span class="issue-tag">沟通不清/不全</span></td>
+            </tr>
+            <tr>
+              <td style="padding-left:18px"><span class="agent-col">bryanlee</span></td>
+              <td><span class="neutral-count">4</span></td>
+              <td><span class="issue-count">2</span></td>
+              <td><span class="good-count">2</span></td>
+              <td><span class="issue-tag">沟通不清/不全</span><span class="issue-tag">未有效安抚</span><span class="issue-tag">回复延迟</span></td>
+            </tr>
+            <tr>
+              <td style="padding-left:18px"><span class="agent-col">bardzhang</span></td>
+              <td><span class="neutral-count">3</span></td>
+              <td><span class="issue-count">2</span></td>
+              <td><span class="good-count">1</span></td>
+              <td><span class="issue-tag">未有效安抚</span><span class="issue-tag">沟通不清/不全</span></td>
+            </tr>
+            <tr>
+              <td style="padding-left:18px"><span class="agent-col">weisengwong</span></td>
+              <td><span class="neutral-count">2</span></td>
+              <td><span class="good-count">—</span></td>
+              <td><span class="good-count">2</span></td>
+              <td style="color:var(--text-3);font-size:12px">无坐席问题</td>
+            </tr>
+            <tr>
+              <td style="padding-left:18px"><span class="agent-col">audreychoo</span></td>
+              <td><span class="neutral-count">1</span></td>
+              <td><span class="good-count">—</span></td>
+              <td><span class="good-count">1</span></td>
+              <td style="color:var(--text-3);font-size:12px">无坐席问题</td>
+            </tr>
+            <tr>
+              <td style="padding-left:18px"><span class="agent-col">jasonchan</span></td>
+              <td><span class="neutral-count">1</span></td>
+              <td><span class="good-count">—</span></td>
+              <td><span class="good-count">1</span></td>
+              <td style="color:var(--text-3);font-size:12px">无坐席问题</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- macariuschoo -->
+  <section class="section" id="dis-macariuschoo">
+    <div class="section-header">
+      <span class="section-tag">工单明细</span>
+      <span class="section-title">macariuschoo · 6单 / 有问题 2</span>
+    </div>
+    <div class="agent-card">
+      <div class="agent-card-header">
+        <span class="agent-card-name">macariuschoo</span>
+        <div class="agent-card-stats">
+          <span class="agent-stat"><span class="val bad">2</span><span class="lbl">有问题</span></span>
+          <span class="agent-stat"><span class="val good">4</span><span class="lbl">处理良好</span></span>
+          <span class="agent-stat"><span class="val" style="color:var(--text-2)">6</span><span class="lbl">共</span></span>
+        </div>
+      </div>
+
+      <div class="ticket-group-label bad-group">有坐席问题（2单）</div>
+
+      <div class="ticket-item bad-ticket">
+        <div class="ticket-item-top">
+          <span class="ticket-label">入金追踪查询</span>
+          <span class="ticket-cat">入金</span>
+          <span class="ticket-issue-row" style="margin:0"><span class="issue-tag">未有效安抚</span><span class="issue-tag">沟通不清/不全</span></span>
+          <span class="ticket-id">#10260505235445952... · 4/30</span>
+        </div>
+        <div class="ticket-cause">客户 EFT 入金 $49,950，等待约两周后急需追踪号码联系银行核实。客服无法直接提供，只能提交后台查询，但未主动解释原因、未识别「已等两周」超出常规时效的特殊情况，仅给出标准话术。</div>
+        <div class="ticket-suggest-block">
+          <div class="suggest-item"><div class="suggest-level">客服培训</div>识别超时等待情况，主动提出加急处理而非重复标准时效话术；确认客户诉求再解释原因</div>
+          <div class="suggest-item"><div class="suggest-level">产品/流程</div>建立 EFT 入金追踪号查询功能，或为客服提供快速后台查询入口</div>
+        </div>
+      </div>
+
+      <div class="ticket-item bad-ticket">
+        <div class="ticket-item-top">
+          <span class="ticket-label">入金处理时效</span>
+          <span class="ticket-cat">入金</span>
+          <span class="ticket-issue-row" style="margin:0"><span class="issue-tag">未有效安抚</span><span class="issue-tag">沟通不清/不全</span></span>
+          <span class="ticket-id">5/1 EFT 入金 · 5/5 跟进</span>
+        </div>
+        <div class="ticket-cause">客户 EFT 入金后多次跟进，5/5 看到资金已显示但处于冻结状态，无法理解「可见但不可用」。客服多次解释 EFT 时效和结算规则，但未主动解释冻结机制原因，客户情绪升级后缺乏有效安抚。</div>
+        <div class="ticket-suggest-block">
+          <div class="suggest-item"><div class="suggest-level">客服培训</div>主动解释「资金显示但结算中」的机制，对情绪激动客户先共情再告知升级至相关团队及时效</div>
+          <div class="suggest-item"><div class="suggest-level">产品/流程</div>App 端优化资金状态展示，明确标注「结算中」并显示预计可用时间；建立跨渠道跟进机制</div>
+        </div>
+      </div>
+
+      <div class="ticket-group-label good-group">处理良好（4单）</div>
+      <div class="ticket-item good-ticket">
+        <div class="ticket-item-top"><span class="ticket-label">出金处理时效</span><span class="ticket-cat">出金</span></div>
+        <div class="ticket-good-desc">出金申请触发合规审查，客服多次解释并有效安抚，同理心表达良好，告知明确时效。</div>
+      </div>
+      <div class="ticket-item good-ticket">
+        <div class="ticket-item-top"><span class="ticket-label">成本价计算问题</span><span class="ticket-cat">交易</span></div>
+        <div class="ticket-good-desc">客户对成本价功能缺失不满，客服记录反馈并承诺跟进，有效安抚。</div>
+      </div>
+      <div class="ticket-item good-ticket">
+        <div class="ticket-item-top"><span class="ticket-label">桌面端功能咨询</span><span class="ticket-cat">关于Moomoo</span></div>
+        <div class="ticket-good-desc">客户反馈多项功能限制，客服逐一解答并记录产品改进建议，处理得当。</div>
+      </div>
+      <div class="ticket-item good-ticket">
+        <div class="ticket-item-top"><span class="ticket-label">活动码绑定</span><span class="ticket-cat">活动</span></div>
+        <div class="ticket-good-desc">App 无活动码入口，客服承诺后台手动绑定并记录改进建议，有效安抚。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- bryanlee -->
+  <section class="section" id="dis-bryanlee">
+    <div class="section-header">
+      <span class="section-tag">工单明细</span>
+      <span class="section-title">bryanlee · 4单 / 有问题 2</span>
+    </div>
+    <div class="agent-card">
+      <div class="agent-card-header">
+        <span class="agent-card-name">bryanlee</span>
+        <div class="agent-card-stats">
+          <span class="agent-stat"><span class="val bad">2</span><span class="lbl">有问题</span></span>
+          <span class="agent-stat"><span class="val good">2</span><span class="lbl">处理良好</span></span>
+          <span class="agent-stat"><span class="val" style="color:var(--text-2)">4</span><span class="lbl">共</span></span>
+        </div>
+      </div>
+
+      <div class="ticket-group-label bad-group">有坐席问题（2单）</div>
+
+      <div class="ticket-item bad-ticket">
+        <div class="ticket-item-top">
+          <span class="ticket-label">Interac 入金失败</span>
+          <span class="ticket-cat">入金</span>
+          <span class="ticket-issue-row" style="margin:0"><span class="issue-tag">沟通不清/不全</span><span class="issue-tag">未有效安抚</span></span>
+        </div>
+        <div class="ticket-cause">客户 Interac 转账因名称不匹配失败。客服虽告知需联系银行修改，但未能清晰说明：①当前显示名称是什么 ②需改成什么（Moomoo 账户名）③为何不匹配。客户连续追问 4 次仍未得到具体操作指引，放弃入金。</div>
+        <div class="ticket-suggest-block">
+          <div class="suggest-item"><div class="suggest-level">客服培训</div>处理第三方名称校验问题时，需明确告知三要素：当前名称、需匹配的账户名、联系银行修改路径</div>
+          <div class="suggest-item"><div class="suggest-level">客服培训</div>客户对技术问题困惑时，主动提供截图标注/分步骤指引，而非重复同一话术</div>
+          <div class="suggest-item"><div class="suggest-level">产品/流程</div>Interac 失败提示应显示「当前名称」与「需匹配名称」，便于客户自查修正</div>
+        </div>
+      </div>
+
+      <div class="ticket-item bad-ticket">
+        <div class="ticket-item-top">
+          <span class="ticket-label">行情图表异常</span>
+          <span class="ticket-cat">行情</span>
+          <span class="ticket-issue-row" style="margin:0"><span class="issue-tag">回复延迟</span><span class="issue-tag">流程执行问题</span></span>
+        </div>
+        <div class="ticket-cause">客户 Mac 桌面端触控板操作图表时异常触发右键菜单，多次追问并提供截图，但客服完全未给予任何回复。</div>
+        <div class="ticket-suggest-block">
+          <div class="suggest-item"><div class="suggest-level">客服培训</div>即使无法立即解决，也应及时回复客户：「正在排查」或「已反馈技术团队」，避免完全无响应</div>
+          <div class="suggest-item"><div class="suggest-level">产品/流程</div>排查 Mac 桌面端触控板事件处理逻辑；建立 bug 类问题快速响应 SOP</div>
+        </div>
+      </div>
+
+      <div class="ticket-group-label good-group">处理良好（2单）</div>
+      <div class="ticket-item good-ticket">
+        <div class="ticket-item-top"><span class="ticket-label">入金未到账</span><span class="ticket-cat">入金</span></div>
+        <div class="ticket-good-desc">电汇资金冻结，客服解释结算机制并承诺升级跟进，后续同事继续跟进处理良好。</div>
+      </div>
+      <div class="ticket-item good-ticket">
+        <div class="ticket-item-top"><span class="ticket-label">邮箱变更异常</span><span class="ticket-cat">开户后咨询</span></div>
+        <div class="ticket-good-desc">系统仍发通知至旧邮箱，客服及时要求截图核实、致歉并承诺升级反馈，处理得当。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- bardzhang -->
+  <section class="section" id="dis-bardzhang">
+    <div class="section-header">
+      <span class="section-tag">工单明细</span>
+      <span class="section-title">bardzhang · 3单 / 有问题 2</span>
+    </div>
+    <div class="agent-card">
+      <div class="agent-card-header">
+        <span class="agent-card-name">bardzhang</span>
+        <div class="agent-card-stats">
+          <span class="agent-stat"><span class="val bad">2</span><span class="lbl">有问题</span></span>
+          <span class="agent-stat"><span class="val good">1</span><span class="lbl">处理良好</span></span>
+          <span class="agent-stat"><span class="val" style="color:var(--text-2)">3</span><span class="lbl">共</span></span>
+        </div>
+      </div>
+
+      <div class="ticket-group-label bad-group">有坐席问题（2单）</div>
+
+      <div class="ticket-item bad-ticket">
+        <div class="ticket-item-top">
+          <span class="ticket-label">账户类型限制</span>
+          <span class="ticket-cat">平台基础体验</span>
+          <span class="ticket-issue-row" style="margin:0"><span class="issue-tag">未有效安抚</span><span class="issue-tag">沟通不清/不全</span></span>
+        </div>
+        <div class="ticket-cause">客户 Cash 账户无法关联 TradingView，被告知仅 Margin 账户支持。客户质疑官网未明确说明，认为是「deal breaker」。客服仅回应「It was mentioned.」，未提供具体页面链接，也未安抚客户不满。</div>
+        <div class="ticket-suggest-block">
+          <div class="suggest-item"><div class="suggest-level">客服培训</div>被质疑信息透明度时，提供具体页面链接或截图位置，而非简单回应；当客户表达「deal breaker」时，应尝试留客安抚</div>
+          <div class="suggest-item"><div class="suggest-level">产品/流程</div>官网账户类型对比页面新增 TradingView Integration 对比项，明确标注仅 Margin 支持</div>
+        </div>
+      </div>
+
+      <div class="ticket-item bad-ticket">
+        <div class="ticket-item-top">
+          <span class="ticket-label">成本价计算问题</span>
+          <span class="ticket-cat">交易</span>
+          <span class="ticket-issue-row" style="margin:0"><span class="issue-tag">未有效安抚</span><span class="issue-tag">沟通不清/不全</span></span>
+        </div>
+        <div class="ticket-cause">客户对期权成本价从 0.5 涨到 0.795 表示不解，认为平台「做假」。客服虽解释了税务成本计算规则并提供计算公式，但在客户情绪激动时缺乏安抚，未主动协助客户核对历史交易明细以建立信任。</div>
+        <div class="ticket-suggest-block">
+          <div class="suggest-item"><div class="suggest-level">客服培训</div>先共情（「理解您看到成本价变化会疑惑」），再解释规则，主动协助核对历史交易明细验证计算过程</div>
+          <div class="suggest-item"><div class="suggest-level">产品/流程</div>持仓页增加「税务成本 ACB」说明图标；准备通俗版期权成本价计算说明文档供客服发送</div>
+        </div>
+      </div>
+
+      <div class="ticket-group-label good-group">处理良好（1单）</div>
+      <div class="ticket-item good-ticket">
+        <div class="ticket-item-top"><span class="ticket-label">当日盈亏功能缺失</span><span class="ticket-cat">交易</span></div>
+        <div class="ticket-good-desc">客户反馈移动端无当日盈亏，客服说明功能限制原因并承诺反馈，有效安抚。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Others: no agent issues -->
+  <section class="section" id="dis-others">
+    <div class="section-header">
+      <span class="section-tag">工单明细</span>
+      <span class="section-title">其他坐席 · 均无坐席问题</span>
+    </div>
+    <div class="agent-card">
+      <div class="agent-card-header">
+        <span class="agent-card-name">weisengwong / audreychoo / jasonchan</span>
+        <div class="agent-card-stats">
+          <span class="agent-stat"><span class="val good">4</span><span class="lbl">全部处理良好</span></span>
+        </div>
+      </div>
+      <div class="ticket-group-label good-group">处理良好（4单）</div>
+      <div class="ticket-item good-ticket">
+        <div class="ticket-item-top"><span class="ticket-label">入金显示异常</span><span class="ticket-cat">入金</span><span style="font-family:monospace;font-size:11px;color:var(--text-3);margin-left:auto">weisengwong</span></div>
+        <div class="ticket-good-desc">RRSP 账户余额显示延迟，客服及时响应并要求截图核实，处理得当。</div>
+      </div>
+      <div class="ticket-item good-ticket">
+        <div class="ticket-item-top"><span class="ticket-label">账户合规限制</span><span class="ticket-cat">开户后咨询</span><span style="font-family:monospace;font-size:11px;color:var(--text-3);margin-left:auto">weisengwong</span></div>
+        <div class="ticket-good-desc">账户冻结超两周，合规流程无明确 SLA，客服面对客户辱骂仍维持专业，根因为产品流程问题。</div>
+      </div>
+      <div class="ticket-item good-ticket">
+        <div class="ticket-item-top"><span class="ticket-label">入金处理时效</span><span class="ticket-cat">入金</span><span style="font-family:monospace;font-size:11px;color:var(--text-3);margin-left:auto">audreychoo</span></div>
+        <div class="ticket-good-desc">EFT 入金进度查询，客服说明规则后有效安抚，根因为产品无实时查询能力。</div>
+      </div>
+      <div class="ticket-item good-ticket">
+        <div class="ticket-item-top"><span class="ticket-label">融券库存不足</span><span class="ticket-cat">交易</span><span style="font-family:monospace;font-size:11px;color:var(--text-3);margin-left:auto">jasonchan</span></div>
+        <div class="ticket-good-desc">客户财报前急需卖空 CVNA，库存不足。客服先承诺邮件回复，随后主动在对话中给出完整解释，服务超预期。</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+</body>
+</html>
