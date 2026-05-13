@@ -830,6 +830,9 @@ html.dark .chip.ok  .chip-dot { background: #4ade80; }
     return _origFetch(url, opts);
   };
 
+  // Disable tab switching entirely — this is a focused single-period report
+  window.switchTab = function() {};
+
   // Override URLSearchParams so existing tab-routing code picks up the right tab/period
   var _Orig = window.URLSearchParams;
   function _StaticParams(init) {
