@@ -124,9 +124,8 @@ body { background:var(--bg); color:var(--text); font-family:'Space Grotesk',sans
     <div class="sidebar-brand-label">Moomoo CA · 周报</div>
     <div class="sidebar-brand-period">2026-05-06 ~ 05-12</div>
   </div>
-  <a class="nav-item active" href="#trend"><span class="nav-dot neutral"></span>趋势对比</a>
   <div class="nav-section-label">在线客服 R1</div>
-  <a class="nav-item" href="#r1-metrics"><span class="nav-dot red"></span>指标概览</a>
+  <a class="nav-item active" href="#r1-metrics"><span class="nav-dot red"></span>指标概览</a>
   <a class="nav-item" href="#r1-satis"><span class="nav-dot red"></span>满意度分析</a>
   <a class="nav-item" href="#r1-duration"><span class="nav-dot amber"></span>处理时长分析</a>
   <div class="nav-section-label">电话客服 R2</div>
@@ -152,83 +151,6 @@ body { background:var(--bg); color:var(--text); font-family:'Space Grotesk',sans
     </div>
     <div class="status-pills"><span class="pill fail">在线 2项未达标</span><span class="pill pass">电话 全部达标</span></div>
   </div>
-
-  <!-- Trend Charts -->
-  <section class="section" id="trend">
-    <div class="section-header">
-      <span class="section-tag">趋势</span>
-      <span class="section-title">近4周趋势对比</span>
-    </div>
-    <div class="chart-grid">
-      <div class="chart-card"><div class="chart-title">在线 · 咨询量 &amp; 接通率</div><canvas id="chart-r1-vol" height="180"></canvas></div>
-      <div class="chart-card"><div class="chart-title">在线 · 处理时长 / 满意度 / 首解率</div><canvas id="chart-r1-kpi" height="180"></canvas></div>
-      <div class="chart-card"><div class="chart-title">电话 · 接通量 &amp; 接通率</div><canvas id="chart-r2-vol" height="180"></canvas></div>
-      <div class="chart-card"><div class="chart-title">电话 · 满意度 &amp; 通话时长</div><canvas id="chart-r2-kpi" height="180"></canvas></div>
-    </div>
-  </section>
-  <script>
-  (function(){
-    var D = {"labels_r1": ["04-15", "04-22", "04-29", "05-06"], "labels_r2": ["04-15", "04-22", "04-29", "05-06"], "r1_consult": [421.0, 447.0, 432.0, 1869.0], "r1_ans30": [98.81, 98.43, 99.31, 97.59], "r1_dur": [14.79, 13.78, 15.18, 14.01], "r1_satis": [88.79, 77.69, 83.98, 84.69], "r1_fr": [95.72, 96.87, 96.99, 96.52], "r2_inbound": [690.0, 646.0, 654.0, 617.0], "r2_ans": [93.62, 97.68, 98.93, 98.54], "r2_ans10": [67.97, 87.93, 87.77, 81.52], "r2_satis": [87.91, 97.01, 98.31, 100.0], "r2_dur": [7.73, 8.35, 7.7, 6.58], "targets": {"r1_ans30": 95.0, "r1_dur": 14.5, "r1_satis": 93.0, "r1_fr": 95.0, "r2_ans": 95.0, "r2_ans10": 80.0, "r2_satis": 90.0, "r2_dur": 7.0}};
-    var T = D.targets;
-    var COL = { bar1:'rgba(102,187,106,0.55)', bar2:'rgba(66,165,245,0.55)', bar3:'rgba(102,187,106,0.55)',
-                 line1:'#1565C0', line2:'#FF7043', line3:'#26A69A', line4:'#7E57C2', line5:'#EF5350', line6:'#FF9800',
-                 tgt:'rgba(150,150,150,0.45)' };
-    function tgtLine(val, len){
-      return {label:'目标', data:Array(len).fill(val), type:'line',
-              borderColor:COL.tgt, borderDash:[4,4], borderWidth:1.5,
-              pointRadius:0, fill:false, spanGaps:true};
-    }
-    var BASE_OPTS = {
-      responsive:true, maintainAspectRatio:true,
-      plugins:{legend:{labels:{boxWidth:9, font:{size:10}, color:'#5c4f3d'}}},
-      scales:{
-        left: {type:'linear', position:'left',  grid:{color:'rgba(0,0,0,0.05)'}, ticks:{font:{size:10}, color:'#9a8870'}},
-        right:{type:'linear', position:'right', grid:{display:false},            ticks:{font:{size:10}, color:'#9a8870'}}
-      }
-    };
-    function mk(id, datasets, scaleOpts){
-      var ctx = document.getElementById(id).getContext('2d');
-      var opts = JSON.parse(JSON.stringify(BASE_OPTS));
-      if(scaleOpts) Object.assign(opts.scales, scaleOpts);
-      new Chart(ctx, {type:'bar', data:{labels:D['labels_'+id.split('-')[1]], datasets:datasets}, options:opts});
-    }
-
-    /* Chart 1: R1 咨询量(bar,left) + 30s接通率(line,right) */
-    mk('chart-r1-vol', [
-      {label:'咨询量', data:D.r1_consult, backgroundColor:COL.bar1, yAxisID:'left'},
-      {label:'30s接通率', data:D.r1_ans30, type:'line', borderColor:COL.line1, pointRadius:3, fill:false, yAxisID:'right', spanGaps:true},
-      Object.assign(tgtLine(T.r1_ans30, D.labels_r1.length), {yAxisID:'right'})
-    ], {right:{min:0, max:100}});
-
-    /* Chart 2: R1 处理时长(line,left) + 满意度(line,right) + 一次解决率(line,right) */
-    mk('chart-r1-kpi', [
-      {label:'处理时长(m)', data:D.r1_dur,   type:'line', borderColor:COL.line2, pointRadius:3, fill:false, yAxisID:'left',  spanGaps:true},
-      Object.assign(tgtLine(T.r1_dur,   D.labels_r1.length), {yAxisID:'left'}),
-      {label:'满意度(%)',   data:D.r1_satis, type:'line', borderColor:COL.line3, pointRadius:3, fill:false, yAxisID:'right', spanGaps:true},
-      {label:'首解率(%)',   data:D.r1_fr,    type:'line', borderColor:COL.line4, pointRadius:3, fill:false, yAxisID:'right', spanGaps:true},
-    ], {right:{min:0, max:100}});
-
-    /* Chart 3: R2 呼入量(bar,left) + 接通率(line,right) + 10s接通率(line,right) */
-    var inbD = D.r2_inbound;
-    var ansD = D.r2_ans;
-    var ansOk = inbD.map(function(v,i){ return (v!==null&&ansD[i]!==null)?Math.round(v*ansD[i]/100):null; });
-    mk('chart-r2-vol', [
-      {label:'呼入数', data:inbD,  backgroundColor:COL.bar2, yAxisID:'left'},
-      {label:'接通数', data:ansOk, backgroundColor:COL.bar3, yAxisID:'left'},
-      {label:'接通率(%)',    data:D.r2_ans,   type:'line', borderColor:COL.line5, pointRadius:3, fill:false, yAxisID:'right', spanGaps:true},
-      {label:'10s接通率(%)', data:D.r2_ans10, type:'line', borderColor:COL.line6, pointRadius:3, fill:false, yAxisID:'right', spanGaps:true},
-      Object.assign(tgtLine(T.r2_ans, D.labels_r2.length), {yAxisID:'right'})
-    ], {right:{min:0, max:100}});
-
-    /* Chart 4: R2 满意度(line,left) + 通话时长(line,right) */
-    mk('chart-r2-kpi', [
-      {label:'满意度(%)',   data:D.r2_satis, type:'line', borderColor:COL.line3, pointRadius:3, fill:false, yAxisID:'left',  spanGaps:true},
-      Object.assign(tgtLine(T.r2_satis, D.labels_r2.length), {yAxisID:'left'}),
-      {label:'通话时长(m)', data:D.r2_dur,   type:'line', borderColor:COL.line2, pointRadius:3, fill:false, yAxisID:'right', spanGaps:true},
-      Object.assign(tgtLine(T.r2_dur, D.labels_r2.length), {yAxisID:'right'})
-    ], {left:{min:0, max:100}});
-  })();
-  </script>
 
   <!-- R1 Metrics -->
   <section class="section" id="r1-metrics">
@@ -262,6 +184,10 @@ body { background:var(--bg); color:var(--text); font-family:'Space Grotesk',sans
         <div class="metric-card-value">96.52%</div>
         <div class="metric-card-target">目标 ≥95.0% · ✓</div>
       </div>
+    </div>
+    <div class="chart-grid" style="margin-top:14px">
+      <div class="chart-card"><div class="chart-title">CA 在线接待数据</div><canvas id="chart-r1-vol" height="200"></canvas></div>
+      <div class="chart-card"><div class="chart-title">CA 在线数据</div><canvas id="chart-r1-kpi" height="200"></canvas></div>
     </div>
   </section>
 
@@ -346,6 +272,10 @@ body { background:var(--bg); color:var(--text); font-family:'Space Grotesk',sans
         <div class="metric-card-target">正常运营</div>
       </div>
     </div>
+    <div class="chart-grid" style="margin-top:14px">
+      <div class="chart-card"><div class="chart-title">CA 电话接通率数据</div><canvas id="chart-r2-vol" height="200"></canvas></div>
+      <div class="chart-card"><div class="chart-title">CA 电话接待数据</div><canvas id="chart-r2-kpi" height="200"></canvas></div>
+    </div>
   </section>
 
   <!-- R2 Analysis -->
@@ -376,6 +306,10 @@ body { background:var(--bg); color:var(--text); font-family:'Space Grotesk',sans
     <div class="section-header">
       <span class="section-tag">QA</span>
       <span class="section-title">差错工单 · 致命差错 3 单</span>
+    </div>
+    <div class="chart-card" style="margin-bottom:14px">
+      <div class="chart-title">CA 质检致命差错率趋势</div>
+      <canvas id="chart-qa" height="160"></canvas>
     </div>
     <div class="analysis-panel">
       <div class="analysis-panel-body">
@@ -432,6 +366,101 @@ body { background:var(--bg); color:var(--text); font-family:'Space Grotesk',sans
     });
   }, { rootMargin: '-10% 0px -80% 0px' });
   sections.forEach(function(s) { observer.observe(s); });
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>
+(function(){
+  Chart.register(ChartDataLabels);
+  var D = {"labels_r1": ["04-15", "04-22", "04-29", "05-06"], "labels_r2": ["04-15", "04-22", "04-29", "05-06"], "r1_consult": [421.0, 447.0, 432.0, 1869.0], "r1_ans30": [98.81, 98.43, 99.31, 97.59], "r1_dur": [14.79, 13.78, 15.18, 14.01], "r1_satis": [88.79, 77.69, 83.98, 84.69], "r1_fr": [95.72, 96.87, 96.99, 96.52], "r2_inbound": [690.0, 646.0, 654.0, 617.0], "r2_ans": [93.62, 97.68, 98.93, 98.54], "r2_ans10": [67.97, 87.93, 87.77, 81.52], "r2_satis": [87.91, 97.01, 98.31, 100.0], "r2_dur": [7.73, 8.35, 7.7, 6.58], "targets": {"r1_ans30": 95.0, "r1_dur": 14.5, "r1_satis": 93.0, "r1_fr": 95.0, "r2_ans": 95.0, "r2_ans10": 80.0, "r2_satis": 90.0, "r2_dur": 7.0}, "labels_qa": ["04-15", "04-22", "04-29", "05-06"], "qa_online_fatal": [0.0, 2.6, 0.0, 0.71], "qa_phone_fatal": [0.0, 0.0, 0.0, 0.0], "qa_total_fatal": [0.39, 0.87, 0.0, 0.77]};
+  var T = D.targets;
+  var C = {
+    green:'rgba(102,187,106,0.6)', blue_bar:'rgba(66,165,245,0.6)', green_bar2:'rgba(102,187,106,0.5)',
+    blue:'#1565C0', red:'#EF5350', orange:'#FF7043', teal:'#26A69A', purple:'#7E57C2', amber:'#FF9800',
+    orange2:'#F97316', tgt:'rgba(160,160,160,0.5)'
+  };
+  function tgtDs(val, len, yAxis){
+    return {label:'目标', data:Array(len).fill(val), type:'line',
+            borderColor:C.tgt, borderDash:[5,4], borderWidth:1.5,
+            pointRadius:0, fill:false, spanGaps:true, yAxisID:yAxis,
+            datalabels:{display:false}};
+  }
+  function lineDs(label, data, color, yAxis){
+    return {label:label, data:data, type:'line', borderColor:color, backgroundColor:color,
+            pointRadius:4, pointHoverRadius:6, borderWidth:2, fill:false, spanGaps:true,
+            tension:0.3, yAxisID:yAxis,
+            datalabels:{
+              display:true, color:color, font:{size:10, weight:'600'},
+              anchor:'top', align:'top', offset:2,
+              formatter:function(v){ return v===null?'':v.toFixed(1); }
+            }};
+  }
+  function barDs(label, data, color, yAxis){
+    return {label:label, data:data, type:'bar', backgroundColor:color, yAxisID:yAxis,
+            datalabels:{display:false}};
+  }
+  var BASE_SCALES = {
+    left: {type:'linear', position:'left',  grid:{color:'rgba(0,0,0,0.05)'}, ticks:{font:{size:10}, color:'#9a8870'}},
+    right:{type:'linear', position:'right', grid:{display:false},            ticks:{font:{size:10}, color:'#9a8870'}}
+  };
+  function mk(id, labels, datasets, scaleOverrides){
+    var ctx = document.getElementById(id);
+    if(!ctx) return;
+    var scales = JSON.parse(JSON.stringify(BASE_SCALES));
+    if(scaleOverrides) Object.keys(scaleOverrides).forEach(function(k){ Object.assign(scales[k], scaleOverrides[k]); });
+    new Chart(ctx.getContext('2d'), {
+      type:'bar',
+      data:{labels:labels, datasets:datasets},
+      options:{
+        responsive:true, maintainAspectRatio:true,
+        plugins:{
+          legend:{labels:{boxWidth:9, font:{size:10}, color:'#5c4f3d'}},
+          datalabels:{display:false}
+        },
+        scales:scales
+      }
+    });
+  }
+  var n1=D.labels_r1.length, n2=D.labels_r2.length, nq=D.labels_qa.length;
+  /* R1-vol */
+  mk('chart-r1-vol', D.labels_r1, [
+    barDs('咨询量', D.r1_consult, C.green, 'left'),
+    lineDs('30s接通率(%)', D.r1_ans30, C.blue, 'right'),
+    tgtDs(T.r1_ans30, n1, 'right')
+  ], {right:{min:80, max:100}});
+  /* R1-kpi */
+  mk('chart-r1-kpi', D.labels_r1, [
+    lineDs('处理时长(m)', D.r1_dur,   C.orange, 'left'),
+    tgtDs(T.r1_dur, n1, 'left'),
+    lineDs('满意度(%)',   D.r1_satis, C.teal,   'right'),
+    lineDs('首解率(%)',   D.r1_fr,    C.purple, 'right'),
+    tgtDs(T.r1_satis, n1, 'right')
+  ], {right:{min:85, max:100}});
+  /* R2-vol */
+  var ansOk=D.r2_inbound.map(function(v,i){
+    return (v!==null&&D.r2_ans[i]!==null)?Math.round(v*D.r2_ans[i]/100):null;
+  });
+  mk('chart-r2-vol', D.labels_r2, [
+    barDs('呼入数', D.r2_inbound, C.blue_bar,   'left'),
+    barDs('接通数', ansOk,        C.green_bar2, 'left'),
+    lineDs('接通率(%)',    D.r2_ans,   C.red,   'right'),
+    lineDs('10s接通率(%)', D.r2_ans10, C.amber, 'right'),
+    tgtDs(T.r2_ans, n2, 'right')
+  ], {right:{min:60, max:100}});
+  /* R2-kpi */
+  mk('chart-r2-kpi', D.labels_r2, [
+    lineDs('满意度(%)',   D.r2_satis, C.teal,   'left'),
+    tgtDs(T.r2_satis, n2, 'left'),
+    lineDs('通话时长(m)', D.r2_dur,   C.orange, 'right'),
+    tgtDs(T.r2_dur, n2, 'right')
+  ], {left:{min:80, max:100}});
+  /* QA */
+  mk('chart-qa', D.labels_qa, [
+    lineDs('在线', D.qa_online_fatal, C.orange2, 'left'),
+    lineDs('电话', D.qa_phone_fatal,  C.blue,    'left'),
+    lineDs('合计', D.qa_total_fatal,  C.red,     'left'),
+    tgtDs(1, nq, 'left')
+  ], {left:{min:0, max:5, ticks:{stepSize:1}}, right:{display:false}});
 })();
 </script>
 </body>
