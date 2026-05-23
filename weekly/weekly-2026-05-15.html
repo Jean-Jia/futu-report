@@ -4355,7 +4355,7 @@ function paintOnlineUnderperform(elId, cur, prev, weeklyRec, ps, periodLabel) {
     const _intro = _isDown ? '减幅主要集中在' : '增量主要来自';
     const _aiText = _curR1 && _curR1.vol_change_analysis && _curR1.vol_change_analysis.text;
     const _dataLine = `本周在线咨询量从${Math.round(_pr1Cnt)}单${_verb}至${Math.round(_r1Cnt)}单（${_sign}${Math.abs(_r1Pct).toFixed(1)}%）${_catStr ? '，' + _intro + _catStr : ''}。`;
-    volPara = `<p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;line-height:1.6;padding:0 16px">${_aiText ? escHtml(_aiText) : _dataLine}</p>`;
+    volPara = `<p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;line-height:1.6;padding:0 16px">${_dataLine}${_aiText ? ' ' + escHtml(_aiText) : ''}</p>`;
   }
 
   if (!weeklyRec || (!anySatBad && !anyOtherBad)) { el.innerHTML = volPara; return; }
@@ -4711,7 +4711,7 @@ function paintPhoneUnderperform(elId, cur, prev, weeklyRec, ps, periodLabel) {
     const _intro2 = _isDown2 ? '减幅主要来自' : '增量主要来自';
     const _aiText2 = _curR2 && _curR2.vol_change_analysis && _curR2.vol_change_analysis.text;
     const _dataLine2 = `本周电话呼入量从${Math.round(_pr2Inb)}通${_verb2}至${Math.round(_r2Inb)}通（${_sign2}${Math.abs(_r2Pct).toFixed(1)}%）${_catStr2 ? '，' + _intro2 + _catStr2 : ''}。`;
-    volPara2 = `<p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;line-height:1.6">${_aiText2 ? escHtml(_aiText2) : _dataLine2}</p>`;
+    volPara2 = `<p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;line-height:1.6;padding:0 16px">${_dataLine2}${_aiText2 ? ' ' + escHtml(_aiText2) : ''}</p>`;
   }
 
   if (!weeklyRec || !anyBad) { el.innerHTML = volPara2; return; }
