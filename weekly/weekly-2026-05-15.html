@@ -4355,7 +4355,7 @@ function paintOnlineUnderperform(elId, cur, prev, weeklyRec, ps, periodLabel) {
     const _intro = _isDown ? '减幅主要集中在' : '增量主要来自';
     const _aiText = _curR1 && _curR1.vol_change_analysis && _curR1.vol_change_analysis.text;
     const _dataLine = `本周在线咨询量从${Math.round(_pr1Cnt)}单${_verb}至${Math.round(_r1Cnt)}单（${_sign}${Math.abs(_r1Pct).toFixed(1)}%）${_catStr ? '，' + _intro + _catStr : ''}。`;
-    volPara = `<p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;line-height:1.6">${_aiText ? escHtml(_aiText) : _dataLine}</p>`;
+    volPara = `<p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;line-height:1.6;padding:0 16px">${_aiText ? escHtml(_aiText) : _dataLine}</p>`;
   }
 
   if (!weeklyRec || (!anySatBad && !anyOtherBad)) { el.innerHTML = volPara; return; }
