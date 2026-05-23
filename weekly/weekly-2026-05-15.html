@@ -4322,7 +4322,7 @@ function paintOnlineUnderperform(elId, cur, prev, weeklyRec, ps, periodLabel) {
   const anySatBad   = satBad || excBad;
   const anyOtherBad = durBad || arBad || frBad;
 
-  // ── 咨询量环比变动段落 ───────────────────────────────────
+  // ── 咨询量环比变动段落 ──────────────────────────────────
   const _r1s = (weeklyData.report1 || []).slice().sort((a, b) => a.period_start.localeCompare(b.period_start));
   const _r1Idx = _r1s.findIndex(r => r.period_start === ps);
   const _curR1  = _r1Idx >= 0 ? _r1s[_r1Idx]     : null;
@@ -4331,21 +4331,29 @@ function paintOnlineUnderperform(elId, cur, prev, weeklyRec, ps, periodLabel) {
   const _pr1Cnt = _prevR1 ? _prevR1.consultation_count : null;
   const _r1Pct  = (_r1Cnt != null && _pr1Cnt && _pr1Cnt > 0) ? (_r1Cnt - _pr1Cnt) / _pr1Cnt * 100 : null;
   let volPara = '';
-  if (_r1Pct != null && _r1Pct < -5) {
+  if (_r1Pct != null && Math.abs(_r1Pct) > 5) {
+    const _isDown = _r1Pct < 0;
     const _tc = ((_curR1  && _curR1.handle_detail)  ? _curR1.handle_detail.category_breakdown  : null) || [];
     const _pc = ((_prevR1 && _prevR1.handle_detail) ? _prevR1.handle_detail.category_breakdown : null) || [];
     const _pm = {}, _tm = {};
     _pc.forEach(c => { if (c.category) _pm[c.category] = c.ticket_count || 0; });
     _tc.forEach(c => { if (c.category) _tm[c.category] = c.ticket_count || 0; });
     const _allCats = new Set([...Object.keys(_pm), ...Object.keys(_tm)]);
-    const _drops = [];
-    _allCats.forEach(cat => { const tc2 = _tm[cat]||0, pc2 = _pm[cat]||0; if (tc2 < pc2) _drops.push({cat, tc2, pc2, d: tc2-pc2}); });
-    _drops.sort((a, b) => a.d - b.d);
-    const _top3 = _drops.slice(0, 3);
+    const _chgs = [];
+    _allCats.forEach(cat => {
+      const tc2=_tm[cat]||0, pc2=_pm[cat]||0, diff=tc2-pc2;
+      if (_isDown && diff < 0) _chgs.push({cat, tc2, pc2, d: diff});
+      if (!_isDown && diff > 0) _chgs.push({cat, tc2, pc2, d: diff});
+    });
+    _chgs.sort((a, b) => _isDown ? a.d - b.d : b.d - a.d);
+    const _top3 = _chgs.slice(0, 3);
     const _catStr = _top3.length
-      ? _top3.map(x => `${escHtml(x.cat)}（-${Math.abs(x.d)}单${x.pc2>0?'，-'+Math.round(Math.abs(x.d)/x.pc2*100)+'%':''}）`).join('、')
+      ? _top3.map(x => `${escHtml(x.cat)}（${_isDown?'-':'+'}${Math.abs(x.d)}单${x.pc2>0?'，'+(_isDown?'-':'+')+Math.round(Math.abs(x.d)/x.pc2*100)+'%':''}）`).join('、')
       : '';
-    volPara = `<p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;line-height:1.6">本周在线咨询量 ${Math.round(_r1Cnt)} 单，环比下降 ${Math.abs(_r1Pct).toFixed(1)}%（-${Math.round(Math.abs(_r1Cnt - _pr1Cnt))} 单）${_catStr ? '，减幅主要来自 ' + _catStr : ''}。</p>`;
+    const _sign = _isDown ? '-' : '+';
+    const _verb = _isDown ? '降' : '升';
+    const _intro = _isDown ? '减幅主要集中在' : '增量主要来自';
+    volPara = `<p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;line-height:1.6">本周在线咨询量从${Math.round(_pr1Cnt)}单${_verb}至${Math.round(_r1Cnt)}单（${_sign}${Math.abs(_r1Pct).toFixed(1)}%）${_catStr ? '，' + _intro + _catStr : ''}。</p>`;
   }
 
   if (!weeklyRec || (!anySatBad && !anyOtherBad)) { el.innerHTML = volPara; return; }
@@ -4677,21 +4685,29 @@ function paintPhoneUnderperform(elId, cur, prev, weeklyRec, ps, periodLabel) {
   const _pr2Inb = _prevR2 ? _prevR2.inbound : null;
   const _r2Pct  = (_r2Inb != null && _pr2Inb && _pr2Inb > 0) ? (_r2Inb - _pr2Inb) / _pr2Inb * 100 : null;
   let volPara2 = '';
-  if (_r2Pct != null && _r2Pct < -5) {
+  if (_r2Pct != null && Math.abs(_r2Pct) > 5) {
+    const _isDown2 = _r2Pct < 0;
     const _tc2 = ((_curR2  && _curR2.phone_call_detail)  ? _curR2.phone_call_detail.category_breakdown  : null) || [];
     const _pc2 = ((_prevR2 && _prevR2.phone_call_detail) ? _prevR2.phone_call_detail.category_breakdown : null) || [];
     const _pm2 = {}, _tm2 = {};
     _pc2.forEach(c => { if (c.category) _pm2[c.category] = c.ticket_count || 0; });
     _tc2.forEach(c => { if (c.category) _tm2[c.category] = c.ticket_count || 0; });
     const _allCats2 = new Set([...Object.keys(_pm2), ...Object.keys(_tm2)]);
-    const _drops2 = [];
-    _allCats2.forEach(cat => { const tc3=_tm2[cat]||0, pc3=_pm2[cat]||0; if (tc3 < pc3) _drops2.push({cat, tc3, pc3, d: tc3-pc3}); });
-    _drops2.sort((a, b) => a.d - b.d);
-    const _top3ph = _drops2.slice(0, 3);
+    const _chgs2 = [];
+    _allCats2.forEach(cat => {
+      const tc3=_tm2[cat]||0, pc3=_pm2[cat]||0, diff=tc3-pc3;
+      if (_isDown2 && diff < 0) _chgs2.push({cat, tc3, pc3, d: diff});
+      if (!_isDown2 && diff > 0) _chgs2.push({cat, tc3, pc3, d: diff});
+    });
+    _chgs2.sort((a, b) => _isDown2 ? a.d - b.d : b.d - a.d);
+    const _top3ph = _chgs2.slice(0, 3);
     const _catStr2 = _top3ph.length
-      ? _top3ph.map(x => `${escHtml(x.cat)}（-${Math.abs(x.d)}单${x.pc3>0?'，-'+Math.round(Math.abs(x.d)/x.pc3*100)+'%':''}）`).join('、')
+      ? _top3ph.map(x => `${escHtml(x.cat)}（${_isDown2?'-':'+'}${Math.abs(x.d)}单${x.pc3>0?'，'+(_isDown2?'-':'+')+Math.round(Math.abs(x.d)/x.pc3*100)+'%':''}）`).join('、')
       : '';
-    volPara2 = `<p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;line-height:1.6">本周电话呼入量 ${Math.round(_r2Inb)} 通，环比下降 ${Math.abs(_r2Pct).toFixed(1)}%（-${Math.round(Math.abs(_r2Inb - _pr2Inb))} 通）${_catStr2 ? '，减幅主要来自 ' + _catStr2 : ''}。</p>`;
+    const _sign2 = _isDown2 ? '-' : '+';
+    const _verb2 = _isDown2 ? '降' : '升';
+    const _intro2 = _isDown2 ? '减幅主要来自' : '增量主要来自';
+    volPara2 = `<p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;line-height:1.6">本周电话呼入量从${Math.round(_pr2Inb)}通${_verb2}至${Math.round(_r2Inb)}通（${_sign2}${Math.abs(_r2Pct).toFixed(1)}%）${_catStr2 ? '，' + _intro2 + _catStr2 : ''}。</p>`;
   }
 
   if (!weeklyRec || !anyBad) { el.innerHTML = volPara2; return; }
