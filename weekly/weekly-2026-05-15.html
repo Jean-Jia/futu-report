@@ -1284,6 +1284,14 @@ html.dark .cal-day.has-data:hover { background: rgba(212,147,46,0.10); }
     <div class="analysis-card" id="analysis-r2"></div>
   </div>
 
+  <!-- ── 咨询量环比变动分析 ── -->
+  <div class="section" id="w-vol-change-section" style="display:none">
+    <div class="section-header">
+      <span class="section-title">📊 咨询量环比变动分析</span>
+    </div>
+    <div id="w-vol-change-content"></div>
+  </div>
+
   <!-- ── CA 质检数据 ── -->
   <div class="section orange" id="qa-section">
     <div class="section-header">
@@ -3054,6 +3062,7 @@ function renderWeekly() {
   renderWeeklyCharts();
   renderWeeklyTables();
   renderWeeklyFooter();
+  renderWeeklyVolChange();
   renderQA();
   renderSatisAnalysis();
   renderAiSection();
@@ -3341,6 +3350,90 @@ function renderWeeklyFooter() {
     const d = new Date(r1sel.scraped_at);
     el.textContent = (lang==='zh'?'周报生成时间：':'Generated at: ') + d.toLocaleString();
   } else { el.textContent = ''; }
+}
+
+function renderWeeklyVolChange() {
+  const secEl = document.getElementById('w-vol-change-section');
+  const contEl = document.getElementById('w-vol-change-content');
+  if (!secEl || !contEl) return;
+
+  const period = selectedWeekPeriod;
+  const r1s = (weeklyData.report1 || []).slice().sort((a, b) => a.period_start.localeCompare(b.period_start));
+  const r2s = (weeklyData.report2 || []).slice().sort((a, b) => a.period_start.localeCompare(b.period_start));
+  const r1Idx = r1s.findIndex(r => r.period_start === period);
+  const r2Idx = r2s.findIndex(r => r.period_start === period);
+  const curR1  = r1Idx >= 0 ? r1s[r1Idx] : null;
+  const prevR1 = r1Idx >= 1 ? r1s[r1Idx - 1] : null;
+  const curR2  = r2Idx >= 0 ? r2s[r2Idx] : null;
+  const prevR2 = r2Idx >= 1 ? r2s[r2Idx - 1] : null;
+
+  const r1Cnt  = curR1  ? curR1.consultation_count  : null;
+  const pr1Cnt = prevR1 ? prevR1.consultation_count : null;
+  const r2Inb  = curR2  ? curR2.inbound  : null;
+  const pr2Inb = prevR2 ? prevR2.inbound : null;
+  const r1Pct = (r1Cnt != null && pr1Cnt && pr1Cnt > 0) ? (r1Cnt - pr1Cnt) / pr1Cnt * 100 : null;
+  const r2Pct = (r2Inb != null && pr2Inb && pr2Inb > 0) ? (r2Inb - pr2Inb) / pr2Inb * 100 : null;
+
+  const VOL_THR = 5;
+  if (!((r1Pct != null && Math.abs(r1Pct) > VOL_THR) || (r2Pct != null && Math.abs(r2Pct) > VOL_THR))) {
+    secEl.style.display = 'none'; return;
+  }
+  secEl.style.display = '';
+
+  function catDiffs(thisCats, prevCats, nf, cf) {
+    const pm = {}, tm = {};
+    (prevCats || []).forEach(c => { if (c[nf]) pm[c[nf]] = c[cf] || 0; });
+    (thisCats || []).forEach(c => { if (c[nf]) tm[c[nf]] = c[cf] || 0; });
+    const cats = new Set([...Object.keys(pm), ...Object.keys(tm)]);
+    const out = [];
+    cats.forEach(cat => { const tc = tm[cat]||0, pc = pm[cat]||0; if (tc !== pc) out.push({cat, tc, pc, d: tc-pc}); });
+    out.sort((a, b) => a.d - b.d);
+    return out;
+  }
+
+  function diffRow(item) {
+    const {cat, tc, pc, d} = item;
+    const arrow = d < 0 ? '↓' : '↑';
+    const col = d < 0 ? 'var(--red,#ef4444)' : 'var(--green,#22c55e)';
+    const ps = pc > 0 ? ` (${(d/pc*100).toFixed(0)}%)` : '';
+    return `<div style="display:flex;align-items:center;gap:8px;padding:4px 0;font-size:13px">
+      <div style="flex:1;color:var(--text)">${escHtml(cat)}</div>
+      <div style="color:${col};font-weight:600;min-width:70px">${arrow}${Math.abs(d)}${ps}</div>
+      <div style="color:var(--text-muted);font-size:11px;min-width:60px;text-align:right">${pc}→${tc}</div>
+    </div>`;
+  }
+
+  function volPanel(title, pct, thisTot, prevTot, thisCats, prevCats, nf, cf) {
+    const sign = pct > 0 ? '↑' : '↓';
+    const badgeCol = pct > 0 ? 'var(--amber,#f59e0b)' : 'var(--red,#ef4444)';
+    const diffs = catDiffs(thisCats, prevCats, nf, cf);
+    const drops = diffs.filter(x => x.d < 0).slice(0, 3);
+    const rises = [...diffs].sort((a,b) => b.d - a.d).filter(x => x.d > 0).slice(0, 3);
+    let cols = '';
+    if (drops.length) cols += `<div><div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:6px">减少前3</div>${drops.map(diffRow).join('')}</div>`;
+    if (rises.length) cols += `<div><div style="font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:6px">增加前3</div>${rises.map(diffRow).join('')}</div>`;
+    if (!cols) cols = '<div style="color:var(--text-muted);font-size:12px">暂无分类数据</div>';
+    return `<div class="analysis-inner-card" style="margin-bottom:12px">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px 8px">
+        <span style="font-size:13px;font-weight:600;color:var(--text)">${escHtml(title)}</span>
+        <span style="font-size:12px;font-weight:600;color:${badgeCol}">${sign} ${Math.abs(pct).toFixed(1)}%  ${Math.round(prevTot||0)} → ${Math.round(thisTot||0)}</span>
+      </div>
+      <div style="padding:0 14px 12px;display:grid;grid-template-columns:1fr 1fr;gap:16px">${cols}</div>
+    </div>`;
+  }
+
+  let html = '';
+  if (r1Pct != null && Math.abs(r1Pct) > VOL_THR) {
+    const tc = ((curR1 && curR1.handle_detail) ? curR1.handle_detail.category_breakdown : null) || [];
+    const pc = ((prevR1 && prevR1.handle_detail) ? prevR1.handle_detail.category_breakdown : null) || [];
+    html += volPanel('在线咨询量变动', r1Pct, r1Cnt, pr1Cnt, tc, pc, 'category', 'ticket_count');
+  }
+  if (r2Pct != null && Math.abs(r2Pct) > VOL_THR) {
+    const tc2 = ((curR2 && curR2.phone_call_detail) ? curR2.phone_call_detail.category_breakdown : null) || [];
+    const pc2 = ((prevR2 && prevR2.phone_call_detail) ? prevR2.phone_call_detail.category_breakdown : null) || [];
+    html += volPanel('电话呼入量变动', r2Pct, r2Inb, pr2Inb, tc2, pc2, 'category', 'ticket_count');
+  }
+  contEl.innerHTML = html;
 }
 
 // ════════════════════════════════════════════════════════
