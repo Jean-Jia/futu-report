@@ -4814,18 +4814,16 @@ function paintPhoneUnderperform(elId, cur, prev, weeklyRec, ps, periodLabel) {
       const expandPanel = analyzed && catAnalyses.length
         ? buildDisExpandPanel(catAnalyses, disTickets, ps, lastAt, 'phone')
         : (analyzed ? `<div class="dis-panel-empty">${t('dis_no_cat_data')}</div>` : '');
-      const panelId = `dis-panel-phone-${rank}`;
       expandHtml += `
         <div class="top3-item">
           <div class="top3-circle c${rank}">${rank}</div>
           <span class="top3-item-name">${escHtml(item.name)}</span>
           <div class="top3-metrics-grid">
-            <div class="top3-mc"><span class="tmc-val bad">${item.bad_count}单</span><span class="tmc-lbl">${t('tmc_bad')}</span>${analyzed && catAnalyses.length ? `<span class="tmc-note">已分析 ${catAnalyses.length} 单</span>` : ''}</div>
+            <div class="top3-mc"><span class="tmc-val bad">${item.bad_count}单</span><span class="tmc-lbl">${t('tmc_bad')}</span></div>
             <div class="top3-mc"><span class="tmc-val satis ${satOk ? 'pass' : 'fail'}">${satDisp}</span><span class="tmc-lbl">${t('tmc_satis')}</span></div>
             <div class="top3-mc"><span class="tmc-val pct">${pct}</span><span class="tmc-lbl">${t('tmc_pct')}</span></div>
             <div class="top3-mc"><span class="tmc-val delta ${deltaCls}">${deltaVal}</span><span class="tmc-lbl">${t('tmc_delta')}</span></div>
           </div>
-          <div id="${panelId}" class="dis-analysis-panel">${expandPanel}</div>
         </div>`;
     });
     expandHtml += `</div>`;
