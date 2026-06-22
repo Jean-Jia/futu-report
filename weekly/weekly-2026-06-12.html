@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>周报 2026-06-12 · Moomoo CA</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:#F5F0E6; --surface:#FDFAF5; --surface-2:#EDE8DA; --border:#D8CEBC;
+  --text:#1a1510; --text-2:#5c4f3d; --text-3:#9a8870;
+  --red:#dc2626; --red-dim:rgba(220,38,38,0.08);
+  --green:#059669; --green-dim:rgba(5,150,105,0.08);
+  --amber:#d97706; --amber-dim:rgba(217,119,6,0.08);
+  --orange:#FF6B00; --orange-dim:rgba(255,107,0,0.12);
+  --blue:#1d4ed8; --sidebar:220px;
+  --sb:#0d0d0d; --sb-text:#f0ebe3; --sb-dim:rgba(240,235,227,0.38);
+  --sb-border:rgba(255,255,255,0.08); --sb-active:rgba(255,107,0,0.15);
+  --header-bg:#1C1612; --header-text:#F0EBE3; --header-dim:rgba(240,235,227,0.50);
+}
+body { background:var(--bg); color:var(--text); font-family:'Space Grotesk',sans-serif; font-size:14px; line-height:1.6; display:flex; min-height:100vh; }
+.sidebar { width:var(--sidebar); flex-shrink:0; background:var(--sb); border-right:none; position:sticky; top:0; height:100vh; overflow-y:auto; padding:28px 0; display:flex; flex-direction:column; }
+.sidebar-brand { padding:0 20px 24px; border-bottom:1px solid var(--sb-border); margin-bottom:16px; }
+.sidebar-brand-label { font-size:9px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--sb-dim); margin-bottom:4px; }
+.sidebar-brand-period { font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:500; color:var(--sb-text); }
+.nav-section-label { font-size:9px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--sb-dim); padding:12px 20px 6px; }
+.nav-item { display:flex; align-items:center; gap:10px; padding:9px 20px; font-size:13px; font-weight:500; color:rgba(240,235,227,0.50); text-decoration:none; border-left:2px solid transparent; }
+.nav-item.active { color:var(--sb-text); border-left-color:var(--orange); background:var(--sb-active); }
+.nav-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+.nav-dot.red { background:#f87171; } .nav-dot.green { background:#34d399; } .nav-dot.amber { background:#fbbf24; } .nav-dot.neutral { background:var(--sb-dim); }
+.sidebar-status { margin-top:auto; padding:16px 20px; border-top:1px solid var(--sb-border); font-size:11px; color:var(--sb-dim); line-height:1.5; }
+.main { flex:1; overflow-x:hidden; padding:36px 40px 60px; max-width:900px; }
+.page-header { display:flex; align-items:flex-end; justify-content:space-between; margin:-36px -40px 36px; padding:36px 40px 20px; border-bottom:3px solid var(--orange); background:var(--header-bg); }
+.page-title { font-size:22px; font-weight:700; color:var(--header-text); letter-spacing:-.02em; }
+.page-title-dot { display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--orange); margin-right:8px; vertical-align:middle; position:relative; top:-1px; }
+.page-subtitle { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--header-dim); margin-top:4px; }
+.status-pills { display:flex; gap:8px; }
+.pill { padding:4px 12px; border-radius:20px; font-size:11px; font-weight:600; letter-spacing:.04em; }
+.pill.fail { background:var(--red-dim); color:var(--red); } .pill.pass { background:var(--green-dim); color:var(--green); } .pill.amber { background:var(--amber-dim); color:var(--amber); }
+.section { margin-bottom:44px; }
+.section-header { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+.section-tag { font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:3px 8px; border-radius:3px; background:var(--orange-dim); color:var(--orange); }
+.section-title { font-size:16px; font-weight:600; color:var(--text); letter-spacing:-.01em; }
+.metric-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:16px; }
+.metric-card { background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:16px; position:relative; overflow:hidden; }
+.metric-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; }
+.metric-card.fail::before { background:var(--red); } .metric-card.pass::before { background:var(--green); } .metric-card.neutral::before { background:var(--border); }
+.metric-card-label { font-size:11px; font-weight:500; color:var(--text-3); margin-bottom:8px; letter-spacing:.04em; }
+.metric-card-value { font-family:'JetBrains Mono',monospace; font-size:24px; font-weight:600; line-height:1; margin-bottom:6px; }
+.metric-card.fail .metric-card-value { color:var(--red); } .metric-card.pass .metric-card-value { color:var(--green); } .metric-card.neutral .metric-card-value { color:var(--text-2); }
+.metric-card-target { font-size:11px; color:var(--text-3); }
+.analysis-panel { background:var(--surface); border:1px solid var(--border); border-radius:6px; margin-bottom:12px; overflow:hidden; }
+.analysis-panel-header { padding:12px 16px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; background:var(--surface-2); }
+.analysis-panel-title { font-size:13px; font-weight:600; color:var(--text); }
+.analysis-panel-badge { font-size:10px; font-weight:600; padding:2px 8px; border-radius:3px; }
+.analysis-panel-badge.red { background:var(--red-dim); color:var(--red); } .analysis-panel-badge.amber { background:var(--amber-dim); color:var(--amber); }
+.analysis-panel-body { padding:16px; }
+.reason-list, .suggest-list { list-style:none; padding:0; }
+.reason-list li, .suggest-list li { font-size:13px; line-height:1.6; color:var(--text-2); padding:7px 0 7px 16px; border-bottom:1px solid var(--border); position:relative; }
+.reason-list li:last-child, .suggest-list li:last-child { border-bottom:none; }
+.reason-list li::before { content:'▸'; position:absolute; left:0; color:var(--red); font-size:10px; top:10px; }
+.suggest-list li::before { content:'→'; position:absolute; left:0; color:var(--orange); font-size:11px; top:8px; }
+.analysis-cols { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.mini-label { font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--text-3); margin-bottom:10px; }
+.agent-row { display:grid; grid-template-columns:110px 1fr 54px; gap:8px; align-items:center; margin-bottom:7px; font-size:12px; }
+.agent-name { color:var(--text-2); text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-family:'JetBrains Mono',monospace; font-size:11px; }
+.agent-bar-bg { background:var(--border); border-radius:2px; height:5px; }
+.agent-bar-fill { height:5px; border-radius:2px; }
+.agent-bar-fill.over { background:var(--red); } .agent-bar-fill.ok { background:var(--text-3); }
+.agent-val { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-3); }
+.agent-overview-table { width:100%; border-collapse:collapse; font-size:13px; margin-bottom:28px; }
+.agent-overview-table th { text-align:left; padding:9px 12px 9px 0; font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--text-3); border-bottom:1px solid var(--border); }
+.agent-overview-table td { padding:11px 12px 11px 0; border-bottom:1px solid var(--border); color:var(--text-2); vertical-align:middle; }
+.agent-overview-table tr:last-child td { border-bottom:none; }
+.agent-overview-table .agent-col { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text); font-weight:500; }
+.issue-count { font-family:'JetBrains Mono',monospace; font-weight:600; color:var(--red); }
+.good-count  { font-family:'JetBrains Mono',monospace; font-weight:500; color:var(--green); }
+.neutral-count { font-family:'JetBrains Mono',monospace; color:var(--text-3); }
+.issue-tag { display:inline-block; padding:1px 7px; border-radius:3px; font-size:10px; font-weight:500; background:var(--red-dim); color:var(--red); margin-right:4px; margin-bottom:2px; white-space:nowrap; }
+.agent-card { background:var(--surface); border:1px solid var(--border); border-radius:6px; margin-bottom:16px; overflow:hidden; }
+.agent-card-header { padding:14px 18px; background:var(--surface-2); border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+.agent-card-name { font-family:'JetBrains Mono',monospace; font-size:14px; font-weight:600; color:var(--text); }
+.agent-card-stats { display:flex; gap:16px; align-items:center; }
+.agent-stat { font-size:12px; }
+.agent-stat .val { font-family:'JetBrains Mono',monospace; font-weight:600; margin-right:3px; }
+.agent-stat .val.bad { color:var(--red); } .agent-stat .val.good { color:var(--green); }
+.agent-stat .lbl { color:var(--text-3); }
+.ticket-group-label { padding:10px 18px 6px; font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--text-3); border-bottom:1px solid var(--border); }
+.ticket-group-label.bad-group  { color:var(--red);   background:rgba(248,113,113,.04); }
+.ticket-group-label.good-group { color:var(--green); background:rgba(74,222,128,.04); }
+.ticket-item { padding:14px 18px; border-bottom:1px solid var(--border); }
+.ticket-item:last-child { border-bottom:none; }
+.ticket-item.bad-ticket  { background:rgba(248,113,113,.03); }
+.ticket-item-top { display:flex; align-items:center; gap:10px; margin-bottom:6px; flex-wrap:wrap; }
+.ticket-label { font-size:13px; font-weight:600; color:var(--text); }
+.ticket-cat { font-size:10px; font-weight:500; padding:2px 8px; border-radius:3px; background:var(--surface-2); color:var(--text-3); }
+.ticket-id { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-3); margin-left:auto; }
+.ticket-cause { font-size:12px; color:var(--text-2); line-height:1.55; margin-bottom:10px; }
+.ticket-issue-row { display:flex; gap:6px; align-items:flex-start; margin-bottom:8px; flex-wrap:wrap; }
+.ticket-suggest-block { background:var(--surface-2); border-radius:4px; padding:10px 14px; margin-top:8px; }
+.suggest-item { font-size:12px; color:var(--text-2); line-height:1.55; padding:5px 0 5px 14px; position:relative; border-bottom:1px solid var(--border); }
+.suggest-item:last-child { border-bottom:none; }
+.suggest-item::before { content:'→'; position:absolute; left:0; color:var(--blue); font-size:10px; top:7px; }
+.suggest-level { font-size:10px; font-weight:600; color:var(--amber); margin-bottom:2px; }
+.ticket-good-desc { font-size:12px; color:var(--text-3); line-height:1.5; font-style:italic; }
+.qa-table { width:100%; border-collapse:collapse; font-size:13px; }
+.qa-table th { text-align:left; padding:8px 12px 8px 0; font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--text-3); border-bottom:1px solid var(--border); }
+.qa-table td { padding:10px 12px 10px 0; color:var(--text-2); border-bottom:1px solid var(--border); vertical-align:top; }
+.qa-table tr:last-child td { border-bottom:none; }
+.type-badge { display:inline-block; padding:1px 7px; border-radius:3px; font-size:10px; font-weight:600; background:var(--amber-dim); color:var(--amber); }
+.chart-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:8px; }
+.chart-card { background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:14px 16px; }
+.chart-title { font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--text-3); margin-bottom:10px; }
+@media(max-width:640px){ .chart-grid{ grid-template-columns:1fr; } }
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <div class="sidebar-brand-label">Moomoo CA · 周报</div>
+    <div class="sidebar-brand-period">2026-06-12 ~ 06-18</div>
+  </div>
+  <div class="nav-section-label">在线客服 R1</div>
+  <a class="nav-item active" href="#r1-metrics"><span class="nav-dot red"></span>指标概览</a>
+  <a class="nav-item" href="#r1-satis"><span class="nav-dot red"></span>满意度分析</a>
+  <a class="nav-item" href="#r1-duration"><span class="nav-dot amber"></span>处理时长分析</a>
+  <div class="nav-section-label">电话客服 R2</div>
+  <a class="nav-item" href="#r2-metrics"><span class="nav-dot green"></span>指标概览</a>
+  <a class="nav-item" href="#r2-analysis"><span class="nav-dot amber"></span>时长关注点</a>
+  <a class="nav-item" href="#vol-change"><span class="nav-dot amber"></span>咨询量变动</a>
+  <div class="nav-section-label">质检</div>
+  <a class="nav-item" href="#qa"><span class="nav-dot neutral"></span>差错工单</a>
+  <div class="nav-section-label">工单明细</div>
+  <a class="nav-item" href="#dis-overview"><span class="nav-dot red"></span>坐席概览</a>
+  <a class="nav-item" href="#dis-未知坐席"><span class="nav-dot red"></span>未知坐席</a>
+<a class="nav-item" href="#dis-jiaqinggoh"><span class="nav-dot red"></span>jiaqinggoh</a>
+<a class="nav-item" href="#dis-others"><span class="nav-dot green"></span>其他坐席</a>
+
+  <div class="sidebar-status">数据截至 2026-06-18<br>自动生成报表</div>
+</nav>
+
+<main class="main">
+
+  <div class="page-header">
+    <div>
+      <div class="page-title"><span class="page-title-dot"></span>2026-06-12 ~ 06-18</div>
+      <div class="page-subtitle">MOOMOO CA · WEEKLY REPORT</div>
+    </div>
+    <div class="status-pills"><span class="pill fail">在线 2项未达标</span><span class="pill pass">电话 全部达标</span></div>
+  </div>
+
+  <!-- R1 Metrics -->
+  <section class="section" id="r1-metrics">
+    <div class="section-header">
+      <span class="section-tag">R1</span>
+      <span class="section-title">在线客服 · 咨询量 477</span>
+    </div>
+    <div class="metric-grid">
+      <div class="metric-card fail">
+        <div class="metric-card-label">满意度</div>
+        <div class="metric-card-value">83.58%</div>
+        <div class="metric-card-target">目标 ≥93.0% · 差 9.42pp</div>
+      </div>
+      <div class="metric-card fail">
+        <div class="metric-card-label">非常满意度</div>
+        <div class="metric-card-value">65.00%</div>
+        <div class="metric-card-target">目标 ≥80.0% · 差 15.00pp</div>
+      </div>
+      <div class="metric-card pass">
+        <div class="metric-card-label">均处理时长</div>
+        <div class="metric-card-value">12.41m</div>
+        <div class="metric-card-target">目标 ≤14.5m · 余 2.1m</div>
+      </div>
+      <div class="metric-card pass">
+        <div class="metric-card-label">30s 接通率</div>
+        <div class="metric-card-value">99.37%</div>
+        <div class="metric-card-target">目标 ≥95.0% · ✓</div>
+      </div>
+      <div class="metric-card pass">
+        <div class="metric-card-label">一次解决率</div>
+        <div class="metric-card-value">96.23%</div>
+        <div class="metric-card-target">目标 ≥95.0% · ✓</div>
+      </div>
+    </div>
+    <div class="chart-grid" style="margin-top:14px">
+      <div class="chart-card"><div class="chart-title">CA 在线接待数据</div><canvas id="chart-r1-vol" height="200"></canvas></div>
+      <div class="chart-card"><div class="chart-title">CA 在线数据</div><canvas id="chart-r1-kpi" height="200"></canvas></div>
+    </div>
+  </section>
+
+  <!-- R1 Satis -->
+  <section class="section" id="r1-satis">
+    <div class="section-header">
+      <span class="section-tag">R1</span>
+      <span class="section-title">满意度未达标分析</span>
+    </div>
+    <div class="analysis-panel">
+      <div class="analysis-panel-header">
+        <span class="analysis-panel-title">不满意工单根因（22单）</span>
+        <span class="analysis-panel-badge red">满意度 83.58%</span>
+      </div>
+      <div class="analysis-panel-body">
+        <div class="analysis-cols">
+          <div><div class="mini-label">原因</div><ul class="reason-list"><li>暂无数据</li></ul></div>
+          <div><div class="mini-label">建议</div><ul class="suggest-list"><li>暂无数据</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- R1 Duration -->
+  <section class="section" id="r1-duration">
+    <div class="section-header">
+      <span class="section-tag">R1</span>
+      <span class="section-title">处理时长超标分析</span>
+    </div>
+    <div class="analysis-panel">
+      <div class="analysis-panel-header">
+        <span class="analysis-panel-title">超标分类 · 坐席影响</span>
+        <span class="analysis-panel-badge amber">均时长 12.41m → 目标 14.5m</span>
+      </div>
+      <div class="analysis-panel-body">
+        <div class="analysis-cols">
+          <div><div class="mini-label">超时分类 Top 3</div><div class="agent-row"><div class="agent-name">收费</div><div class="agent-bar-bg"><div class="agent-bar-fill over" style="width:100%"></div></div><div class="agent-val">26.40m</div></div><div class="agent-row"><div class="agent-name">事故</div><div class="agent-bar-bg"><div class="agent-bar-fill over" style="width:76%"></div></div><div class="agent-val">20.13m</div></div><div class="agent-row"><div class="agent-name">结单and文件</div><div class="agent-bar-bg"><div class="agent-bar-fill over" style="width:70%"></div></div><div class="agent-val">18.69m</div></div><div class="agent-row" style="opacity:.45"><div class="agent-name">目标线</div><div class="agent-bar-bg"><div class="agent-bar-fill ok" style="width:54%"></div></div><div class="agent-val">14.5m</div></div></div>
+          <div><div class="mini-label">坐席时长影响 Top 3</div><div class="agent-row"><div class="agent-name">jasonchan</div><div class="agent-bar-bg"><div class="agent-bar-fill over" style="width:57%"></div></div><div class="agent-val">15.25m</div></div><div class="agent-row"><div class="agent-name">maplekong</div><div class="agent-bar-bg"><div class="agent-bar-fill ok" style="width:51%"></div></div><div class="agent-val">13.55m</div></div><div class="agent-row"><div class="agent-name">yufengtan</div><div class="agent-bar-bg"><div class="agent-bar-fill ok" style="width:50%"></div></div><div class="agent-val">13.44m</div></div></div>
+        </div>
+        <div style="margin-top:14px"><div class="mini-label">建议</div>
+          <ul class="suggest-list"><li>暂无数据</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- R2 Metrics -->
+  <section class="section" id="r2-metrics">
+    <div class="section-header">
+      <span class="section-tag">R2</span>
+      <span class="section-title">电话客服 · 来电 798 通  · 全部达标</span>
+    </div>
+    <div class="metric-grid">
+      <div class="metric-card pass">
+        <div class="metric-card-label">满意度</div>
+        <div class="metric-card-value">94.59%</div>
+        <div class="metric-card-target">目标 ≥90.0% · ✓</div>
+      </div>
+      <div class="metric-card pass">
+        <div class="metric-card-label">均通话时长</div>
+        <div class="metric-card-value">6.00m</div>
+        <div class="metric-card-target">目标 ≤7.0m · ✓</div>
+      </div>
+      <div class="metric-card pass">
+        <div class="metric-card-label">一次解决率</div>
+        <div class="metric-card-value">97.74%</div>
+        <div class="metric-card-target">目标 ≥95.0% · ✓</div>
+      </div>
+      <div class="metric-card pass">
+        <div class="metric-card-label">接通率</div>
+        <div class="metric-card-value">97.62%</div>
+        <div class="metric-card-target">目标 ≥95.0% · ✓</div>
+      </div>
+      <div class="metric-card pass">
+        <div class="metric-card-label">20s 接通率</div>
+        <div class="metric-card-value">86.09%</div>
+        <div class="metric-card-target">目标 ≥80.0% · ✓</div>
+      </div>
+      <div class="metric-card neutral">
+        <div class="metric-card-label">服务天数</div>
+        <div class="metric-card-value">5天</div>
+        <div class="metric-card-target">正常运营</div>
+      </div>
+    </div>
+    <div class="chart-grid" style="margin-top:14px">
+      <div class="chart-card"><div class="chart-title">CA 电话接通率数据</div><canvas id="chart-r2-vol" height="200"></canvas></div>
+      <div class="chart-card"><div class="chart-title">CA 电话接待数据</div><canvas id="chart-r2-kpi" height="200"></canvas></div>
+    </div>
+  </section>
+
+  <!-- R2 Analysis -->
+  <section class="section" id="r2-analysis">
+    <div class="section-header">
+      <span class="section-tag">R2</span>
+      <span class="section-title">通话时长关注点</span>
+    </div>
+    <div class="analysis-panel">
+      <div class="analysis-panel-header">
+        <span class="analysis-panel-title">超时分类分析（目标 7.0m）</span>
+        <span class="analysis-panel-badge amber">均值 6.00m</span>
+      </div>
+      <div class="analysis-panel-body">
+        <div class="analysis-cols">
+          <div><div class="mini-label">分类时长 Top 3</div><div class="agent-row"><div class="agent-name">费用</div><div class="agent-bar-bg"><div class="agent-bar-fill over" style="width:54%"></div></div><div class="agent-val">8.35m</div></div><div class="agent-row"><div class="agent-name">财富管理</div><div class="agent-bar-bg"><div class="agent-bar-fill over" style="width:50%"></div></div><div class="agent-val">7.75m</div></div><div class="agent-row"><div class="agent-name">转仓</div><div class="agent-bar-bg"><div class="agent-bar-fill over" style="width:49%"></div></div><div class="agent-val">7.58m</div></div><div class="agent-row" style="opacity:.45"><div class="agent-name">目标线</div><div class="agent-bar-bg"><div class="agent-bar-fill ok" style="width:45%"></div></div><div class="agent-val">7.0m</div></div></div>
+          <div><div class="mini-label">坐席影响 Top 3</div><div class="agent-row"><div class="agent-name">jamesxu</div><div class="agent-bar-bg"><div class="agent-bar-fill over" style="width:100%"></div></div><div class="agent-val">15.40m</div></div><div class="agent-row"><div class="agent-name">maplekong</div><div class="agent-bar-bg"><div class="agent-bar-fill over" style="width:66%"></div></div><div class="agent-val">10.27m</div></div><div class="agent-row"><div class="agent-name">chocolam</div><div class="agent-bar-bg"><div class="agent-bar-fill over" style="width:64%"></div></div><div class="agent-val">9.98m</div></div></div>
+        </div>
+        <div style="margin-top:14px"><div class="mini-label">建议</div>
+          <ul class="suggest-list"><li>暂无数据</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Volume Change -->
+  <section class="section" id="vol-change">
+    <div class="section-header">
+      <span class="section-tag">咨询量</span>
+      <span class="section-title">咨询量环比变动分析</span>
+    </div>
+    <div class="analysis-panel"><div class="analysis-panel-header"><span class="analysis-panel-title">电话呼入量变动</span><span class="analysis-panel-badge red">↓ 9.3%  880 → 798</span></div><div class="analysis-panel-body"><div class="analysis-cols"><div><div class="mini-label">减少前3</div><div class="agent-row"><div class="agent-name">Withdrawal</div><div class="agent-val" style="color:var(--red)">↓19 (-44%)</div><div style="font-size:11px;color:var(--text-3);min-width:60px;text-align:right">43→24</div></div><div class="agent-row"><div class="agent-name">转仓</div><div class="agent-val" style="color:var(--red)">↓18 (-20%)</div><div style="font-size:11px;color:var(--text-3);min-width:60px;text-align:right">88→70</div></div><div class="agent-row"><div class="agent-name">开户前咨询</div><div class="agent-val" style="color:var(--red)">↓17 (-28%)</div><div style="font-size:11px;color:var(--text-3);min-width:60px;text-align:right">60→43</div></div></div><div><div class="mini-label">增加前3</div><div class="agent-row"><div class="agent-name">活动</div><div class="agent-val" style="color:var(--pass)">↑15 (+33%)</div><div style="font-size:11px;color:var(--text-3);min-width:60px;text-align:right">45→60</div></div><div class="agent-row"><div class="agent-name">税务</div><div class="agent-val" style="color:var(--pass)">↑6 (+86%)</div><div style="font-size:11px;color:var(--text-3);min-width:60px;text-align:right">7→13</div></div><div class="agent-row"><div class="agent-name">资金</div><div class="agent-val" style="color:var(--pass)">↑5 (+13%)</div><div style="font-size:11px;color:var(--text-3);min-width:60px;text-align:right">38→43</div></div></div></div></div></div>
+  </section>
+
+  <!-- QA -->
+  <section class="section" id="qa">
+    <div class="section-header">
+      <span class="section-tag">QA</span>
+      <span class="section-title">差错工单 · 致命差错 2 单</span>
+    </div>
+    <div class="chart-card" style="margin-bottom:14px">
+      <div class="chart-title">CA 质检致命差错率趋势</div>
+      <canvas id="chart-qa" height="160"></canvas>
+    </div>
+    <div class="analysis-panel">
+      <div class="analysis-panel-body">
+        <table class="qa-table">
+          <thead><tr><th>工单号</th><th>坐席</th><th>类型</th><th>问题描述</th></tr></thead>
+          <tbody><tr><td>20260615222911624543</td><td>weisengwong</td><td><span class="type-badge" style="background:rgba(248,113,113,.15);color:var(--red)">致命</span></td><td>承诺未兑现： 超时未回复。与客户约定，10分钟后给客户回电，但未回电。</td></tr><tr><td>10260618082514847619</td><td>jowellloo</td><td><span class="type-badge" style="background:rgba(248,113,113,.15);color:var(--red)">致命</span></td><td>客服将CRM内网中的【通讯-系统消息】中的邮件标题和邮件截图发送给客户，处理有误</td></tr><tr><td>10260613002150074238</td><td>henrysong</td><td><span class="type-badge">一般</span></td><td>客户反馈账户中的股票现金券无法使用，客服首次告知其股票现金券还在冻结中，在客户告知是询问已解冻那张股票现金券并截图后，客服则告知需核实并升级，处理有误，知识库有话术无需升级。</td></tr><tr><td>10260615192619843222</td><td>jasonchan</td><td><span class="type-badge">一般</span></td><td>关于客户总资产的质疑与计算，客服错误回复入金金额后被客户指出后致歉纠正；超过3分钟 超过时限标准未使用礼貌用语： &quot;&quot;感谢您的耐心等待&quot;&quot; &quot;&quot;抱歉让您久等，&quot;</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dissatisfied overview -->
+  <section class="section" id="dis-overview">
+    <div class="section-header">
+      <span class="section-tag">工单明细</span>
+      <span class="section-title">不满意工单 · 坐席明细（22单）</span>
+    </div>
+    <div class="analysis-panel">
+      <div class="analysis-panel-header">
+        <span class="analysis-panel-title">坐席概览</span>
+        <span class="analysis-panel-badge red">8名坐席 · 有问题工单 2张</span>
+      </div>
+      <div class="analysis-panel-body" style="padding:0">
+        <table class="agent-overview-table">
+          <thead><tr>
+            <th style="padding-left:18px">坐席</th>
+            <th>总工单</th><th>有坐席问题</th><th>处理良好</th><th>问题类型</th>
+          </tr></thead>
+          <tbody><tr><td style="padding-left:18px"><span class="agent-col">未知坐席</span></td><td><span class="neutral-count">10</span></td><td><span class="issue-count">1</span></td><td><span class="good-count">9</span></td><td><span class="issue-tag">提供错误信息</span></td></tr><tr><td style="padding-left:18px"><span class="agent-col">jiaqinggoh</span></td><td><span class="neutral-count">3</span></td><td><span class="issue-count">1</span></td><td><span class="good-count">2</span></td><td><span class="issue-tag">未有效安抚</span></td></tr><tr><td style="padding-left:18px"><span class="agent-col">kelvinteo</span></td><td><span class="neutral-count">1</span></td><td><span class="good-count">—</span></td><td><span class="good-count">1</span></td><td><span style="color:var(--text-3);font-size:12px">无坐席问题</span></td></tr><tr><td style="padding-left:18px"><span class="agent-col">jasonchan</span></td><td><span class="neutral-count">1</span></td><td><span class="good-count">—</span></td><td><span class="good-count">1</span></td><td><span style="color:var(--text-3);font-size:12px">无坐席问题</span></td></tr><tr><td style="padding-left:18px"><span class="agent-col">pohgiapkhor</span></td><td><span class="neutral-count">1</span></td><td><span class="good-count">—</span></td><td><span class="good-count">1</span></td><td><span style="color:var(--text-3);font-size:12px">无坐席问题</span></td></tr><tr><td style="padding-left:18px"><span class="agent-col">bryanlee</span></td><td><span class="neutral-count">4</span></td><td><span class="good-count">—</span></td><td><span class="good-count">4</span></td><td><span style="color:var(--text-3);font-size:12px">无坐席问题</span></td></tr><tr><td style="padding-left:18px"><span class="agent-col">weisengwong</span></td><td><span class="neutral-count">1</span></td><td><span class="good-count">—</span></td><td><span class="good-count">1</span></td><td><span style="color:var(--text-3);font-size:12px">无坐席问题</span></td></tr><tr><td style="padding-left:18px"><span class="agent-col">maplekong</span></td><td><span class="neutral-count">1</span></td><td><span class="good-count">—</span></td><td><span class="good-count">1</span></td><td><span style="color:var(--text-3);font-size:12px">无坐席问题</span></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="dis-未知坐席"><div class="section-header"><span class="section-tag">工单明细</span><span class="section-title">未知坐席 · 10单 / 有问题 1</span></div><div class="agent-card"><div class="agent-card-header"><span class="agent-card-name">未知坐席</span><div class="agent-card-stats"><span class="agent-stat"><span class="val bad">1</span><span class="lbl">有问题</span></span><span class="agent-stat"><span class="val good">9</span><span class="lbl">处理良好</span></span><span class="agent-stat"><span class="val" style="color:var(--text-2)">10</span><span class="lbl">共</span></span></div></div><div class="ticket-group-label bad-group">有坐席问题（1单）</div><div class="ticket-item bad-ticket"><div class="ticket-item-top"><span class="ticket-label">活动信息误导</span><span class="ticket-cat"></span><span class="ticket-issue-row" style="margin:0"><span class="issue-tag">提供错误信息</span></span><span class="ticket-id">#10260614175230780088</span></div><div class="ticket-cause">客户明确指出收到了虚假广告和错误信息（false advertising and misinformation），表达了强烈不满。由于对话记录为空，无法确认具体的错误信息内容，但客户评价直接指向信息准确性问题，属于客服提供错误信息的情况。</div><div class="ticket-suggest-block"><div class="suggest-item"><div class="suggest-level">客服培训层面</div>加强客服对活动规则的培训，确保向客户传达的促销信息与实际条款完全一致；建立活动信息核查机制，客服在解答活动相关问题前必须查阅最新版本的活动规则文档</div><div class="suggest-item"><div class="suggest-level">流程优化层面</div>若多个客户反映同一活动存在信息不一致问题，需Manager拉小群与市场/产品团队对齐活动宣传材料与实际规则的一致性</div></div></div><div class="ticket-group-label good-group">处理良好（9单）</div><div class="ticket-item good-ticket"><div class="ticket-item-top"><span class="ticket-label">工单信息缺失</span><span class="ticket-id">#10260618011055372252</span><span class="ticket-cat"></span></div><div class="ticket-good-desc">该工单仅包含基本字段（工单号、渠道等），对话记录部分为空，无法判断客户投诉的具体业务场景、客服应答情况及客户不满的根本原因。需补充完整对话记录后才能进行质量分析。</div></div><div class="ticket-item good-ticket"><div class="ticket-item-top"><span class="ticket-label">账户合规限制</span><span class="ticket-id">#10260618075310893815</span><span class="ticket-cat"></span></div><div class="ticket-good-desc">客户账户因合规审查被限制交易和出金功能，多次催促仍无法获得明确解决时间和进展信息。客服虽解释了合规审查原因，但未能提供替代方案或具体跟进时效，安抚效果有限。</div></div><div class="ticket-item good-ticket"><div class="ticket-item-top"><span class="ticket-label">入金处理时效</span><span class="ticket-id">#10260618133153041453</span><span class="ticket-cat"></span></div><div class="ticket-good-desc">客户使用Interac e-Transfer入金后资金未到账，客服已核实转账信息并提交后台处理，承诺当天回复进度。客服处理得当，已有效安抚</div></div><div class="ticket-item good-ticket"><div class="ticket-item-top"><span class="ticket-label">出金处理时效</span><span class="ticket-id">#10260617201045036916</span><span class="ticket-cat"></span></div><div class="ticket-good-desc">客户4月15日提交EFT出金，4月19日仍未到账，超出预期的5个工作日时效。客户因需支付账单而多次催促，表达不满。此为结算流程时效问题，非客服可控范围。</div></div><div class="ticket-item good-ticket"><div class="ticket-item-top"><span class="ticket-label">出金处理时效</span><span class="ticket-id">#10260615192619843222</span><span class="ticket-cat"></span></div><div class="ticket-good-desc">客户4月16日提交出金请求，4月18日被要求补充银行对账单，客户认为已在开户时提供过相关文件，对需要重复提交感到不满，且对审核时效无明确预期。客服已解释合规审核要求并提供操作指引，但客户仍对流程体验不满意。</div></div><div class="ticket-item good-ticket"><div class="ticket-item-top"><span class="ticket-label">邮箱验证问题</span><span class="ticket-id">#10260615065740357941</span><span class="ticket-cat"></span></div><div class="ticket-good-desc">客户反馈用于 INTERAC e-Transfer 绑定的邮箱无法收到验证邮件，导致无法完成绑定流程。这是产品层面的邮件发送或验证机制问题，客服已提供排查建议。客服处理得当，已有效安抚</div></div><div class="ticket-item good-ticket"><div class="ticket-item-top"><span class="ticket-label">账户登录问题</span><span class="ticket-id">#10260613005358846112</span><span class="ticket-cat"></span></div><div class="ticket-good-desc">客户反馈可以通过邮箱登录但无法使用手机号登录账户。这是系统登录功能层面的问题，属于产品技术范畴。由于对话记录不完整，无法评估客服的具体处理过程和安抚质量。</div></div><div class="ticket-item good-ticket"><div class="ticket-item-top"><span class="ticket-label">开户审核驳回</span><span class="ticket-id">#10260612230930118423</span><span class="ticket-cat"></span></div><div class="ticket-good-desc">客户开户申请被驳回，客服解释了驳回原因并告知需补充材料，但客户对具体要求仍有疑惑。这属于合规审核流程的标准操作，客服已按流程指引客户补充材料并表示会跟进，处理基本得当。</div></div><div class="ticket-item good-ticket"><div class="ticket-item-top"><span class="ticket-label">出金处理时效</span><span class="ticket-id">#10260612233256517112</span><span class="ticket-cat"></span></div><div class="ticket-good-desc">客户4月16日提交出金请求，至4月19日仍未处理完成。客服解释因合规审查需要额外时间，但未能提供明确的处理时效预期，客户对等待时间感到不满。客服已解释原因并承诺跟进，但受限于合规流程本身的不确定性。</div></div></div></section><section class="section" id="dis-jiaqinggoh"><div class="section-header"><span class="section-tag">工单明细</span><span class="section-title">jiaqinggoh · 3单 / 有问题 1</span></div><div class="agent-card"><div class="agent-card-header"><span class="agent-card-name">jiaqinggoh</span><div class="agent-card-stats"><span class="agent-stat"><span class="val bad">1</span><span class="lbl">有问题</span></span><span class="agent-stat"><span class="val good">2</span><span class="lbl">处理良好</span></span><span class="agent-stat"><span class="val" style="color:var(--text-2)">3</span><span class="lbl">共</span></span></div></div><div class="ticket-group-label bad-group">有坐席问题（1单）</div><div class="ticket-item bad-ticket"><div class="ticket-item-top"><span class="ticket-label">入金处理时效</span><span class="ticket-cat">入金</span><span class="ticket-issue-row" style="margin:0"><span class="issue-tag">未有效安抚</span></span><span class="ticket-id">#10260618054315604019</span></div><div class="ticket-cause">客户6月11日IET入金，6月18日仍未到账，资金卡在Interac环节。客服已告知客户需通过银行联系Interac处理，但客服未主动提供替代方案（如电汇入金），也未解释Moomoo侧是否可协助推进，客户因错过交易机会感到不满。客服处理存在改善空间，未有效安抚客户情绪</div><div class="ticket-suggest-block"><div class="suggest-item"><div class="suggest-level">客服培训层面</div>培训客服在IET入金卡顿场景下的标准话术：①主动解释Moomoo可以协助后台查询或联系托管方跟进；②提供替代方案（如建议使用电汇入金避免类似延迟）；③向客户致歉并说明会记录问题反馈给相关团队</div><div class="suggest-item"><div class="suggest-level">产品/流程层面</div>按灯反馈产品团队，建议优化IET入金异常监控机制，当资金在Interac环节超过48小时未到账时主动触发后台跟进流程</div></div></div><div class="ticket-group-label good-group">处理良好（2单）</div><div class="ticket-item good-ticket"><div class="ticket-item-top"><span class="ticket-label">行情数据异常</span><span class="ticket-id">#10260616020211363753</span><span class="ticket-cat">交易</span></div><div class="ticket-good-desc">客户持有的CMG 22.50C期权合约价格自周五起未更新（停留在13.05），客户反馈其他平台有正常行情。客服初步判断为无交易量导致，但客户指出其他平台显示有volume，最终客服承诺提交技术团队审查。客服处理得当，已有效安抚</div></div><div class="ticket-item good-ticket"><div class="ticket-item-top"><span class="ticket-label">选股器数据不一致</span><span class="ticket-id">#10260614041014307490</span><span class="ticket-cat">行情</span></div><div class="ticket-good-desc">客户在选股器无条件导出美股与市场页导出美股数据，发现两者相差约2000-6000只股票，客服解释选股器不含ETF仅有正股，但客户指出闭市后数据仍不一致且差异巨大，无法用于统计涨跌股票数量。客服已反馈产品部门。客服处理得当，已有效安抚</div></div></div></section><section class="section" id="dis-others"><div class="section-header"><span class="section-tag">工单明细</span><span class="section-title">其他坐席 · 均无坐席问题</span></div><div class="agent-card"><div class="agent-card-header"><span class="agent-card-name">kelvinteo / jasonchan / pohgiapkhor / bryanlee / weisengwong / maplekong</span><div class="agent-card-stats"><span class="agent-stat"><span class="val good">9</span><span class="lbl">全部处理良好</span></span></div></div><div class="ticket-group-label good-group">处理良好（9单）</div><div class="ticket-item good-ticket"><div class="ticket-item-top"><span class="ticket-label">入金处理时效</span><span class="ticket-id">#10260616033222773102</span><span class="ticket-cat">入金</span><span style="font-family:monospace;font-size:11px;color:var(--text-3);margin-left:auto">kelvinteo</span></div><div class="ticket-good-desc">客户通过Interac e-Transfer入金，资金已被扣但未即时到账。客服解释需要up to 1 working day处理时间，但客户认为平台宣传为「within minutes」，存在虚假宣传问题。客服仅反复说明需要处理时间，未解释延迟原因（如具体处理流程、为何与宣传不符），未提供查询进度方式或明确到账时间，且面对客户强烈不满时仅用标准话术应对，缺乏有温度的安抚。客服处理未达到有效安抚标准</div></div><div class="ticket-item good-ticket"><div class="ticket-item-top"><span class="ticket-label">出金处理时效</span><span class="ticket-id">#10260616230642246504</span><span class="ticket-cat">交易</span><span style="font-family:monospace;font-size:11px;color:var(--text-3);margin-left:auto">jasonchan</span></div><div class="ticket-good-desc">客户6月15日卖出美股，期望16日（T+1）即可提款到账，但客服解释需等到16日4PM ET后才可发起请求，实际处理在17日中午（EFT）或下午（电汇），客户认为这是T+2而非T+1，质疑平台违反承诺。客服回答符合规则（美股T+1结算，资金在T+1日4PM ET后可用），但客户对「可用」与「到账」的理解存在偏差。客服处理得当，已有效安抚</div></div><div class="ticket-item good-ticket"><div class="ticket-item-top"><span class="ticket-label">转仓流程问题</span><span class="ticket-id">#10260615000440628586</span><span class="ticket-cat">转仓</span><span style="font-family:monospace;font-size:11px;color:var(--text-3);margin-left:auto">pohgiapkhor</span></div><div class="ticket-good-desc">客户期望Moomoo提供人工协助填写美国券商DTC转仓文件，但平台规则要求客户自行填写提交。客服明确告知规则限制，并主动提出「请回复邮件提供所有信息，会尝试反馈后台是否可以协助填入」，展现了灵活处理态度。客服处理得当，已有效安抚</div></div><div class="ticket-item good-ticket"><div class="ticket-item-top"><span class="ticket-label">入金处理时效</span><span class="ticket-id">#10260615160805844700</span><span class="ticket-cat">入金</span><span style="font-family:monospace;font-size:11px;color:var(--text-3);margin-left:auto">bryanlee</span></div><div class="ticket-good-desc">客户从香港汇丰银行电汇5万美元至Moomoo账户已超10天未到账，汇出行显示未退回。电汇入金通常需4个工作日，但跨境汇款涉及中转行及合规审查，时效无法保证。客服处理得当，已有效安抚：主动查询并告知需联系后台同事跟进，电话客服承诺通过邮件继续跟进，提供了后续处理方案</div></div><div class="ticket-item good-ticket"><div class="ticket-item-top"><span class="ticket-label">转仓成本价错误</span><span class="ticket-id">#10260615162954468817</span><span class="ticket-cat">交易</span><span style="font-family:monospace;font-size:11px;color:var(--text-3);margin-left:auto">bryanlee</span></div><div class="ticket-good-desc">客户从RBC转入TFSA账户的NVDA股票，原成本价为加元297.5，转入后系统错误地录入为美元297.5。客服提供了标准的成本价修改流程和邮箱地址，并告知7个交易日处理时效。客服处理得当，已有效安抚</div></div><div class="ticket-item good-ticket"><div class="ticket-item-top"><span class="ticket-label">入金处理时效</span><span class="ticket-id">#10260614081725158257</span><span class="ticket-cat">入金</span><span style="font-family:monospace;font-size:11px;color:var(--text-3);margin-left:auto">bryanlee</span></div><div class="ticket-good-desc">客户两笔Interac转账一笔到账一笔被冻结审核，客服已告知24-48小时处理时效及Interac不披露冻结原因的客观情况，并引导客户耐心等待。客服处理得当，已有效安抚。</div></div><div class="ticket-item good-ticket"><div class="ticket-item-top"><span class="ticket-label">开户信息填写错误</span><span class="ticket-id">#10260612232820770742</span><span class="ticket-cat">开户前咨询</span><span style="font-family:monospace;font-size:11px;color:var(--text-3);margin-left:auto">bryanlee</span></div><div class="ticket-good-desc">客户在开户时意外填写了错误的姓名，客服已帮助重置申请并告知需等待1-2个工作日后重新申请。客户后续再次询问同一问题，客服重复了相同的解决方案并明确了时效。客服处理得当，已有效安抚</div></div><div class="ticket-item good-ticket"><div class="ticket-item-top"><span class="ticket-label">IPO盘前撮合下单</span><span class="ticket-id">#10260612015510807541</span><span class="ticket-cat">交易</span><span style="font-family:monospace;font-size:11px;color:var(--text-3);margin-left:auto">weisengwong</span></div><div class="ticket-good-desc">客户希望参与SpaceX的IPO盘前撮合交易，但moomoo平台尚未开放该标的的下单功能，而其他平台已提前两天开放。客服承诺反馈给交易团队并在1小时内通过邮件更新进展，处理得当，已有效安抚</div></div><div class="ticket-item good-ticket"><div class="ticket-item-top"><span class="ticket-label">货币兑换时效限制</span><span class="ticket-id">#10260612094943801942</span><span class="ticket-cat">资金相关</span><span style="font-family:monospace;font-size:11px;color:var(--text-3);margin-left:auto">maplekong</span></div><div class="ticket-good-desc">客户在RRSP账户卖出加元股票后，当天无法兑换全额到美元，客服解释了T+1结算规则（卖出股票需次日4PM ET后才可兑换）。客户对此规则不满且认为其他平台无此限制。后续客户询问Cash账户中Cash Sweep的概念，客服详细解释了Cash Account和Cash Sweep的区别及提款机制。客服处理得当，已有效安抚</div></div></div></section>
+
+</main>
+<script>
+(function() {
+  var navItems = document.querySelectorAll('.nav-item[href^="#"]');
+  var sections = document.querySelectorAll('.section[id]');
+  var navMap = {};
+  navItems.forEach(function(item) {
+    navMap[item.getAttribute('href').slice(1)] = item;
+  });
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        navItems.forEach(function(n) { n.classList.remove('active'); });
+        var match = navMap[entry.target.id];
+        if (match) match.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-10% 0px -80% 0px' });
+  sections.forEach(function(s) { observer.observe(s); });
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2/dist/chartjs-plugin-datalabels.min.js"></script>
+<script>
+(function(){
+  Chart.register(ChartDataLabels);
+  var D = {"labels_r1": ["05-22", "05-29", "06-05", "06-12"], "labels_r2": ["05-22", "05-29", "06-05", "06-12"], "r1_consult": [411.0, 522.0, 460.0, 477.0], "r1_ans30": [99.76, 98.47, 99.57, 99.37], "r1_dur": [11.7, 11.73, 12.11, 12.41], "r1_satis": [89.47, 88.71, 84.75, 83.58], "r1_fr": [99.03, 99.04, 98.04, 96.23], "r2_inbound": [748.0, 1009.0, 880.0, 798.0], "r2_ans": [94.52, 91.77, 93.07, 97.62], "r2_ans10": [74.87, 63.23, 70.34, 86.09], "r2_satis": [92.41, 86.08, 91.21, 94.59], "r2_dur": [6.2, 6.5, 6.53, 6.0], "targets": {"r1_ans30": 95.0, "r1_dur": 14.5, "r1_satis": 93.0, "r1_fr": 95.0, "r2_ans": 95.0, "r2_ans10": 80.0, "r2_satis": 90.0, "r2_dur": 7.0}, "labels_qa": ["05-22", "05-29", "06-05", "06-12"], "qa_online_fatal": [1.41, 0.0, 1.96, 0.99], "qa_phone_fatal": [0.0, 1.96, 0.79, 0.75], "qa_total_fatal": [0.48, 1.07, 1.12, 0.74]};
+  var T = D.targets;
+  var C = {
+    green:'rgba(102,187,106,0.6)', blue_bar:'rgba(66,165,245,0.6)', green_bar2:'rgba(102,187,106,0.5)',
+    blue:'#1565C0', red:'#EF5350', orange:'#FF7043', teal:'#26A69A', purple:'#7E57C2', amber:'#FF9800',
+    orange2:'#F97316', tgt:'rgba(160,160,160,0.5)'
+  };
+  function tgtDs(val, len, yAxis){
+    return {label:'目标', data:Array(len).fill(val), type:'line',
+            borderColor:C.tgt, borderDash:[5,4], borderWidth:1.5,
+            pointRadius:0, fill:false, spanGaps:true, yAxisID:yAxis,
+            datalabels:{display:false}};
+  }
+  function lineDs(label, data, color, yAxis){
+    return {label:label, data:data, type:'line', borderColor:color, backgroundColor:color,
+            pointRadius:4, pointHoverRadius:6, borderWidth:2, fill:false, spanGaps:true,
+            tension:0.3, yAxisID:yAxis,
+            datalabels:{
+              display:true, color:color, font:{size:10, weight:'600'},
+              anchor:'top', align:'top', offset:2,
+              formatter:function(v){ return v===null?'':v.toFixed(1); }
+            }};
+  }
+  function barDs(label, data, color, yAxis){
+    return {label:label, data:data, type:'bar', backgroundColor:color, yAxisID:yAxis,
+            datalabels:{display:false}};
+  }
+  var BASE_SCALES = {
+    left: {type:'linear', position:'left',  grid:{color:'rgba(0,0,0,0.05)'}, ticks:{font:{size:10}, color:'#9a8870'}},
+    right:{type:'linear', position:'right', grid:{display:false},            ticks:{font:{size:10}, color:'#9a8870'}}
+  };
+  function mk(id, labels, datasets, scaleOverrides){
+    var ctx = document.getElementById(id);
+    if(!ctx) return;
+    var scales = JSON.parse(JSON.stringify(BASE_SCALES));
+    if(scaleOverrides) Object.keys(scaleOverrides).forEach(function(k){ Object.assign(scales[k], scaleOverrides[k]); });
+    new Chart(ctx.getContext('2d'), {
+      type:'bar',
+      data:{labels:labels, datasets:datasets},
+      options:{
+        responsive:true, maintainAspectRatio:true,
+        plugins:{
+          legend:{labels:{boxWidth:9, font:{size:10}, color:'#5c4f3d'}},
+          datalabels:{display:false}
+        },
+        scales:scales
+      }
+    });
+  }
+  var n1=D.labels_r1.length, n2=D.labels_r2.length, nq=D.labels_qa.length;
+  /* R1-vol */
+  mk('chart-r1-vol', D.labels_r1, [
+    barDs('咨询量', D.r1_consult, C.green, 'left'),
+    lineDs('30s接通率(%)', D.r1_ans30, C.blue, 'right'),
+    tgtDs(T.r1_ans30, n1, 'right')
+  ], {right:{min:80, max:100}});
+  /* R1-kpi */
+  mk('chart-r1-kpi', D.labels_r1, [
+    lineDs('处理时长(m)', D.r1_dur,   C.orange, 'left'),
+    tgtDs(T.r1_dur, n1, 'left'),
+    lineDs('满意度(%)',   D.r1_satis, C.teal,   'right'),
+    lineDs('首解率(%)',   D.r1_fr,    C.purple, 'right'),
+    tgtDs(T.r1_satis, n1, 'right')
+  ], {right:{min:85, max:100}});
+  /* R2-vol */
+  var ansOk=D.r2_inbound.map(function(v,i){
+    return (v!==null&&D.r2_ans[i]!==null)?Math.round(v*D.r2_ans[i]/100):null;
+  });
+  mk('chart-r2-vol', D.labels_r2, [
+    barDs('呼入数', D.r2_inbound, C.blue_bar,   'left'),
+    barDs('接通数', ansOk,        C.green_bar2, 'left'),
+    lineDs('接通率(%)',    D.r2_ans,   C.red,   'right'),
+    lineDs('20s接通率(%)', D.r2_ans10, C.amber, 'right'),
+    tgtDs(T.r2_ans, n2, 'right')
+  ], {right:{min:60, max:100}});
+  /* R2-kpi */
+  mk('chart-r2-kpi', D.labels_r2, [
+    lineDs('满意度(%)',   D.r2_satis, C.teal,   'left'),
+    tgtDs(T.r2_satis, n2, 'left'),
+    lineDs('通话时长(m)', D.r2_dur,   C.orange, 'right'),
+    tgtDs(T.r2_dur, n2, 'right')
+  ], {left:{min:80, max:100}});
+  /* QA */
+  mk('chart-qa', D.labels_qa, [
+    lineDs('在线', D.qa_online_fatal, C.orange2, 'left'),
+    lineDs('电话', D.qa_phone_fatal,  C.blue,    'left'),
+    lineDs('合计', D.qa_total_fatal,  C.red,     'left'),
+    tgtDs(1, nq, 'left')
+  ], {left:{min:0, max:5, ticks:{stepSize:1}}, right:{display:false}});
+})();
+</script>
+</body>
+</html>
