@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CA客服运营日报 · 2026-07-17</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Zilla+Slab:wght@400;500;600&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#F5F0E8;font-family:'Crimson Pro',serif;min-height:100vh}
+.ppr-page{max-width:960px;margin:0 auto;padding:40px 56px 56px}
+.ppr-header{border-top:3px solid #2a2015;border-bottom:1px solid #c8bfaa;padding:20px 0 16px;margin-bottom:28px;display:grid;grid-template-columns:1fr auto;align-items:start}
+.ppr-kicker{font-family:'Zilla Slab',serif;font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#8a7a60;margin-bottom:6px}
+.ppr-headline{font-family:'Zilla Slab',serif;font-size:32px;font-weight:600;color:#2a2015;line-height:1.1;letter-spacing:-.01em}
+.ppr-meta{text-align:right;font-size:12px;color:#8a7a60;line-height:1.8}
+.ppr-meta strong{color:#2a2015;font-family:'Zilla Slab',serif;font-weight:600}
+.ppr-summary{background:#EDE7D8;border:1px solid #C8BCA0;padding:14px 20px;margin-bottom:28px;display:flex;gap:32px;align-items:center}
+.ppr-summary-item{font-size:13px;color:#5a4e3a}
+.ppr-summary-item strong{color:#2a2015;font-weight:600}
+.ppr-summary-item.alert strong{color:#8B2020}
+.ppr-summary-sep{width:1px;background:#C8BCA0;align-self:stretch}
+.ppr-body{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.ppr-col-head{border-bottom:2px solid #2a2015;padding-bottom:8px;margin-bottom:20px}
+.ppr-col-label{font-family:'Zilla Slab',serif;font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#8a7a60;margin-bottom:3px}
+.ppr-col-title{font-family:'Zilla Slab',serif;font-size:18px;font-weight:600;color:#2a2015}
+.ppr-volume-line{font-size:13px;color:#5a4e3a;margin-bottom:18px}
+.ppr-volume-line strong{font-family:'Zilla Slab',serif;font-size:36px;color:#2a2015;font-weight:600;line-height:1}
+.ppr-metrics{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:13px}
+.ppr-metrics tr{border-bottom:1px solid #DDD4C0}
+.ppr-metrics td{padding:7px 0;vertical-align:middle}
+.ppr-metrics td:first-child{color:#5a4e3a;width:50%}
+.ppr-metrics td:nth-child(2){font-family:'Zilla Slab',serif;font-weight:600;color:#2a2015;font-size:15px}
+.ppr-metrics td:last-child{text-align:right;font-size:11px;font-family:'DM Mono',monospace}
+.ppr-fail{color:#8B2020!important}.ppr-warn{color:#7A5C00!important}.ppr-pass{color:#1A4A1A!important}
+.ppr-status-fail{color:#8B2020;font-weight:600}.ppr-status-warn{color:#7A5C00}.ppr-status-pass{color:#1A4A1A}
+.ppr-sec{font-family:'Zilla Slab',serif;font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#8a7a60;margin-bottom:10px;margin-top:20px;padding-bottom:5px;border-bottom:1px solid #DDD4C0}
+.ppr-cat{padding:7px 0;border-bottom:1px solid #EDE7D8;display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:baseline;font-size:13px}
+.ppr-cat-name{color:#2a2015}.ppr-cat-dur{font-family:'DM Mono',monospace;font-size:12px;color:#5a4e3a}
+.ppr-cat-dur.high{color:#8B2020;font-weight:600}.ppr-cat-fr{font-size:11px;color:#8a7a60;font-family:'DM Mono',monospace}
+.ppr-cat-fr.low{color:#7A5C00}
+.ppr-agent{display:grid;grid-template-columns:1.2fr repeat(3,1fr);gap:4px;padding:6px 0;border-bottom:1px solid #EDE7D8;font-size:12px;align-items:baseline}
+.ppr-agent-name{font-family:'DM Mono',monospace;color:#2a2015;font-size:11px}
+.ppr-agent-cell{font-family:'DM Mono',monospace;color:#5a4e3a;font-size:11px}
+.ppr-agent-cell.flagged{color:#8B2020}
+.ppr-alert-block{margin-top:24px;border-top:2px solid #8B2020;padding-top:14px}
+.ppr-alert-block-title{font-family:'Zilla Slab',serif;font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#8B2020;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.ppr-alert-block-title::after{content:'';flex:1;height:1px;background:#DDC8C8}
+.ppr-alert-item{background:#F7EFEF;border-left:3px solid #8B2020;padding:10px 14px;margin-bottom:8px}
+.ppr-alert-item.warn{background:#F7F3E8;border-left-color:#7A5C00}
+.ppr-alert-item-label{font-family:'Zilla Slab',serif;font-size:11px;font-weight:600;color:#8B2020;letter-spacing:.06em;margin-bottom:5px;display:flex;align-items:baseline;gap:8px}
+.ppr-alert-item.warn .ppr-alert-item-label{color:#7A5C00}
+.ppr-alert-item-label span{font-family:'DM Mono',monospace;font-size:13px;font-weight:600}
+.ppr-alert-item-label em{font-style:normal;font-size:10px;font-weight:400;color:#aaa;font-family:'DM Mono',monospace}
+.ppr-alert-body{font-size:12.5px;color:#4a3020;line-height:1.7}
+.ppr-alert-body p{margin-bottom:4px}
+.ppr-alert-recs{margin-top:8px;padding-top:8px;border-top:1px dashed #D4B8B8;font-size:11.5px;color:#6a4040;font-style:italic;line-height:1.6}
+.ppr-alert-item.warn .ppr-alert-recs{border-color:#D4C890;color:#4a3a10}
+.ppr-ok-block{margin-top:24px;background:#EAF2EA;border:1px solid #B8D4B8;padding:12px 16px}
+.ppr-ok-block-title{font-family:'Zilla Slab',serif;font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#1A4A1A;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.ppr-ok-block-title::after{content:'';flex:1;height:1px;background:#B8D4B8}
+.ppr-ok-block p{font-size:12.5px;color:#2a4a2a;line-height:1.7;margin:0}
+.ppr-all-ok{display:inline-flex;align-items:center;gap:6px;background:#EAF2EA;color:#1A4A1A;border:1px solid #B8D4B8;padding:3px 10px;font-size:11px;letter-spacing:.06em;font-family:'Zilla Slab',serif;font-weight:600;margin-bottom:14px}
+</style>
+</head>
+<body>
+<div class="ppr-page">
+
+  <div class="ppr-header">
+    <div>
+      <div class="ppr-kicker">富途证券 · 客户服务部 · 日度简报</div>
+      <div class="ppr-headline">CA客服运营日报</div>
+    </div>
+    <div class="ppr-meta">
+      <div>日期 <strong>2026年7月17日</strong></div>
+      <div>制表时间 18:00 MYT</div>
+      <div>责任人 CS Operations</div>
+    </div>
+  </div>
+
+  <div class="ppr-summary">
+    <div class="ppr-summary-item alert">
+      <strong>在线咨询</strong> — 满意度、超赞占比未达标，需关注
+    </div>
+    <div class="ppr-summary-sep"></div>
+    <div class="ppr-summary-item alert">
+      <strong>电话服务</strong> — 平均通话时长需关注
+    </div>
+  </div>
+
+  <div class="ppr-body">
+
+    <!-- R1 在线咨询 -->
+    <div>
+      <div class="ppr-col-head">
+        <div class="ppr-col-label">R1 · 在线咨询</div>
+        <div class="ppr-col-title">Online Chat Service</div>
+      </div>
+      <div class="ppr-volume-line">今日咨询量 <strong>40.0</strong> 单</div>
+      <table class="ppr-metrics">
+<tr><td>30秒接通率</td><td class="ppr-pass">100.0%</td><td class="ppr-status-pass">↑ 达标 / 目标95%</td></tr>
+<tr><td>平均处理时长</td><td class="ppr-pass">12.69 min</td><td class="ppr-status-pass">↓ 达标 / 目标14.5min</td></tr>
+<tr><td>满意度</td><td class="ppr-fail">83.33%</td><td class="ppr-status-fail">↓ 未达标 / 目标93%</td></tr>
+<tr><td>超赞占比</td><td class="ppr-fail">67.0%</td><td class="ppr-status-fail">↓ 未达标 / 目标80%</td></tr>
+<tr><td>一次解决率</td><td class="ppr-pass">97.5%</td><td class="ppr-status-pass">↑ 达标 / 目标95%</td></tr>
+</table>
+
+      <div class="ppr-sec">处理时长分类明细（Top 3）</div>
+      <div class="ppr-cat"><span class="ppr-cat-name">资金相关</span><span class="ppr-cat-dur high">38.36 min</span><span class="ppr-cat-fr">3单 · FR 100.0%</span></div>
+<div class="ppr-cat"><span class="ppr-cat-name">入金</span><span class="ppr-cat-dur">17.93 min</span><span class="ppr-cat-fr">3单 · FR 100.0%</span></div>
+<div class="ppr-cat"><span class="ppr-cat-name">平台基础体验</span><span class="ppr-cat-dur">17.14 min</span><span class="ppr-cat-fr">2单 · FR 100.0%</span></div>
+
+      <div class="ppr-sec">客服绩效明细</div>
+      <div class="ppr-agent" style="font-size:10px;color:#8a7a60;border-bottom:1px solid #c8bca0;padding-bottom:4px;margin-bottom:2px;"><span>姓名</span><span>工单/时长</span><span>满意度</span><span>解决率</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">jiaqinggoh</span><span class="ppr-agent-cell">18单 / 8.5</span><span class="ppr-agent-cell flagged">75.0%</span><span class="ppr-agent-cell">100.0%</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">yufengtan</span><span class="ppr-agent-cell">9单 / 20.13</span><span class="ppr-agent-cell flagged">67.0%</span><span class="ppr-agent-cell">100.0%</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">kelvinteo</span><span class="ppr-agent-cell">6单 / 16.29</span><span class="ppr-agent-cell">100.0%</span><span class="ppr-agent-cell flagged">83.0%</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">maplekong</span><span class="ppr-agent-cell">3单 / 14.49</span><span class="ppr-agent-cell">100.0%</span><span class="ppr-agent-cell">100.0%</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">joelooi</span><span class="ppr-agent-cell">2单 / 12.89</span><span class="ppr-agent-cell">—</span><span class="ppr-agent-cell">100.0%</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">jowellloo</span><span class="ppr-agent-cell">2单 / 3.23</span><span class="ppr-agent-cell">100.0%</span><span class="ppr-agent-cell">100.0%</span></div>
+
+      <div class="ppr-alert-block"><div class="ppr-alert-block-title">异常分析</div><div class="ppr-alert-item"><div class="ppr-alert-item-label">满意度 <span>83.33%</span> <em>目标 93%</em></div><div class="ppr-alert-body"><p>开户前咨询工单量最高（8单）且解决率偏低（87.5%），说明客户在开户阶段存在疑虑未被充分解决，影响满意度 资金相关类工单处理时长过长（38.4min），虽然解决率100%但客户等待时间过长会降低体验 开户前咨询处理时长较长（11.7min），可能存在客服知识不足或沟通效率问题，导致客户未获得快速清晰的答复 超赞占比仅67%说明客服在情绪安抚、主动服务方面存在不足，虽然问题解决了但未让客户感到&#x27;超出预期&#x27;</p></div><div class="ppr-alert-recs">针对开户前咨询场景进行专项培训：梳理高频问题话术（账户类型对比、开户条件、所需材料等），要求客服主动确认客户需求并提供清晰的分步指引 优化资金相关类工单处理流程：建立快速查询通道，培训客服掌握EFT/电汇/货币兑换等各类资金业务的时效和规则，减少反复核实时间 强化安抚话术训练：要求客服在解决问题的同时，必须做到&#x27;解释原因+提供替代方案+情绪回应&#x27;三要素，提升温度感 建立开户前咨询标准流程：客服需在咨询结束前主动询问&#x27;还有其他疑问吗&#x27;并发送开户指引链接，确保客户带着清晰的行动计划离开对话 Manager 抽查资金相关类工单，识别处理时长过长的具体环节（如等待后台核实、客户补充材料等），拉小群与相关团队对齐流程优化方案</div></div>
+<div class="ppr-alert-item"><div class="ppr-alert-item-label">超赞占比 <span>67.0%</span> <em>目标 80%</em></div><div class="ppr-alert-body"></div></div>
+</div>
+
+    </div>
+
+    <!-- R2 电话服务 -->
+    <div>
+      <div class="ppr-col-head">
+        <div class="ppr-col-label">R2 · 电话服务</div>
+        <div class="ppr-col-title">Phone Service</div>
+      </div>
+      <div class="ppr-volume-line">今日来电量 <strong>117.0</strong> 通</div>
+      
+      <table class="ppr-metrics">
+<tr><td>接通率</td><td class="ppr-pass">100.0%</td><td class="ppr-status-pass">↑ 达标 / 目标95%</td></tr>
+<tr><td>20秒接通率</td><td class="ppr-pass">99.15%</td><td class="ppr-status-pass">↑ 达标 / 目标80%</td></tr>
+<tr><td>平均通话时长</td><td class="ppr-warn">7.25 min</td><td class="ppr-status-warn">△ 偏高 / 目标7min</td></tr>
+<tr><td>满意度</td><td class="ppr-pass">100.0%</td><td class="ppr-status-pass">↑ 达标 / 目标90%</td></tr>
+<tr><td>一次解决率</td><td class="ppr-pass">99.12%</td><td class="ppr-status-pass">↑ 达标 / 目标95%</td></tr>
+</table>
+
+      <div class="ppr-sec">来电分类明细（Top 3）</div>
+      <div class="ppr-cat"><span class="ppr-cat-name">交易</span><span class="ppr-cat-dur">37单</span><span class="ppr-cat-fr">接通率 97.0%</span></div>
+<div class="ppr-cat"><span class="ppr-cat-name">入金</span><span class="ppr-cat-dur">16单</span><span class="ppr-cat-fr">接通率 100.0%</span></div>
+<div class="ppr-cat"><span class="ppr-cat-name">转仓</span><span class="ppr-cat-dur">13单</span><span class="ppr-cat-fr">接通率 100.0%</span></div>
+
+      <div class="ppr-sec">客服绩效明细</div>
+      <div class="ppr-agent" style="font-size:10px;color:#8a7a60;border-bottom:1px solid #c8bca0;padding-bottom:4px;margin-bottom:2px;"><span>姓名</span><span>工单/时长</span><span>均值影响</span><span>满意度</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">jowellloo</span><span class="ppr-agent-cell">5单 / 20.33</span><span class="ppr-agent-cell" style='color:#7A5C00'>+0.29min</span><span class="ppr-agent-cell">100.0%</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">yanshenlim</span><span class="ppr-agent-cell">16单 / 9.95</span><span class="ppr-agent-cell" style='color:#7A5C00'>+0.19min</span><span class="ppr-agent-cell">100.0%</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">ericchong</span><span class="ppr-agent-cell">5单 / 10.22</span><span class="ppr-agent-cell">+0.07min</span><span class="ppr-agent-cell flagged">0.0%</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">kelvinteo</span><span class="ppr-agent-cell">6单 / 9.2</span><span class="ppr-agent-cell">+0.05min</span><span class="ppr-agent-cell flagged">0.0%</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">jiaqinggoh</span><span class="ppr-agent-cell">2单 / 10.03</span><span class="ppr-agent-cell">+0.02min</span><span class="ppr-agent-cell flagged">0.0%</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">joelooi</span><span class="ppr-agent-cell">5单 / 7.93</span><span class="ppr-agent-cell">+0.01min</span><span class="ppr-agent-cell">100.0%</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">总计</span><span class="ppr-agent-cell">117单 / 7.25</span><span class="ppr-agent-cell">—</span><span class="ppr-agent-cell">100.0%</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">wyeloonlian</span><span class="ppr-agent-cell">18单 / 6.23</span><span class="ppr-agent-cell">-0.08min</span><span class="ppr-agent-cell">100.0%</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">chenkahkit</span><span class="ppr-agent-cell">17单 / 5.23</span><span class="ppr-agent-cell">-0.15min</span><span class="ppr-agent-cell">100.0%</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">pohgiapkhor</span><span class="ppr-agent-cell">16单 / 4.63</span><span class="ppr-agent-cell">-0.18min</span><span class="ppr-agent-cell">100.0%</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">macariuschoo</span><span class="ppr-agent-cell">20单 / 4.77</span><span class="ppr-agent-cell">-0.22min</span><span class="ppr-agent-cell">100.0%</span></div>
+
+      <div class="ppr-alert-block"><div class="ppr-alert-block-title">异常分析</div><div class="ppr-alert-item warn"><div class="ppr-alert-item-label">平均通话时长 <span>7.25 min</span> <em>目标 7min</em></div><div class="ppr-alert-body"><p>「转仓」业务均值14.43min，通话量13，累计影响约95.5分钟（(14.43-7.0)×13），是拉高均值的首要业务。根本原因：转仓涉及ATON/FOP两类流程、多种账户类型限制（注册账户类型需一致、21天内到期期权不可转入）、时效预期管理（5-10工作日），客户需反复确认规则，且常伴随跨平台操作指引 「入金」业务均值8.08min，通话量16，累计影响约17.3分钟（(8.08-7.0)×16），是第二大影响因素。根本原因：客户对5种入金方式（EFT/电汇/账单付款/INTERAC/货币兑换）的限额、时效、锁定期规则不清晰，需逐一解释并核对银行信息、账户类型匹配性 「交易」业务均值6.07min，通话量37，虽单均低于目标值，但因通话量最大，累计影响约-34.4分钟（(6.07-7.0)×37）为负值，反而拉低均值。需关注是否存在复杂交易场景（期权、融资融券）被快速结束但问题未彻底解决的情况 坐席jowellloo个人均值20.33min（5通），单人拉高0.29min，需重点分析其处理的业务类型（疑似集中在行情/转仓等高时长业务）及沟通效率问题，是否存在话术冗长、未聚焦核心问题等情况 「行情」业务均值15.08min虽排第一，但通话量仅2，累计影响约16.2分钟（(15.08-7.0)×2），属于小样本高时长场景。可能涉及行情数据异常排查、多市场对比解释等复杂问题，需配合产品团队建立快速诊断流程</p></div><div class="ppr-alert-recs">【转仓业务】①制作「转仓决策树话术」：首句确认账户类型（注册/非注册）→快速定位ATON/FOP路径→一次性告知时效+限制条件+所需资料；②为常见转仓组合（如TFSA→TFSA）提供标准操作清单，减少反复确认；③电话通话前半段同步发送转仓指引文档至客户邮箱/App消息，通话后半段仅处理个性化疑问 【入金业务】①话术开场直接询问「您的入金金额和希望到账时间」，快速匹配最优方式（如急需用INTERAC、大额用电汇），避免逐一介绍5种方式；②针对EFT/电汇高频问题（锁定期、第三方入金限制）制作30秒快速解答模板；③在App入金页面增加「智能推荐」功能，减少客户进线前的决策成本 【交易业务】虽均值合格但需预防性监控：①抽查jowellloo等高时长坐席的交易通话录音，识别是否存在「期权行权/融资融券风控触发」等复杂场景未充分解答即结束的情况；②对通话时长&lt;3min的交易工单进行回访，确认问题是否真正解决；③建立交易类高频问题（如卖出后兑换时机、货币兑换时段）的15秒标准答复 【坐席jowellloo专项辅导】①Manager 1对1复盘其5通电话录音，重点检查：是否存在重复确认信息、话术冗长、未使用决策树快速定位问题；②若其集中处理转仓/行情等高时长业务，考虑在排班时分散此类业务分配；③设定其个人时长改善目标（如2周内降至12min以下），每日抽检1通并即时反馈 【行情业务】①与产品团队建立「行情问题快速诊断表」（如延迟&gt;5秒/数据缺失/异常波动），客服按表格3步排查后可快速判断是否需转二线技术支持；②对于市场对比类咨询（如美股vs加股交易规则），提前准备对照表格，通话中屏幕共享或发送文档，避免口头逐条解释；③建议产品团队在App内增加「行情数据说明」入口，减少此类咨询进线量</div></div>
+</div>
+
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

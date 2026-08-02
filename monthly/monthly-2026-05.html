@@ -144,7 +144,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
   
   <div class="offtrack-block">
     <div class="offtrack-title">📊 在线不达标分析 <span class="badge badge-down">满意度 88.15%</span> <span class="badge badge-down">超赞占比 72.00%</span></div>
-    <div class="al" style="margin-bottom:10px">【原因分析 · 满意度】</div>
     
     <div class="biz-section">
       <div class="biz-header">
@@ -153,7 +152,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
         <span class="badge badge-down" style="font-size:11px">83.58%</span>
         <span style="font-size:11px;color:var(--muted)">差评22单 / 共134单</span>
       </div>
-      <div class="biz-detail"><p>（原因详见 AI 分析）</p></div>
+      <div class="biz-detail"><p>· <strong>入金到账慢</strong>：EFT入金需5个工作日，客户认为时效过长影响交易时机</p><p>· <strong>出金锁定期长</strong>：EFT提款至非原入金银行需90天锁定，客户急需资金但无法提取</p></div>
     </div>
     <div class="biz-section">
       <div class="biz-header">
@@ -162,7 +161,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
         <span class="badge badge-down" style="font-size:11px">89.42%</span>
         <span style="font-size:11px;color:var(--muted)">差评11单 / 共104单</span>
       </div>
-      <div class="biz-detail"><p>（原因详见 AI 分析）</p></div>
+      <div class="biz-detail"><p>· <strong>账户类型限制</strong>：注册账户（TFSA/RRSP）不支持某些功能或转仓方式，客户不理解规则</p><p>· <strong>审核时效慢</strong>：开户或账户变更审核时间超出客户预期，影响使用体验</p></div>
     </div>
     <div class="biz-section">
       <div class="biz-header">
@@ -171,20 +170,45 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
         <span class="badge badge-warn" style="font-size:11px">91.89%</span>
         <span style="font-size:11px;color:var(--muted)">差评6单 / 共74单</span>
       </div>
-      <div class="biz-detail"><p>（原因详见 AI 分析）</p></div>
+      <div class="biz-detail"><p>· <strong>货币兑换限制</strong>：卖出股票后需等到次日4PM ET才可兑换货币，客户不理解规则或认为不合理</p><p>· <strong>交易功能限制</strong>：某些交易类型或产品在特定账户类型中受限，客户操作受阻</p></div>
     </div>
     <div class="analysis-section">
-      <div class="al" style="margin-bottom:8px">【AI 分析原因】</div>
-      <div class="ab"><p>1. 出入金类（22单差评）：EFT/电汇到账时效超预期（5个工作日常规时效），客户对资金锁定期（3日/90日）不理解或不接受，货币兑换时机限制（卖出后次日4PM才可兑换）引发不满</p><p>2. 账户类（11单差评）：ATON转仓时效长（5-10个工作日）且审核严格，注册账户类型必须完全一致的限制导致转仓失败，账户开通审核时效或补充材料要求不透明</p><p>3. 交易类（6单差评）：21天内到期期权无法转入的规则限制，部分交易功能在注册账户（TFSA/RRSP）中受限，或系统偶发订单执行问题</p></div>
-      <div class="al" style="margin-bottom:8px;margin-top:12px">【AI 改善建议】</div>
-      <div class="ab"><p>1. 客服培训：强化出入金时效/锁定期规则的主动告知话术，要求在客户提问前预先说明；针对转仓业务补充账户类型匹配要求的标准解答模板</p><p>2. 产品/流程层面：按灯反馈产品团队优化货币兑换时机限制的提示（卖出后显示可兑换时间），在转仓申请界面增加账户类型一致性校验提示</p><p>3. Manager拉小群：针对EFT到账时效与客户预期差距较大的问题，与产品/运营团队对齐是否可在入金页面显示预计到账时间范围，减少客户重复咨询</p></div>
-      <div style="background:#fff8f0;border:1px dashed #fca5a5;border-radius:8px;padding:14px 18px;margin-top:14px">
-        <div style="font-size:12px;font-weight:600;color:var(--orange);margin-bottom:8px">【跨团队协作进度】<span style="color:#aaa;font-weight:400;font-size:11px">⟵ 请手动填写</span></div>
-        <p style="font-size:12px;color:var(--muted)">（在此处添加跨团队协作事项和状态表格）</p>
-        <div style="font-size:12px;font-weight:600;color:var(--green);margin-top:12px;margin-bottom:6px">跨团队协作</div>
-        <p style="font-size:12px;color:var(--muted)">（请填写具体跟进措施）</p>
-        <div style="font-size:12px;font-weight:600;color:var(--green);margin-top:12px;margin-bottom:6px">客服部内部</div>
-        <p style="font-size:12px;color:var(--muted)">（请填写内部改善措施）</p>
+      <div class="al" style="margin-bottom:8px;margin-top:4px">【改善建议】</div>
+      <div class="ab"><p>1. 针对出入金时效问题：OPS 资金进度同步已上线，可实时跟踪资金处理状态；坐席同步强化主动告知策略，在客户入金时说明到账时间和锁定规则，并推荐 INTERAC e-Transfer 等即时到账方式</p><p>2. 针对账户类限制：账户限制新转接流程和合规后台标签优化已落地，减少客户等待时间并提升坐席识别效率；交易规则限制类问题通过不满意工单 T+1 复盘机制持续跟进，按灯反馈产品团队优化前置提示</p><p>3. 针对审核时效问题：客服培训中强化设定合理预期和跟进反馈的标准动作；Manager 持续与合规团队对齐审核流程，推进客户可见的进度查询机制</p></div>
+      <div style="background:#faf7f2;border:1px solid #e4ddd0;border-radius:8px;overflow:hidden;margin-top:14px">
+        <table style="width:100%;font-size:12px;border-collapse:collapse">
+          <thead>
+            <tr style="background:#f0ebe2">
+              <th style="padding:8px 14px;text-align:left;color:var(--muted);font-weight:500;width:16%;font-size:11px">方向</th>
+              <th style="padding:8px 14px;text-align:left;color:var(--muted);font-weight:500;font-size:11px">事项</th>
+              <th style="padding:8px 14px;text-align:center;color:var(--muted);font-weight:500;width:18%;font-size:11px">状态</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-top:1px solid #e4ddd0">
+              <td rowspan="2" style="padding:12px 14px;vertical-align:middle;border-right:1px solid #e4ddd0;font-weight:700;color:#2d7d6f">培训 SOP</td>
+              <td style="padding:12px 14px;border-bottom:1px solid #ede7dc;color:var(--text)">电话模拟呼入</td>
+              <td style="padding:12px 14px;text-align:center;border-bottom:1px solid #ede7dc"><span style="background:#fef3cd;color:#b45309;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap">⏳ 进行中</span></td>
+            </tr>
+            <tr>
+              <td style="padding:12px 14px;color:var(--text)">不满意工单 T+1 复盘机制</td>
+              <td style="padding:12px 14px;text-align:center"><span style="background:#d1fae5;color:#065f46;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap">✓ 已落地</span></td>
+            </tr>
+            <tr style="border-top:1px solid #e4ddd0">
+              <td rowspan="3" style="padding:12px 14px;vertical-align:middle;border-right:1px solid #e4ddd0;font-weight:700;color:#2a7a48">跨部门联动</td>
+              <td style="padding:12px 14px;border-bottom:1px solid #ede7dc;color:var(--text)">OPS 资金进度同步</td>
+              <td style="padding:12px 14px;text-align:center;border-bottom:1px solid #ede7dc"><span style="background:#d1fae5;color:#065f46;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap">✓ 已落地</span></td>
+            </tr>
+            <tr>
+              <td style="padding:12px 14px;border-bottom:1px solid #ede7dc;color:var(--text)">账户限制新转接流程</td>
+              <td style="padding:12px 14px;text-align:center;border-bottom:1px solid #ede7dc"><span style="background:#d1fae5;color:#065f46;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap">✓ 已落地</span></td>
+            </tr>
+            <tr>
+              <td style="padding:12px 14px;color:var(--text)">合规后台账户限制标签优化</td>
+              <td style="padding:12px 14px;text-align:center"><span style="background:#d1fae5;color:#065f46;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap">✓ 已完成</span></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -205,7 +229,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
       <div class="kpi-delta"><span class="up">▲ 0.23% vs 上月</span></div>
     </div>
     <div class="kpi-card phone alert">
-      <div class="kpi-label">10s接通率</div>
+      <div class="kpi-label">20s接通率</div>
       <div class="kpi-value" style="color:var(--red)">78.03%</div>
       <div class="kpi-delta"><span class="up">▲ 5.08% vs 上月</span></div>
     </div>
@@ -226,54 +250,54 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
     </div>
   </div>
   <div class="charts-row">
-    <div class="chart-card"><div class="chart-title">呼入量 / 总接通率 / 10s接通率</div><div class="chart-wrap"><canvas id="cPhoneVol"></canvas></div></div>
+    <div class="chart-card"><div class="chart-title">呼入量 / 总接通率 / 20s接通率</div><div class="chart-wrap"><canvas id="cPhoneVol"></canvas></div></div>
     <div class="chart-card"><div class="chart-title">满意度 / 一次性解决率 & 通话时长</div><div class="chart-wrap"><canvas id="cPhoneSatDur"></canvas></div></div>
   </div>
   
   <div class="offtrack-block">
-    <div class="offtrack-title">📊 电话不达标分析 <span class="badge badge-down">10s接通率 78.03%</span></div>
-    <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px">10s接通率未达标分析</div>
+    <div class="offtrack-title">📊 电话不达标分析 <span class="badge badge-down">20s接通率 78.03%</span></div>
+    <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px">20s接通率未达标分析</div>
     <div class="phone-offtrack-grid" style="margin-bottom:20px"><div><div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px">排队高峰时段</div>
     <div class="time-row">
-      <span class="time-slot">08:00</span>
-      <div class="bar-wrap"><div class="bar-fill" style="width:50%"></div></div>
-      <div class="time-val" style="color:var(--red)">0.00%</div>
-      <div style="font-size:11px;color:var(--muted);min-width:40px;text-align:right">0通</div>
-    </div>
-    <div class="time-row">
-      <span class="time-slot">03:30</span>
-      <div class="bar-wrap"><div class="bar-fill" style="width:50%"></div></div>
-      <div class="time-val" style="color:var(--red)">0.00%</div>
-      <div style="font-size:11px;color:var(--muted);min-width:40px;text-align:right">0通</div>
-    </div>
-    <div class="time-row">
-      <span class="time-slot">00:00</span>
-      <div class="bar-wrap"><div class="bar-fill" style="width:50%"></div></div>
-      <div class="time-val" style="color:var(--red)">0.00%</div>
-      <div style="font-size:11px;color:var(--muted);min-width:40px;text-align:right">0通</div>
-    </div>
-    <div class="time-row">
-      <span class="time-slot">02:00</span>
-      <div class="bar-wrap"><div class="bar-fill" style="width:50%"></div></div>
-      <div class="time-val" style="color:var(--red)">66.70%</div>
-      <div style="font-size:11px;color:var(--muted);min-width:40px;text-align:right">3通</div>
-    </div>
-    <div class="time-row">
       <span class="time-slot">12:00</span>
-      <div class="bar-wrap"><div class="bar-fill" style="width:50%"></div></div>
+      <div class="bar-wrap"><div class="bar-fill" style="width:95%"></div></div>
       <div class="time-val" style="color:var(--red)">68.40%</div>
       <div style="font-size:11px;color:var(--muted);min-width:40px;text-align:right">234通</div>
     </div>
     <div class="time-row">
-      <span class="time-slot">04:00</span>
+      <span class="time-slot">11:30</span>
+      <div class="bar-wrap"><div class="bar-fill" style="width:97%"></div></div>
+      <div class="time-val" style="color:var(--red)">70.50%</div>
+      <div style="font-size:11px;color:var(--muted);min-width:40px;text-align:right">200通</div>
+    </div>
+    <div class="time-row">
+      <span class="time-slot">11:00</span>
+      <div class="bar-wrap"><div class="bar-fill" style="width:100%"></div></div>
+      <div class="time-val" style="color:var(--red)">72.60%</div>
+      <div style="font-size:11px;color:var(--muted);min-width:40px;text-align:right">197通</div>
+    </div>
+    <div class="time-row">
+      <span class="time-slot">15:00</span>
+      <div class="bar-wrap"><div class="bar-fill" style="width:100%"></div></div>
+      <div class="time-val" style="color:var(--red)">73.00%</div>
+      <div style="font-size:11px;color:var(--muted);min-width:40px;text-align:right">207通</div>
+    </div>
+    <div class="time-row">
+      <span class="time-slot">12:30</span>
+      <div class="bar-wrap"><div class="bar-fill" style="width:100%"></div></div>
+      <div class="time-val" style="color:var(--red)">75.10%</div>
+      <div style="font-size:11px;color:var(--muted);min-width:40px;text-align:right">201通</div>
+    </div>
+    <div class="time-row">
+      <span class="time-slot">08:30</span>
       <div class="bar-wrap"><div class="bar-fill ok" style="width:99%"></div></div>
-      <div class="time-val" style="color:var(--green)">100.00%</div>
-      <div style="font-size:11px;color:var(--muted);min-width:40px;text-align:right">1通</div>
-    </div></div><div><div style="font-size:12px;font-weight:600;color:var(--orange);margin-bottom:6px">【原因分析】</div><div class="ab" style="font-size:12px;color:var(--text)"><p>1. 11:00-12:00时段呼入量集中（234+200+197通，占比高），但10s接通率仅68%-73%，说明该时段排班人力不足以应对高峰</p><p>2. 15:00时段呼入量207通但10s接通率73.0%，可能与午后点休集中或人员调配不均有关</p></div></div></div>
+      <div class="time-val" style="color:var(--green)">98.20%</div>
+      <div style="font-size:11px;color:var(--muted);min-width:40px;text-align:right">109通</div>
+    </div></div><div><div style="font-size:12px;font-weight:600;color:var(--orange);margin-bottom:6px">【原因分析】</div><div class="ab" style="font-size:12px;color:var(--text)"><p>1. 11:00-12:00时段呼入量集中（234+200+197通，占比高），但20s接通率仅68%-73%，说明该时段排班人力不足以应对高峰</p><p>2. 15:00时段呼入量207通但20s接通率73.0%，可能与午后点休集中或人员调配不均有关</p></div></div></div>
     
-    <div style="background:#fff8f0;border:1px dashed #fca5a5;border-radius:8px;padding:14px 18px;margin-top:14px">
-      <div style="font-size:12px;font-weight:600;color:var(--orange);margin-bottom:8px">【跟进措施】<span style="color:#aaa;font-weight:400;font-size:11px">⟵ 请手动填写</span></div>
-      <p style="font-size:12px;color:var(--muted)">（请填写电话端具体改善措施和跟进计划）</p>
+    <div style="background:#fff8f0;border-left:3px solid var(--orange);border-radius:6px;padding:14px 18px;margin-top:14px">
+      <div style="font-size:12px;font-weight:600;color:var(--orange);margin-bottom:8px">【跟进措施】</div>
+      <div class="ab" style="font-size:12px;color:var(--text)"><p>1. 增加11:00-12:30时段排班人力（至少+2-3人），优先安排熟练客服支援高峰，避免点休集中在11:30-12:00</p><p>2. 优化15:00前后班次衔接，错峰安排点休时间（如14:30或15:30），确保15:00时段在线人力充足</p></div>
     </div>
   </div>
 </div>
@@ -281,9 +305,46 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 <!-- ③ 人效数据 -->
 <div class="section" id="sec-hc">
   <div class="section-header"><div class="dot" style="background:var(--green)"></div><div class="section-title">三、人力人效</div></div>
-  <div class="placeholder-block">
-    <div style="font-size:12px;font-weight:600;color:var(--orange);margin-bottom:8px">👥 人效数据 — 待接入自动化数据源</div>
-    <p style="font-size:12px;color:var(--muted)">人力盘点（各月实际在岗人数）和月均人效指标（工时利用率、人效/天、人均工单数）请手动填写，或确认取数来源后接入自动化。</p>
+  <div class="eff-chart-wrap">
+    <div class="chart-title" style="margin-bottom:4px">在线 & 电话人效</div>
+    <div style="position:relative;height:200px"><canvas id="cEffCombined"></canvas></div>
+  </div>
+  <!-- 人力盘点 -->
+  <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:16px">
+    <div style="font-size:12px;font-weight:600;color:var(--orange);margin-bottom:10px">人力盘点 — 实际人力</div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;text-align:center">
+      <div style="background:#f8f9fb;border-radius:8px;padding:10px"><div style="font-size:11px;color:var(--muted);margin-bottom:4px">1月</div><div style="font-size:22px;font-weight:600">13</div><div style="font-size:11px;color:var(--muted)">人</div></div>
+      <div style="background:#f8f9fb;border-radius:8px;padding:10px"><div style="font-size:11px;color:var(--muted);margin-bottom:4px">2月</div><div style="font-size:22px;font-weight:600">12</div><div style="font-size:11px;color:var(--muted)">人</div></div>
+      <div style="background:#f8f9fb;border-radius:8px;padding:10px"><div style="font-size:11px;color:var(--muted);margin-bottom:4px">3月</div><div style="font-size:22px;font-weight:600">11</div><div style="font-size:11px;color:var(--muted)">人</div></div>
+      <div style="background:#f8f9fb;border-radius:8px;padding:10px"><div style="font-size:11px;color:var(--muted);margin-bottom:4px">4月</div><div style="font-size:22px;font-weight:600">9</div><div style="font-size:11px;color:var(--muted)">人 ▼2</div></div>
+      <div style="background:#fff3e0;border-radius:8px;padding:10px;border:1px solid #fde68a"><div style="font-size:11px;color:var(--muted);margin-bottom:4px">5月</div><div style="font-size:22px;font-weight:600;color:var(--red)">10</div><div style="font-size:11px;color:var(--red)">人 ▲1</div></div>
+    </div>
+  </div>
+  <div class="hc-grid">
+    <div class="hc-card">
+      <div class="hc-header online">💬 在线月均指标</div>
+      <table class="hc-table">
+        <thead><tr><th>指标</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th></tr></thead>
+        <tbody>
+          <tr><td>工时利用率</td><td>94.70%</td><td>95.74%</td><td>95.67%</td><td>95.27%</td><td>96.61%</td></tr>
+          <tr><td>处理时长（分）</td><td>13.60</td><td>13.68</td><td>13.16</td><td>14.34</td><td>12.55</td></tr>
+          <tr><td>人效（每天/单）</td><td>146</td><td>146</td><td>152</td><td>139</td><td>161</td></tr>
+          <tr><td><strong>每天人均工单数</strong></td><td><strong>16</strong></td><td><strong>18</strong></td><td><strong>18</strong></td><td><strong>25</strong></td><td><strong>21</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="hc-card">
+      <div class="hc-header phone">📞 电话月均指标</div>
+      <table class="hc-table">
+        <thead><tr><th>指标</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th></tr></thead>
+        <tbody>
+          <tr><td>工时利用率</td><td>91.57%</td><td>90.56%</td><td>90.78%</td><td>89.62%</td><td>88.76%</td></tr>
+          <tr><td>通话时长（分）</td><td>6.22</td><td>6.73</td><td>6.33</td><td>7.25</td><td>6.80</td></tr>
+          <tr><td>人效（每天/单）</td><td>71</td><td>65</td><td>69</td><td>59</td><td>63</td></tr>
+          <tr><td><strong>每天人均工单数</strong></td><td><strong>23</strong></td><td><strong>23</strong></td><td><strong>25</strong></td><td><strong>27</strong></td><td><strong>28</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
@@ -334,9 +395,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 <div class="section" id="sec-summary">
   <div class="section-header"><div class="dot" style="background:var(--orange)"></div><div class="section-title">五、月度总结</div></div>
   <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:20px 24px">
-    <div class="placeholder-block" style="margin-bottom:16px">
-      <div style="font-size:12px;font-weight:600;color:var(--orange);margin-bottom:6px">📋 月度总结文字 — 请手动填写</div>
-      <p style="font-size:12px;color:var(--muted)">（请在此处填写本月整体运营总结）</p>
+    <div style="font-size:13px;line-height:1.9;color:var(--text);margin-bottom:20px;padding:16px 20px;background:#fafafa;border-left:3px solid var(--orange);border-radius:0 8px 8px 0">
+      <span style="color:var(--muted)">总结生成中，请稍后刷新</span>
     </div>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
       <div style="background:#f8f9fb;border-radius:8px;padding:12px 14px;border-left:3px solid var(--orange)">
@@ -352,7 +412,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
         <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:6px">📞 电话客服</div>
         <div style="font-size:12px;line-height:1.7">
           <div>总接通率 <span style="color:var(--green)">✓ 达标</span></div>
-          <div>10s接通率 <span style="color:var(--red)">✗ 未达标</span></div>
+          <div>20s接通率 <span style="color:var(--red)">✗ 未达标</span></div>
           <div>满意度 <span style="color:var(--green)">✓ 达标</span></div>
           <div>通话时长 <span style="color:var(--green)">✓ 达标</span></div>
           <div>一次性解决率 <span style="color:var(--green)">✓ 达标</span></div>
@@ -402,7 +462,7 @@ function barLine(id, labels, barData, lineData, bLabel, lLabel, bColor, lColor) 
       plugins:{legend:{position:'bottom',labels:{font:F,boxWidth:10,padding:6}},datalabels:{}},
       scales:{x:{ticks:{font:F},grid:{display:false}},
         y:{ticks:{font:F},grid:{color:'#f0f0f0'}},
-        y1:{position:'right',ticks:{font:F},grid:{drawOnChartArea:false}}}}
+        y1:{position:'right',min:0,max:100,ticks:{font:F,callback:v=>v+'%'},grid:{drawOnChartArea:false}}}}
   });
 }
 
@@ -433,7 +493,7 @@ barLine('cOnlineVol', L1, [3394.0, 2301.0, 1811.0, 1866.0, 1844.0, 1855.0], [93.
     data:{labels:L1, datasets:[
       {type:'line',label:'满意度',data:[89.99, 89.51, 83.33, 81.66, 82.97, 88.15],borderColor:'#059669',backgroundColor:'#05966922',
         tension:.3,borderWidth:2,pointRadius:3,yAxisID:'y',
-        datalabels:{display:true,align:'top',offset:6,font:{...F,size:9},color:'#059669',
+        datalabels:{display:true,align:'bottom',offset:6,font:{...F,size:9},color:'#059669',
           formatter:v=>v!=null?v.toFixed(2)+'%':''}},
       {type:'line',label:'一次性解决率',data:[96.67, 97.61, 96.02, 96.2, 95.72, 97.3],borderColor:'#1e40af',backgroundColor:'#1e40af22',
         tension:.3,borderWidth:2,pointRadius:3,yAxisID:'y',
@@ -448,36 +508,36 @@ barLine('cOnlineVol', L1, [3394.0, 2301.0, 1811.0, 1866.0, 1844.0, 1855.0], [93.
       layout:{padding:{top:24,right:20,left:4,bottom:4}},
       plugins:{legend:{position:'bottom',labels:{font:F,boxWidth:10,padding:6}},datalabels:{}},
       scales:{x:{ticks:{font:F},grid:{display:false}},
-        y:{ticks:{font:F,callback:v=>v+'%'},grid:{color:'#f0f0f0'}},
-        y1:{position:'right',ticks:{font:F},grid:{drawOnChartArea:false}}},
+        y:{min:20,max:100,ticks:{font:F,callback:v=>v+'%'},grid:{color:'#f0f0f0'}},
+        y1:{position:'right',min:8,max:25,ticks:{font:F,callback:v=>v+'m'},grid:{drawOnChartArea:false}}},
       elements:{point:{radius:3},line:{tension:.3,borderWidth:2}}}
   });
 })();
 
-// 电话：呼入量 + 总接通率 + 10s接通率
+// 电话：呼入量 + 总接通率 + 20s接通率
 (function(){
   if(C['cPhoneVol']) C['cPhoneVol'].destroy();
   C['cPhoneVol'] = new Chart(document.getElementById('cPhoneVol').getContext('2d'),{
     data:{labels:L2, datasets:[
       {type:'bar',label:'呼入量',data:[2926.0, 3656.0, 2932.0, 3575.0, 2884.0, 3059.0],backgroundColor:'#7c3aed33',borderColor:'#7c3aed',
         borderWidth:1.5,yAxisID:'y',
-        datalabels:{display:true,anchor:'end',align:'top',offset:2,font:{...F,size:9},color:'#7c3aed',
+        datalabels:{display:true,anchor:'center',align:'center',offset:0,font:{...F,size:9},color:'#7c3aed',
           formatter:v=>v!=null?v.toLocaleString():''}},
       {type:'line',label:'总接通率',data:[96.82, 96.03, 97.1, 96.62, 95.91, 96.14],borderColor:'#059669',tension:.3,borderWidth:2,
         pointRadius:3,yAxisID:'y1',
-        datalabels:{display:true,align:'top',offset:3,font:{...F,size:9},color:'#059669',
+        datalabels:{display:true,align:'top',offset:4,font:{...F,size:9},color:'#059669',
           formatter:v=>v!=null?v.toFixed(2)+'%':''}},
-      {type:'line',label:'10s接通率',data:[93.57, 87.88, 89.32, 80.64, 72.95, 78.03],borderColor:'#dc2626',tension:.3,borderWidth:2,
+      {type:'line',label:'20s接通率',data:[93.57, 87.88, 89.32, 80.64, 72.95, 78.03],borderColor:'#dc2626',tension:.3,borderWidth:2,
         pointRadius:3,borderDash:[4,3],yAxisID:'y1',
         datalabels:{display:true,align:'bottom',offset:4,font:{...F,size:9},color:'#dc2626',
           formatter:v=>v!=null?v.toFixed(2)+'%':''}}
     ]},
     options:{responsive:true,maintainAspectRatio:false,
-      layout:{padding:{top:22,right:12,left:4,bottom:4}},
+      layout:{padding:{top:28,right:12,left:4,bottom:8}},
       plugins:{legend:{position:'bottom',labels:{font:F,boxWidth:10,padding:6}},datalabels:{}},
-      scales:{x:{ticks:{font:F},grid:{display:false}},
-        y:{ticks:{font:F},grid:{color:'#f0f0f0'}},
-        y1:{position:'right',min:60,max:105,ticks:{font:F,callback:v=>v+'%'},
+      scales:{x:{ticks:{font:F,maxRotation:0},grid:{display:false}},
+        y:{min:0,max:6000,ticks:{font:F},grid:{color:'#f0f0f0'}},
+        y1:{position:'right',min:0,max:100,ticks:{font:F,callback:v=>v+'%'},
           grid:{drawOnChartArea:false}}}}
   });
 })();
@@ -501,12 +561,41 @@ barLine('cOnlineVol', L1, [3394.0, 2301.0, 1811.0, 1866.0, 1844.0, 1855.0], [93.
           formatter:v=>v!=null?v+'m':''}}
     ]},
     options:{responsive:true,maintainAspectRatio:false,
-      layout:{padding:{top:28,right:40,left:4,bottom:16}},
-      plugins:{legend:{position:'bottom',labels:{font:F,boxWidth:10,padding:6}},datalabels:{}},
-      scales:{x:{ticks:{font:F},grid:{display:false}},
-        y:{ticks:{font:F,callback:v=>v+'%'},grid:{color:'#f0f0f0'}},
-        y1:{position:'right',ticks:{font:F},grid:{drawOnChartArea:false}}},
+      layout:{padding:{top:28,right:40,left:4,bottom:24}},
+      plugins:{legend:{position:'bottom',labels:{font:F,boxWidth:10,padding:8}},datalabels:{}},
+      scales:{x:{ticks:{font:F,maxRotation:0,padding:6},grid:{display:false}},
+        y:{min:70,max:100,ticks:{font:F,callback:v=>v+'%'},grid:{color:'#f0f0f0'}},
+        y1:{position:'right',min:5,max:10,ticks:{font:F,callback:v=>v+'m'},grid:{drawOnChartArea:false}}},
       elements:{point:{radius:3},line:{tension:.3,borderWidth:2}}}
+  });
+})();
+
+// 人效趋势（在线 & 电话）
+(function(){
+  var F2={size:11,family:"'Inter',sans-serif"};
+  C['cEffCombined'] = new Chart(document.getElementById('cEffCombined').getContext('2d'),{
+    type:'line',
+    data:{labels:['1月','2月','3月','4月','5月'],datasets:[
+      {label:'在线人效',data:[145.73,146.47,152.14,139.04,161.10],borderColor:'#ff8c00',backgroundColor:'#ff8c0022',
+        tension:.3,borderWidth:2,pointRadius:4,yAxisID:'y',
+        datalabels:{display:true,align:'top',offset:3,font:{...F2,size:10},color:'#ff8c00',
+          formatter:v=>v!=null?Math.round(v):''}},
+      {label:'电话人效',data:[70.70,64.59,68.80,59.33,62.65],borderColor:'#7c3aed',backgroundColor:'#7c3aed22',
+        tension:.3,borderWidth:2,pointRadius:4,yAxisID:'y1',
+        datalabels:{display:true,align:'bottom',offset:4,font:{...F2,size:10},color:'#7c3aed',
+          formatter:v=>v!=null?Math.round(v):''}}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      layout:{padding:{top:20,right:12,left:4,bottom:4}},
+      plugins:{legend:{position:'bottom',labels:{font:F2,boxWidth:10,padding:8}},datalabels:{}},
+      scales:{
+        x:{ticks:{font:F2},grid:{display:false}},
+        y:{position:'left',min:80,max:170,ticks:{font:F2},grid:{color:'#f0f0f0'},
+          title:{display:true,text:'在线人效',font:F2,color:'#ff8c00'}},
+        y1:{position:'right',min:40,max:130,ticks:{font:F2},grid:{drawOnChartArea:false},
+          title:{display:true,text:'电话人效',font:F2,color:'#7c3aed'}}
+      }
+    }
   });
 })();
 
