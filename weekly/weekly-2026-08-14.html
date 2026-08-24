@@ -1173,7 +1173,7 @@ html.dark .cal-day.has-data:hover { background: rgba(212,147,46,0.10); }
           <th><div class="th-name" data-i18n="col_inbound">呼入量</div></th>
           <th><div class="th-name" data-i18n="col_ans">接通率</div><div class="th-target">≥95%</div></th>
           <th><div class="th-name" data-i18n="col_10s">20s接通率</div><div class="th-target">≥80%</div></th>
-          <th><div class="th-name" data-i18n="col_avgcall">平均通话时长</div><div class="th-target">≤7m</div></th>
+          <th><div class="th-name" data-i18n="col_avgcall">平均通话时长</div><div class="th-target">≤7.5m</div></th>
           <th><div class="th-name" data-i18n="col_sat2">满意度</div><div class="th-target">≥90%</div></th>
           <th><div class="th-name" data-i18n="col_first2">一次性解决率</div><div class="th-target">≥95%</div></th>
           <th><div class="th-name" data-i18n="col_status">状态</div></th>
@@ -1268,7 +1268,7 @@ html.dark .cal-day.has-data:hover { background: rgba(212,147,46,0.10); }
           <th><div class="th-name">呼入量</div></th>
           <th><div class="th-name">接通率</div><div class="th-target">≥95%</div></th>
           <th><div class="th-name">20s接通率</div><div class="th-target">≥80%</div></th>
-          <th><div class="th-name">平均通话时长</div><div class="th-target">≤7m</div></th>
+          <th><div class="th-name">平均通话时长</div><div class="th-target">≤7.5m</div></th>
           <th><div class="th-name">满意度</div><div class="th-target">≥90%</div></th>
           <th><div class="th-name">一次性解决率</div><div class="th-target">≥95%</div></th>
           <th><div class="th-name">服务天数</div></th>
@@ -1433,7 +1433,7 @@ html.dark .cal-day.has-data:hover { background: rgba(212,147,46,0.10); }
           <th><div class="th-name">呼入量</div></th>
           <th><div class="th-name">接通率</div><div class="th-target">≥95%</div></th>
           <th><div class="th-name">20s接通率</div><div class="th-target">≥80%</div></th>
-          <th><div class="th-name">平均通话时长</div><div class="th-target">≤7m</div></th>
+          <th><div class="th-name">平均通话时长</div><div class="th-target">≤7.5m</div></th>
           <th><div class="th-name">满意度</div><div class="th-target">≥90%</div></th>
           <th><div class="th-name">一次性解决率</div><div class="th-target">≥95%</div></th>
           <th><div class="th-name">状态</div></th>
@@ -1557,7 +1557,7 @@ html.dark .cal-day.has-data:hover { background: rgba(212,147,46,0.10); }
       </div>
       <div class="form-row">
         <div class="form-group"><label>20s Answer Rate (%)</label><input type="number" id="m-answer_rate_10s" placeholder="例：81.00" step="0.01"><div class="hint">≥80%</div></div>
-        <div class="form-group"><label data-i18n="f_avg">Avg Call Duration (min)</label><input type="number" id="m-avg_call_duration" placeholder="例：6.53" step="0.01"><div class="hint">≤7m</div></div>
+        <div class="form-group"><label data-i18n="f_avg">Avg Call Duration (min)</label><input type="number" id="m-avg_call_duration" placeholder="例：6.53" step="0.01"><div class="hint">≤7.5m</div></div>
       </div>
       <div class="form-row">
         <div class="form-group"><label>Satisfaction Rate (%)</label><input type="number" id="m-satisfaction2" placeholder="例：91.20" step="0.01"><div class="hint">≥90%</div></div>
@@ -2081,7 +2081,7 @@ function renderWeeklyAvg() {
   const r2F = [
     {key:'answer_rate',       label:t('col_ans'),    unit:'%', dir:'min',target:95,  tStr:'≥95%'},
     {key:'answer_rate_10s',   label:t('col_10s'),    unit:'%', dir:'min',target:80,  tStr:'≥80%'},
-    {key:'avg_call_duration', label:t('col_avgcall'),unit:'m', dir:'max',target:7,   tStr:'≤7m'},
+    {key:'avg_call_duration', label:t('col_avgcall'),unit:'m', dir:'max',target:7.5, tStr:'≤7.5m'},
     {key:'satisfaction',      label:t('col_sat2'),   unit:'%', dir:'min',target:90,  tStr:'≥90%'},
     {key:'first_resolve',     label:t('col_first2'), unit:'%', dir:'min',target:95,  tStr:'≥95%'},
   ];
