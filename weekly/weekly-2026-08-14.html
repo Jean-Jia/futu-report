@@ -1984,7 +1984,7 @@ function renderMetricCards() {
     {key:'inbound',            label:t('col_inbound'),    unit:'',   tgt:null, dir:null},
     {key:'answer_rate',        label:t('col_ans'),        unit:'%',  tgt:95,   dir:'min'},
     {key:'answer_rate_10s',    label:t('col_10s'),        unit:'%',  tgt:80,   dir:'min'},
-    {key:'avg_call_duration',  label:t('col_avgcall'),    unit:'m',  tgt:7,    dir:'max'},
+    {key:'avg_call_duration',  label:t('col_avgcall'),    unit:'m',  tgt:7.5,  dir:'max'},
     {key:'satisfaction',       label:t('col_sat2'),       unit:'%',  tgt:90,   dir:'min'},
     {key:'first_resolve',      label:t('col_first2'),     unit:'%',  tgt:95,   dir:'min'},
   ];
@@ -2041,7 +2041,7 @@ function renderAvgRow() {
   const r2F = [
     {key:'answer_rate',       label:t('col_ans'),      unit:'%', dir:'min', tgt:95},
     {key:'answer_rate_10s',   label:t('col_10s'),      unit:'%', dir:'min', tgt:80},
-    {key:'avg_call_duration', label:t('col_avgcall'),  unit:'m', dir:'max', tgt:7},
+    {key:'avg_call_duration', label:t('col_avgcall'),  unit:'m', dir:'max', tgt:7.5},
     {key:'satisfaction',      label:t('col_sat2'),     unit:'%', dir:'min', tgt:90},
     {key:'first_resolve',     label:t('col_first2'),   unit:'%', dir:'min', tgt:95},
   ];
@@ -3162,7 +3162,7 @@ function paintWOvPanel(rec, type) {
     { key:'answer_rate',      lbl: lang==='zh'?'接通率':'Ans Rate',      tgt:95,  dir:'min', u:'%' },
     { key:'answer_rate_10s',  lbl: lang==='zh'?'20s接通率':'20s Ans',    tgt:80,  dir:'min', u:'%' },
     { key:'satisfaction',     lbl: lang==='zh'?'满意度':'Satisfaction',  tgt:90,  dir:'min', u:'%' },
-    { key:'avg_call_duration',lbl: lang==='zh'?'通话时长':'Call Dur',    tgt:7,   dir:'max', u:'m' },
+    { key:'avg_call_duration',lbl: lang==='zh'?'通话时长':'Call Dur',    tgt:7.5, dir:'max', u:'m' },
     { key:'first_resolve',    lbl: lang==='zh'?'一次解决率':'1st Res',   tgt:95,  dir:'min', u:'%' },
   ];
 
@@ -3748,7 +3748,7 @@ function paintMonthlyOnlineUnderperform(elId, rec, ps) {
 function paintMonthlyPhoneUnderperform(elId, rec, ps) {
   const el = document.getElementById(elId);
   if (!el) return;
-  const satTgt=90.0, arTgt=95.0, ar10Tgt=80.0, durTgt=7.0, frTgt=95.0;
+  const satTgt=90.0, arTgt=95.0, ar10Tgt=80.0, durTgt=7.5, frTgt=95.0;
   const satRate = rec?.satisfaction      != null ? parseFloat(rec.satisfaction)      : null;
   const arVal   = rec?.answer_rate       != null ? parseFloat(rec.answer_rate)       : null;
   const ar10Val = rec?.answer_rate_10s   != null ? parseFloat(rec.answer_rate_10s)   : null;
@@ -5613,7 +5613,7 @@ function paintDailyPhoneUnderperform(elId, r2) {
   if (!el) return;
   if (!r2 || r2._status === 'holiday') { el.innerHTML = ''; return; }
   const date = r2.date || '';
-  const satTgt=90.0, arTgt=95.0, ar10Tgt=80.0, durTgt=7.0;
+  const satTgt=90.0, arTgt=95.0, ar10Tgt=80.0, durTgt=7.5;
   const satVal  = r2.satisfaction      != null ? parseFloat(r2.satisfaction)      : null;
   const arVal   = r2.answer_rate       != null ? parseFloat(r2.answer_rate)       : null;
   const ar10Val = r2.answer_rate_10s   != null ? parseFloat(r2.answer_rate_10s)   : null;
