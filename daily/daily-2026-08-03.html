@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CA客服运营日报 · 2026-08-03</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Zilla+Slab:wght@400;500;600&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#F5F0E8;font-family:'Crimson Pro',serif;min-height:100vh}
+.ppr-page{max-width:960px;margin:0 auto;padding:40px 56px 56px}
+.ppr-header{border-top:3px solid #2a2015;border-bottom:1px solid #c8bfaa;padding:20px 0 16px;margin-bottom:28px;display:grid;grid-template-columns:1fr auto;align-items:start}
+.ppr-kicker{font-family:'Zilla Slab',serif;font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#8a7a60;margin-bottom:6px}
+.ppr-headline{font-family:'Zilla Slab',serif;font-size:32px;font-weight:600;color:#2a2015;line-height:1.1;letter-spacing:-.01em}
+.ppr-meta{text-align:right;font-size:12px;color:#8a7a60;line-height:1.8}
+.ppr-meta strong{color:#2a2015;font-family:'Zilla Slab',serif;font-weight:600}
+.ppr-summary{background:#EDE7D8;border:1px solid #C8BCA0;padding:14px 20px;margin-bottom:28px;display:flex;gap:32px;align-items:center}
+.ppr-summary-item{font-size:13px;color:#5a4e3a}
+.ppr-summary-item strong{color:#2a2015;font-weight:600}
+.ppr-summary-item.alert strong{color:#8B2020}
+.ppr-summary-sep{width:1px;background:#C8BCA0;align-self:stretch}
+.ppr-body{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.ppr-col-head{border-bottom:2px solid #2a2015;padding-bottom:8px;margin-bottom:20px}
+.ppr-col-label{font-family:'Zilla Slab',serif;font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#8a7a60;margin-bottom:3px}
+.ppr-col-title{font-family:'Zilla Slab',serif;font-size:18px;font-weight:600;color:#2a2015}
+.ppr-volume-line{font-size:13px;color:#5a4e3a;margin-bottom:18px}
+.ppr-volume-line strong{font-family:'Zilla Slab',serif;font-size:36px;color:#2a2015;font-weight:600;line-height:1}
+.ppr-metrics{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:13px}
+.ppr-metrics tr{border-bottom:1px solid #DDD4C0}
+.ppr-metrics td{padding:7px 0;vertical-align:middle}
+.ppr-metrics td:first-child{color:#5a4e3a;width:50%}
+.ppr-metrics td:nth-child(2){font-family:'Zilla Slab',serif;font-weight:600;color:#2a2015;font-size:15px}
+.ppr-metrics td:last-child{text-align:right;font-size:11px;font-family:'DM Mono',monospace}
+.ppr-fail{color:#8B2020!important}.ppr-warn{color:#7A5C00!important}.ppr-pass{color:#1A4A1A!important}
+.ppr-status-fail{color:#8B2020;font-weight:600}.ppr-status-warn{color:#7A5C00}.ppr-status-pass{color:#1A4A1A}
+.ppr-sec{font-family:'Zilla Slab',serif;font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#8a7a60;margin-bottom:10px;margin-top:20px;padding-bottom:5px;border-bottom:1px solid #DDD4C0}
+.ppr-cat{padding:7px 0;border-bottom:1px solid #EDE7D8;display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:baseline;font-size:13px}
+.ppr-cat-name{color:#2a2015}.ppr-cat-dur{font-family:'DM Mono',monospace;font-size:12px;color:#5a4e3a}
+.ppr-cat-dur.high{color:#8B2020;font-weight:600}.ppr-cat-fr{font-size:11px;color:#8a7a60;font-family:'DM Mono',monospace}
+.ppr-cat-fr.low{color:#7A5C00}
+.ppr-agent{display:grid;grid-template-columns:1.2fr repeat(3,1fr);gap:4px;padding:6px 0;border-bottom:1px solid #EDE7D8;font-size:12px;align-items:baseline}
+.ppr-agent-name{font-family:'DM Mono',monospace;color:#2a2015;font-size:11px}
+.ppr-agent-cell{font-family:'DM Mono',monospace;color:#5a4e3a;font-size:11px}
+.ppr-agent-cell.flagged{color:#8B2020}
+.ppr-alert-block{margin-top:24px;border-top:2px solid #8B2020;padding-top:14px}
+.ppr-alert-block-title{font-family:'Zilla Slab',serif;font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#8B2020;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.ppr-alert-block-title::after{content:'';flex:1;height:1px;background:#DDC8C8}
+.ppr-alert-item{background:#F7EFEF;border-left:3px solid #8B2020;padding:10px 14px;margin-bottom:8px}
+.ppr-alert-item.warn{background:#F7F3E8;border-left-color:#7A5C00}
+.ppr-alert-item-label{font-family:'Zilla Slab',serif;font-size:11px;font-weight:600;color:#8B2020;letter-spacing:.06em;margin-bottom:5px;display:flex;align-items:baseline;gap:8px}
+.ppr-alert-item.warn .ppr-alert-item-label{color:#7A5C00}
+.ppr-alert-item-label span{font-family:'DM Mono',monospace;font-size:13px;font-weight:600}
+.ppr-alert-item-label em{font-style:normal;font-size:10px;font-weight:400;color:#aaa;font-family:'DM Mono',monospace}
+.ppr-alert-body{font-size:12.5px;color:#4a3020;line-height:1.7}
+.ppr-alert-body p{margin-bottom:4px}
+.ppr-alert-recs{margin-top:8px;padding-top:8px;border-top:1px dashed #D4B8B8;font-size:11.5px;color:#6a4040;font-style:italic;line-height:1.6}
+.ppr-alert-item.warn .ppr-alert-recs{border-color:#D4C890;color:#4a3a10}
+.ppr-ok-block{margin-top:24px;background:#EAF2EA;border:1px solid #B8D4B8;padding:12px 16px}
+.ppr-ok-block-title{font-family:'Zilla Slab',serif;font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#1A4A1A;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.ppr-ok-block-title::after{content:'';flex:1;height:1px;background:#B8D4B8}
+.ppr-ok-block p{font-size:12.5px;color:#2a4a2a;line-height:1.7;margin:0}
+.ppr-all-ok{display:inline-flex;align-items:center;gap:6px;background:#EAF2EA;color:#1A4A1A;border:1px solid #B8D4B8;padding:3px 10px;font-size:11px;letter-spacing:.06em;font-family:'Zilla Slab',serif;font-weight:600;margin-bottom:14px}
+</style>
+</head>
+<body>
+<div class="ppr-page">
+
+  <div class="ppr-header">
+    <div>
+      <div class="ppr-kicker">富途证券 · 客户服务部 · 日度简报</div>
+      <div class="ppr-headline">CA客服运营日报</div>
+    </div>
+    <div class="ppr-meta">
+      <div>日期 <strong>2026年8月3日</strong></div>
+      <div>制表时间 18:00 MYT</div>
+      <div>责任人 CS Operations</div>
+    </div>
+  </div>
+
+  <div class="ppr-summary">
+    <div class="ppr-summary-item">
+      <strong>在线咨询</strong> — 全项指标达标，表现优异
+    </div>
+    <div class="ppr-summary-sep"></div>
+    <div class="ppr-summary-item alert">
+      <strong>电话服务</strong> — 接通率、平均通话时长需关注
+    </div>
+  </div>
+
+  <div class="ppr-body">
+
+    <!-- R1 在线咨询 -->
+    <div>
+      <div class="ppr-col-head">
+        <div class="ppr-col-label">R1 · 在线咨询</div>
+        <div class="ppr-col-title">Online Chat Service</div>
+      </div>
+      <div class="ppr-volume-line">今日咨询量 <strong>12.0</strong> 单</div>
+      <table class="ppr-metrics">
+<tr><td>30秒接通率</td><td class="ppr-pass">100.0%</td><td class="ppr-status-pass">↑ 达标 / 目标95%</td></tr>
+<tr><td>平均处理时长</td><td class="ppr-pass">9.41 min</td><td class="ppr-status-pass">↓ 达标 / 目标14.5min</td></tr>
+<tr><td>满意度</td><td class="ppr-pass">100.0%</td><td class="ppr-status-pass">↑ 达标 / 目标93%</td></tr>
+<tr><td>超赞占比</td><td class="ppr-pass">100.0%</td><td class="ppr-status-pass">↑ 达标 / 目标80%</td></tr>
+<tr><td>一次解决率</td><td class="ppr-pass">100.0%</td><td class="ppr-status-pass">↑ 达标 / 目标95%</td></tr>
+</table>
+
+      <div class="ppr-sec">处理时长分类明细（Top 3）</div>
+      <div class="ppr-cat"><span class="ppr-cat-name">结单and文件</span><span class="ppr-cat-dur high">15.88 min</span><span class="ppr-cat-fr">1单 · FR 100.0%</span></div>
+<div class="ppr-cat"><span class="ppr-cat-name">开户后咨询</span><span class="ppr-cat-dur">13.02 min</span><span class="ppr-cat-fr">1单 · FR 100.0%</span></div>
+<div class="ppr-cat"><span class="ppr-cat-name">销户</span><span class="ppr-cat-dur">8.55 min</span><span class="ppr-cat-fr">1单 · FR 100.0%</span></div>
+
+      <div class="ppr-sec">客服绩效明细</div>
+      <div class="ppr-agent" style="font-size:10px;color:#8a7a60;border-bottom:1px solid #c8bca0;padding-bottom:4px;margin-bottom:2px;"><span>姓名</span><span>工单/时长</span><span>满意度</span><span>解决率</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">yufengtan</span><span class="ppr-agent-cell">6单 / 11.5</span><span class="ppr-agent-cell">100.0%</span><span class="ppr-agent-cell">100.0%</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">pohgiapkhor</span><span class="ppr-agent-cell">6单 / 7.31</span><span class="ppr-agent-cell">100.0%</span><span class="ppr-agent-cell">100.0%</span></div>
+
+      <div class="ppr-ok-block"><div class="ppr-ok-block-title">整体点评</div><p>在线各项指标全部达标，无异常。</p></div>
+
+    </div>
+
+    <!-- R2 电话服务 -->
+    <div>
+      <div class="ppr-col-head">
+        <div class="ppr-col-label">R2 · 电话服务</div>
+        <div class="ppr-col-title">Phone Service</div>
+      </div>
+      <div class="ppr-volume-line">今日来电量 <strong>80.0</strong> 通</div>
+      
+      <table class="ppr-metrics">
+<tr><td>接通率</td><td class="ppr-warn">91.25%</td><td class="ppr-status-warn">△ 偏低 / 目标95%</td></tr>
+<tr><td>20秒接通率</td><td class="ppr-pass">90.0%</td><td class="ppr-status-pass">↑ 达标 / 目标80%</td></tr>
+<tr><td>平均通话时长</td><td class="ppr-warn">7.32 min</td><td class="ppr-status-warn">△ 偏高 / 目标7min</td></tr>
+<tr><td>满意度</td><td class="ppr-pass">100.0%</td><td class="ppr-status-pass">↑ 达标 / 目标90%</td></tr>
+<tr><td>一次解决率</td><td class="ppr-pass">98.61%</td><td class="ppr-status-pass">↑ 达标 / 目标95%</td></tr>
+</table>
+
+      <div class="ppr-sec">来电分类明细（Top 3）</div>
+      <div class="ppr-cat"><span class="ppr-cat-name">交易</span><span class="ppr-cat-dur">22单</span><span class="ppr-cat-fr">接通率 100.0%</span></div>
+<div class="ppr-cat"><span class="ppr-cat-name">平台</span><span class="ppr-cat-dur">9单</span><span class="ppr-cat-fr">接通率 100.0%</span></div>
+<div class="ppr-cat"><span class="ppr-cat-name">转仓</span><span class="ppr-cat-dur">6单</span><span class="ppr-cat-fr">接通率 100.0%</span></div>
+
+      <div class="ppr-sec">客服绩效明细</div>
+      <div class="ppr-agent" style="font-size:10px;color:#8a7a60;border-bottom:1px solid #c8bca0;padding-bottom:4px;margin-bottom:2px;"><span>姓名</span><span>工单/时长</span><span>均值影响</span><span>满意度</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">ericchong</span><span class="ppr-agent-cell">7单 / 11.7</span><span class="ppr-agent-cell" style='color:#7A5C00'>+0.2min</span><span class="ppr-agent-cell">100.0%</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">jasonchan</span><span class="ppr-agent-cell">14单 / 9.22</span><span class="ppr-agent-cell" style='color:#7A5C00'>+0.17min</span><span class="ppr-agent-cell">100.0%</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">chenkahkit</span><span class="ppr-agent-cell">14单 / 7.18</span><span class="ppr-agent-cell">-0.02min</span><span class="ppr-agent-cell">100.0%</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">总计</span><span class="ppr-agent-cell">80单 / 7.32</span><span class="ppr-agent-cell">-0.04min</span><span class="ppr-agent-cell">100.0%</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">macariuschoo</span><span class="ppr-agent-cell">15单 / 6.82</span><span class="ppr-agent-cell">-0.06min</span><span class="ppr-agent-cell flagged">0.0%</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">kelvinteo</span><span class="ppr-agent-cell">9单 / 5.3</span><span class="ppr-agent-cell">-0.12min</span><span class="ppr-agent-cell flagged">0.0%</span></div>
+<div class="ppr-agent"><span class="ppr-agent-name">jiaqinggoh</span><span class="ppr-agent-cell">14单 / 6.02</span><span class="ppr-agent-cell">-0.13min</span><span class="ppr-agent-cell">100.0%</span></div>
+
+      <div class="ppr-alert-block"><div class="ppr-alert-block-title">异常分析</div><div class="ppr-alert-item warn"><div class="ppr-alert-item-label">接通率 <span>91.25%</span> <em>目标 95%</em></div><div class="ppr-alert-body"></div></div>
+<div class="ppr-alert-item warn"><div class="ppr-alert-item-label">平均通话时长 <span>7.32 min</span> <em>目标 7min</em></div><div class="ppr-alert-body"><p>` ` ` j s o n 
+ { 
+     &quot; r e a s o n s &quot; :   [ 
+         &quot; 活 动 类 咨 询 虽 均 值 最 高 （ 1 1 . 6 3 m i n ） ， 但 通 话 量 仅 4 通 ， 对 整 体 均 值 贡 献 有 限 （ 约 0 . 1 6 m i n ） ； 真 正 影 响 整 体 的 是 交 易 类 （ 8 . 7 0 m i n   ×   2 2 通   =   1 9 1 . 4 m i n 总 时 长 ） ， 占 当 日 总 通 话 时 长 比 重 最 大 ， 拉 高 均 值 约 0 . 8 8 m i n &quot; , 
+         &quot; 开 户 前 咨 询 均 值 达 1 0 . 1 8 m i n ， 需 详 细 讲 解 账 户 类 型 （ M a r g i n / C a s h / T F S A / R R S P 等 ） 、 入 金 方 式 （ E F T / 电 汇 / e - T r a n s f e r 等 ） 及 限 额 规 则 ， 且 客 户 通 常 缺 乏 背 景 知 识 ， 需 从 零 解 释 加 拿 大 证 券 监 管 体 系 和 税 务 优 惠 &quot; , 
+         &quot; 交 易 类 咨 询 涉 及 实 时 行 情 、 订 单 状 态 、 期 权 行 权 、 货 币 兑 换 时 机 等 复 杂 场 景 ， 客 户 往 往 在 盘 中 情 绪 紧 张 时 来 电 ， 需 要 客 服 边 安 抚 情 绪 边 排 查 系 统 ， 且 货 币 兑 换 规 则 （ 卖 出 股 票 后 需 次 日 4 P M   E T 才 可 兑 换 ） 常 需 反 复 解 释 &quot; , 
+         &quot; 坐 席 e r i c c h o n g 个 人 均 值 1 1 . 7 0 m i n （ 7 通 ） ， 单 人 拉 高 整 体 均 值 0 . 2 0 m i n ， 需 分 析 其 通 话 录 音 ： 是 否 在 解 释 规 则 时 过 于 详 尽 、 未 引 导 客 户 查 看 A p p 内 帮 助 文 档 、 或 遇 到 需 转 接 其 他 团 队 的 复 杂 c a s e 未 及 时 判 断 &quot; , 
+         &quot; 缺 少 标 准 化 话 术 库 和 快 速 查 询 工 具 ： 客 服 在 解 释 E F T 锁 定 期 （ 提 款 至 原 入 金 银 行 3 天   v s   其 他 银 行 9 0 天 ） 、 转 仓 类 型 差 异 （ A T O N   5 - 1 0 天   v s   F O P 数 周 ） 等 细 节 规 则 时 ， 需 临 时 翻 阅 知 识 库 ， 延 长 通 话 时 间 &quot; 
+     ] , 
+     &quot; s u g g e s t i o n s &quot; :   [ 
+         &quot; 【 交 易 类 优 化 】 制 作 「 交 易 常 见 问 题 快 速 响 应 卡 」 ， 包 含 ： ① 货 币 兑 换 时 机 一 句 话 话 术 （ &quot; 卖 出 股 票 后 需 等 到 次 日 下 午 4 点 才 可 兑 换 ， 建 议 您 提 前 规 划 &quot; ） ； ② 订 单 状 态 查 询 三 步 法 （ A p p 路 径 截 图 + 预 期 到 账 时 间 表 ） ； ③ 盘 中 高 峰 时 段 增 加 人 手 或 启 用 智 能 话 术 推 送 &quot; , 
+         &quot; 【 开 户 前 咨 询 标 准 化 】 开 发 「 开 户 决 策 树 话 术 」 ： 首 先 确 认 客 户 需 求 （ 投 资 目 的 / 是 否 需 要 免 税 ） ， 然 后 用 对 比 表 格 （ 已 制 作 成 P D F 附 件 ） 展 示 4 种 账 户 类 型 差 异 ， 最 后 发 送 「 入 金 方 式 选 择 指 南 」 （ E F T / 电 汇 / e - T r a n s f e r 的 到 账 时 间 、 限 额 、 适 用 场 景 对 比 ） ， 将 解 释 时 间 从 1 0 m i n 压 缩 至 6 m i n 以 内 &quot; , 
+         &quot; 【 交 易 类 情 绪 安 抚 流 程 】 培 训 坐 席 识 别 高 情 绪 客 户 （ 如 连 续 追 问 &quot; 为 什 么 还 没 到 账 &quot; ） ， 立 即 使 用 三 段 式 回 应 ： ① 先 安 抚 &quot; 理 解 您 的 着 急 ， 我 马 上 帮 您 核 实 &quot; ； ② 说 明 具 体 原 因 和 预 期 时 间 ； ③ 主 动 提 出 &quot; 我 记 录 您 的 号 码 ， 一 有 进 展 立 即 回 电 &quot; ， 避 免 客 户 反 复 来 电 &quot; , 
+         &quot; 【 e r i c c h o n g 专 项 辅 导 】 M a n a g e r 调 取 其 7 通 录 音 ， 重 点 分 析 ： ① 是 否 存 在 重 复 解 释 已 说 明 的 内 容 ； ② 遇 到 需 合 规 / 产 品 团 队 介 入 的 c a s e 是 否 及 时 判 断 并 告 知 客 户 后 续 流 程 （ 而 非 自 己 尝 试 解 决 ） ； ③ 一 对 一 演 练 「 复 杂 问 题 分 流 话 术 」 （ &quot; 这 个 情 况 需 要 我 们 X X 团 队 进 一 步 核 实 ， 我 现 在 帮 您 提 交 工 单 ， X X 小 时 内 会 有 专 人 联 系 您 &quot; ） &quot; , 
+         &quot; 【 知 识 库 工 具 化 】 将 高 频 规 则 （ E F T 锁 定 期 、 转 仓 时 效 对 比 、 货 币 兑 换 限 制 ） 制 作 成 「 客 服 桌 面 速 查 插 件 」 ， 支 持 关 键 词 搜 索 秒 出 标 准 答 案 ； 同 时 在 A p p 内 嵌 入 「 入 金 方 式 对 比 计 算 器 」 和 「 转 仓 时 效 估 算 器 」 ， 引 导 客 户 自 助 查 询 ， 减 少 来 电 咨 询 量 &quot; 
+     ] 
+ } 
+ ` ` `</p></div></div>
+</div>
+
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
