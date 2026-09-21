@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CA运营月报 · 2026年8月</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap');
+:root{--bg:#f4f5f7;--card:#fff;--border:#e8eaed;--text:#1a1d23;--muted:#6b7280;--orange:#ff8c00;--orange-light:#fff3e0;--green:#059669;--green-light:#d1fae5;--red:#dc2626;--red-light:#fee2e2;--blue:#1e40af;--blue-light:#dbeafe;--purple:#7c3aed;--purple-light:#f3e8ff;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6}
+.report-header{background:linear-gradient(135deg,#1a1a1a 0%,#222 60%,#2a2a2a 100%);color:#fff;padding:24px 40px;position:sticky;top:0;z-index:100;overflow:hidden}
+.report-header::before{content:'';position:absolute;right:-60px;top:-60px;width:240px;height:240px;border-radius:50%;background:rgba(255,140,0,.08)}
+.report-header::after{content:'';position:absolute;right:80px;bottom:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,140,0,.05)}
+.header-inner{display:flex;align-items:center;gap:12px}
+.header-bar{width:4px;height:32px;background:var(--orange);border-radius:2px;flex-shrink:0}
+.header-title{font-size:22px;font-weight:600;letter-spacing:-.3px}
+.header-sub{font-size:12px;color:var(--orange);margin-top:4px;padding-left:16px;opacity:.9}
+.container{max-width:1100px;margin:0 auto;padding:28px 24px}
+.nav-tabs{display:flex;gap:0;margin-top:14px;border-top:1px solid rgba(255,255,255,.15);padding-top:2px}
+.nav-tab{padding:8px 20px;font-size:12px;font-weight:500;color:rgba(255,255,255,.6);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;user-select:none}
+.nav-tab:hover{color:rgba(255,255,255,.9)}
+.nav-tab.active{color:#fff;border-bottom-color:var(--orange);font-weight:600}
+.section{margin-bottom:32px}
+.section-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--border)}
+.dot{width:4px;height:20px;border-radius:2px;flex-shrink:0}
+.section-title{font-size:15px;font-weight:600}
+.kpi-grid-5{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px}
+.kpi-grid-6{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:20px}
+@media(max-width:900px){.kpi-grid-5,.kpi-grid-6{grid-template-columns:repeat(3,1fr)}}
+.kpi-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px;position:relative;overflow:hidden}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--orange)}
+.kpi-card.phone::before{background:var(--purple)}
+.kpi-card.alert{border-color:#fca5a5}
+.kpi-label{font-size:11px;color:var(--muted);margin-bottom:6px;font-weight:500}
+.kpi-value{font-size:22px;font-weight:600;color:var(--text);letter-spacing:-1px}
+.kpi-delta{font-size:11px;margin-top:4px}
+.up{color:var(--green)}.down{color:var(--red)}.neu{color:var(--muted)}
+.charts-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.chart-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px 14px}
+.chart-title{font-size:11px;font-weight:600;color:var(--muted);margin-bottom:2px;text-transform:uppercase;letter-spacing:.6px;text-align:center}
+.chart-wrap{position:relative;height:220px}
+.offtrack-block{background:#fff;border:1px solid var(--border);border-radius:10px;padding:18px 22px;margin-bottom:14px}
+.offtrack-title{font-size:13px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:5px;font-size:11px;font-weight:600}
+.badge-down{background:var(--red-light);color:var(--red)}
+.badge-warn{background:var(--orange-light);color:var(--orange)}
+.biz-section{margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.biz-section:last-of-type{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.biz-header{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.biz-rank{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.r1{background:var(--red-light);color:var(--red)}.r2{background:var(--orange-light);color:var(--orange)}.r3{background:var(--green-light);color:var(--green)}
+.biz-title{font-size:13px;font-weight:600;flex:1}
+.biz-detail{font-size:12px;color:var(--text);line-height:1.65;padding-left:28px}
+.biz-detail p{margin-bottom:1px}
+.analysis-section{margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.al{font-size:12px;font-weight:600;color:var(--orange);margin-bottom:6px}
+.ab{font-size:13px;line-height:1.8;color:var(--text)}
+.ab p{margin-bottom:4px}
+.phone-offtrack-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.time-row{display:flex;align-items:center;padding:5px 0;border-bottom:1px solid var(--border)}
+.time-row:last-of-type{border-bottom:none}
+.time-slot{font-size:12px;font-weight:500;min-width:48px}
+.bar-wrap{flex:1;margin:0 8px;height:5px;background:#f3f4f6;border-radius:3px}
+.bar-fill{height:5px;border-radius:3px;background:var(--red)}
+.bar-fill.ok{background:var(--green)}
+.time-val{font-size:11px;min-width:42px;text-align:right}
+.dur-item{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border)}
+.dur-item:last-child{border-bottom:none}
+.dur-name{font-size:13px;font-weight:500}
+.dur-right{display:flex;gap:12px;align-items:center;font-size:12px}
+.eff-chart-wrap{background:#fff;border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:16px}
+.hc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.hc-card{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.hc-header{padding:10px 16px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px}
+.hc-header.online{background:linear-gradient(90deg,#fff3e0,#fff8f0);color:#7c3500;border-bottom:1px solid #fde68a}
+.hc-header.phone{background:linear-gradient(90deg,#f3e8ff,#faf5ff);color:#4c1d95;border-bottom:1px solid #ddd6fe}
+.hc-table{width:100%;border-collapse:collapse}
+.hc-table th{background:#f8f9fb;font-size:11px;font-weight:600;color:var(--muted);padding:8px 14px;text-align:center;border-bottom:1px solid var(--border)}
+.hc-table th:first-child{text-align:left}
+.hc-table td{padding:8px 14px;font-size:13px;border-bottom:1px solid var(--border);text-align:center}
+.hc-table td:first-child{text-align:left;font-weight:500}
+.hc-table tr:last-child td{border-bottom:none;font-weight:700;background:#fafbfc}
+.qc-stat-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.qc-stat{background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px 16px;display:flex;align-items:center;gap:12px}
+.qc-stat.alert{border-color:#fca5a5;background:#fff8f8}
+.qc-stat-icon{font-size:18px}
+.qc-stat-label{font-size:11px;color:var(--muted);font-weight:500}
+.qc-stat-value{font-size:18px;font-weight:600}
+.report-footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-top:1px solid var(--border);margin-top:12px}
+.placeholder-block{background:#fffbf0;border:1px dashed #e5c16b;border-radius:8px;padding:14px 18px;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="report-header">
+  <div class="header-inner"><div class="header-bar"></div><div class="header-title">CA 运营月报 · 2026年8月</div></div>
+  <div class="header-sub">数据来源：灯塔报表</div>
+  <div class="nav-tabs">
+    <div class="nav-tab active" onclick="navTo('sec-online',this)">💬 在线核心数据</div>
+    <div class="nav-tab" onclick="navTo('sec-phone',this)">📞 电话核心数据</div>
+    <div class="nav-tab" onclick="navTo('sec-hc',this)">👥 人效数据</div>
+    <div class="nav-tab" onclick="navTo('sec-qc',this)">🔍 质检差错</div>
+    <div class="nav-tab" onclick="navTo('sec-summary',this)">📋 月度总结</div>
+  </div>
+</div>
+<div class="container">
+
+<!-- ① 在线核心数据 -->
+<div class="section" id="sec-online">
+  <div class="section-header"><div class="dot" style="background:var(--orange)"></div><div class="section-title">一、在线客服 · 核心数据</div></div>
+  <div class="kpi-grid-5">
+    <div class="kpi-card">
+      <div class="kpi-label">工单量</div>
+      <div class="kpi-value">1,200</div>
+      <div class="kpi-delta"><span class="down">▼ 33 vs 上月</span></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">30s接通率</div>
+      <div class="kpi-value">99.92%</div>
+      <div class="kpi-delta"><span class="up">▲ 0.33% vs 上月</span></div>
+    </div>
+    <div class="kpi-card alert">
+      <div class="kpi-label">满意度</div>
+      <div class="kpi-value" style="color:var(--red)">84.68%</div>
+      <div class="kpi-delta"><span class="up">▲ 2.41% vs 上月</span></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">一次性解决率</div>
+      <div class="kpi-value">97.75%</div>
+      <div class="kpi-delta"><span class="up">▲ 0.18% vs 上月</span></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">处理时长</div>
+      <div class="kpi-value">12.76m</div>
+      <div class="kpi-delta"><span class="up">▼ 0.11% vs 上月</span></div>
+    </div>
+  </div>
+  <div class="charts-row">
+    <div class="chart-card"><div class="chart-title">工单量 & 30s接通率</div><div class="chart-wrap"><canvas id="cOnlineVol"></canvas></div></div>
+    <div class="chart-card"><div class="chart-title">满意度 / 一次性解决率 & 处理时长</div><div class="chart-wrap"><canvas id="cOnlineRates"></canvas></div></div>
+  </div>
+  
+  <div class="offtrack-block">
+    <div class="offtrack-title">📊 在线不达标分析 <span class="badge badge-down">满意度 84.68%</span> <span class="badge badge-down">超赞占比 67.00%</span></div>
+    
+    <div class="biz-section">
+      <div class="biz-header">
+        <span class="biz-rank r1">①</span>
+        <span class="biz-title">交易</span>
+        <span class="badge badge-down" style="font-size:11px">80.33%</span>
+        <span style="font-size:11px;color:var(--muted)">差评12单 / 共61单</span>
+      </div>
+      <div class="biz-detail"><p>· <strong>期权转入限制</strong>：21天内到期期权被系统拒绝转入，客户事前不知情，临近行权日操作失败引发投诉。</p><p>· <strong>货币兑换窗口</strong>：卖出股票后需等次日4PM ET才可兑换，客户盘中急于换汇被拒，误以为账户异常。</p></div>
+    </div>
+    <div class="biz-section">
+      <div class="biz-header">
+        <span class="biz-rank r2">②</span>
+        <span class="biz-title">出入金类</span>
+        <span class="badge badge-down" style="font-size:11px">79.66%</span>
+        <span style="font-size:11px;color:var(--muted)">差评12单 / 共59单</span>
+      </div>
+      <div class="biz-detail"><p>· <strong>EFT出金锁定</strong>：提款至非原入金银行触发90天锁定，客户未提前获知规则，导致资金周转受阻。</p><p>· <strong>到账时效滞后</strong>：EFT入金实际到账接近5个工作日上限，客户误以为资金遗失，多次催促无法加速。</p></div>
+    </div>
+    <div class="biz-section">
+      <div class="biz-header">
+        <span class="biz-rank r3">③</span>
+        <span class="biz-title">账户类</span>
+        <span class="badge badge-down" style="font-size:11px">86.90%</span>
+        <span style="font-size:11px;color:var(--muted)">差评11单 / 共84单</span>
+      </div>
+      <div class="biz-detail"><p>· <strong>注册账户转仓限制</strong>：TFSA/RRSP账户仅支持ATON且要求类型完全一致，客户用FOP发起转仓失败，流程反复。</p><p>· <strong>审核时效不明</strong>：开户及资料审核超预期且无进度反馈，客户等待期间无法使用账户存量交易机会。</p></div>
+    </div>
+    <div class="analysis-section">
+      <div class="al" style="margin-bottom:8px;margin-top:4px">【改善建议】</div>
+      <div class="ab"><p>1. 在App出入金页面增加EFT锁定规则弹窗提示与倒计时显示，客户发起提款前必须确认阅读，减少事后投诉。</p><p>2. 针对注册账户转仓场景，前置校验账户类型匹配并在ATON页面增加醒目的流程说明图文指引。</p><p>3. 建立关键节点时效主动推送机制（开户审核/转仓/出入金），在超过2个工作日无更新时自动触发安抚通知并告知预估完成时间。</p></div>
+      <div style="background:#faf7f2;border:1px solid #e4ddd0;border-radius:8px;overflow:hidden;margin-top:14px">
+        <table style="width:100%;font-size:12px;border-collapse:collapse">
+          <thead>
+            <tr style="background:#f0ebe2">
+              <th style="padding:8px 14px;text-align:left;color:var(--muted);font-weight:500;width:16%;font-size:11px">方向</th>
+              <th style="padding:8px 14px;text-align:left;color:var(--muted);font-weight:500;font-size:11px">事项</th>
+              <th style="padding:8px 14px;text-align:center;color:var(--muted);font-weight:500;width:18%;font-size:11px">状态</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-top:1px solid #e4ddd0">
+              <td rowspan="2" style="padding:12px 14px;vertical-align:middle;border-right:1px solid #e4ddd0;font-weight:700;color:#2d7d6f">培训 SOP</td>
+              <td style="padding:12px 14px;border-bottom:1px solid #ede7dc;color:var(--text)">电话模拟呼入</td>
+              <td style="padding:12px 14px;text-align:center;border-bottom:1px solid #ede7dc"><span style="background:#fef3cd;color:#b45309;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap">⏳ 进行中</span></td>
+            </tr>
+            <tr>
+              <td style="padding:12px 14px;color:var(--text)">不满意工单 T+1 复盘机制</td>
+              <td style="padding:12px 14px;text-align:center"><span style="background:#d1fae5;color:#065f46;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap">✓ 已落地</span></td>
+            </tr>
+            <tr style="border-top:1px solid #e4ddd0">
+              <td rowspan="3" style="padding:12px 14px;vertical-align:middle;border-right:1px solid #e4ddd0;font-weight:700;color:#2a7a48">跨部门联动</td>
+              <td style="padding:12px 14px;border-bottom:1px solid #ede7dc;color:var(--text)">OPS 资金进度同步</td>
+              <td style="padding:12px 14px;text-align:center;border-bottom:1px solid #ede7dc"><span style="background:#d1fae5;color:#065f46;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap">✓ 已落地</span></td>
+            </tr>
+            <tr>
+              <td style="padding:12px 14px;border-bottom:1px solid #ede7dc;color:var(--text)">账户限制新转接流程</td>
+              <td style="padding:12px 14px;text-align:center;border-bottom:1px solid #ede7dc"><span style="background:#d1fae5;color:#065f46;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap">✓ 已落地</span></td>
+            </tr>
+            <tr>
+              <td style="padding:12px 14px;color:var(--text)">合规后台账户限制标签优化</td>
+              <td style="padding:12px 14px;text-align:center"><span style="background:#d1fae5;color:#065f46;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap">✓ 已完成</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ② 电话核心数据 -->
+<div class="section" id="sec-phone">
+  <div class="section-header"><div class="dot" style="background:var(--purple)"></div><div class="section-title">二、电话客服 · 核心数据</div></div>
+  <div class="kpi-grid-6">
+    <div class="kpi-card phone">
+      <div class="kpi-label">呼入量</div>
+      <div class="kpi-value">2,073</div>
+      <div class="kpi-delta"><span class="down">▼ 454 vs 上月</span></div>
+    </div>
+    <div class="kpi-card phone">
+      <div class="kpi-label">总接通率</div>
+      <div class="kpi-value">97.68%</div>
+      <div class="kpi-delta"><span class="down">▼ 1.25% vs 上月</span></div>
+    </div>
+    <div class="kpi-card phone">
+      <div class="kpi-label">20s接通率</div>
+      <div class="kpi-value">88.81%</div>
+      <div class="kpi-delta"><span class="down">▼ 5.77% vs 上月</span></div>
+    </div>
+    <div class="kpi-card phone">
+      <div class="kpi-label">满意度</div>
+      <div class="kpi-value">92.55%</div>
+      <div class="kpi-delta"><span class="down">▼ 0.11% vs 上月</span></div>
+    </div>
+    <div class="kpi-card phone">
+      <div class="kpi-label">通话时长</div>
+      <div class="kpi-value">6.85m</div>
+      <div class="kpi-delta"><span class="down">▲ 0.22% vs 上月</span></div>
+    </div>
+    <div class="kpi-card phone">
+      <div class="kpi-label">一次性解决率</div>
+      <div class="kpi-value">98.34%</div>
+      <div class="kpi-delta"><span class="up">▲ 0.12% vs 上月</span></div>
+    </div>
+  </div>
+  <div class="charts-row">
+    <div class="chart-card"><div class="chart-title">呼入量 / 总接通率 / 20s接通率</div><div class="chart-wrap"><canvas id="cPhoneVol"></canvas></div></div>
+    <div class="chart-card"><div class="chart-title">满意度 / 一次性解决率 & 通话时长</div><div class="chart-wrap"><canvas id="cPhoneSatDur"></canvas></div></div>
+  </div>
+  
+</div>
+
+<!-- ③ 人效数据 -->
+<div class="section" id="sec-hc">
+  <div class="section-header"><div class="dot" style="background:var(--green)"></div><div class="section-title">三、人力人效</div></div>
+  <div class="eff-chart-wrap">
+    <div class="chart-title" style="margin-bottom:4px">在线 & 电话人效</div>
+    <div style="position:relative;height:200px"><canvas id="cEffCombined"></canvas></div>
+  </div>
+  <!-- 人力盘点 -->
+  <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:16px">
+    <div style="font-size:12px;font-weight:600;color:var(--orange);margin-bottom:10px">人力盘点 — 实际人力</div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;text-align:center">
+      <div style="background:#f8f9fb;border-radius:8px;padding:10px"><div style="font-size:11px;color:var(--muted);margin-bottom:4px">1月</div><div style="font-size:22px;font-weight:600">13</div><div style="font-size:11px;color:var(--muted)">人</div></div>
+      <div style="background:#f8f9fb;border-radius:8px;padding:10px"><div style="font-size:11px;color:var(--muted);margin-bottom:4px">2月</div><div style="font-size:22px;font-weight:600">12</div><div style="font-size:11px;color:var(--muted)">人</div></div>
+      <div style="background:#f8f9fb;border-radius:8px;padding:10px"><div style="font-size:11px;color:var(--muted);margin-bottom:4px">3月</div><div style="font-size:22px;font-weight:600">11</div><div style="font-size:11px;color:var(--muted)">人</div></div>
+      <div style="background:#f8f9fb;border-radius:8px;padding:10px"><div style="font-size:11px;color:var(--muted);margin-bottom:4px">4月</div><div style="font-size:22px;font-weight:600">9</div><div style="font-size:11px;color:var(--muted)">人 ▼2</div></div>
+      <div style="background:#fff3e0;border-radius:8px;padding:10px;border:1px solid #fde68a"><div style="font-size:11px;color:var(--muted);margin-bottom:4px">5月</div><div style="font-size:22px;font-weight:600;color:var(--red)">10</div><div style="font-size:11px;color:var(--red)">人 ▲1</div></div>
+    </div>
+  </div>
+  <div class="hc-grid">
+    <div class="hc-card">
+      <div class="hc-header online">💬 在线月均指标</div>
+      <table class="hc-table">
+        <thead><tr><th>指标</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th></tr></thead>
+        <tbody>
+          <tr><td>工时利用率</td><td>94.70%</td><td>95.74%</td><td>95.67%</td><td>95.27%</td><td>96.61%</td></tr>
+          <tr><td>处理时长（分）</td><td>13.60</td><td>13.68</td><td>13.16</td><td>14.34</td><td>12.55</td></tr>
+          <tr><td>人效（每天/单）</td><td>146</td><td>146</td><td>152</td><td>139</td><td>161</td></tr>
+          <tr><td><strong>每天人均工单数</strong></td><td><strong>16</strong></td><td><strong>18</strong></td><td><strong>18</strong></td><td><strong>25</strong></td><td><strong>21</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="hc-card">
+      <div class="hc-header phone">📞 电话月均指标</div>
+      <table class="hc-table">
+        <thead><tr><th>指标</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th></tr></thead>
+        <tbody>
+          <tr><td>工时利用率</td><td>91.57%</td><td>90.56%</td><td>90.78%</td><td>89.62%</td><td>88.76%</td></tr>
+          <tr><td>通话时长（分）</td><td>6.22</td><td>6.73</td><td>6.33</td><td>7.25</td><td>6.80</td></tr>
+          <tr><td>人效（每天/单）</td><td>71</td><td>65</td><td>69</td><td>59</td><td>63</td></tr>
+          <tr><td><strong>每天人均工单数</strong></td><td><strong>23</strong></td><td><strong>23</strong></td><td><strong>25</strong></td><td><strong>27</strong></td><td><strong>28</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ④ 质检差错 -->
+<div class="section" id="sec-qc">
+  <div class="section-header"><div class="dot" style="background:var(--red)"></div><div class="section-title">四、质检差错</div></div>
+  <div class="charts-row" style="align-items:stretch">
+    <div>
+      <div class="qc-stat-row">
+        
+    <div class="qc-stat">
+      <div class="qc-stat-icon">💬</div>
+      <div>
+        <div class="qc-stat-label">在线致命差错率</div>
+        <div class="qc-stat-value" style="color:var(--green)">
+          0.50%
+        </div>
+        <div style="font-size:11px;color:var(--muted)">目标 ≤1%  ✓ 达标</div>
+      </div>
+    </div>
+        
+    <div class="qc-stat">
+      <div class="qc-stat-icon">📞</div>
+      <div>
+        <div class="qc-stat-label">电话致命差错率</div>
+        <div class="qc-stat-value" style="color:var(--green)">
+          0.74%
+        </div>
+        <div style="font-size:11px;color:var(--muted)">目标 ≤1%  ✓ 达标</div>
+      </div>
+    </div>
+      </div>
+      <div class="chart-card" style="margin-top:8px">
+        <div class="chart-title">在线 & 电话致命差错率</div>
+        <div class="chart-wrap" style="height:340px"><canvas id="cErr"></canvas></div>
+      </div>
+    </div>
+    <div class="chart-card" style="height:100%">
+      <div class="al" style="margin-bottom:8px">【问题分析】</div>
+      <div class="ab" style="margin-bottom:14px"><p>1. 高风险场景风险提醒不足：期权到期、保证金通知等场景下，客服仅机械回复未主动提示强制平仓、主动平仓等风险应对措施（致命差错第2单）。</p><p>2. 承诺事项未兑现与沟通闭环缺失：答应邮件回复却用站内信、承诺发资料未发、客户已留言问题却在会话结束后才补发，导致客户不满（致命差错第1、3单，非致命差错第1、6单）。</p><p>3. 静默等待与响应超时：电话查询业务超1分钟未回应、来电超10秒未响应，缺乏等待话术使用意识（非致命差错第2、3、4单）。</p></div>
+      <div class="al" style="margin-bottom:8px">【改善措施】</div>
+      <div class="ab"><p>1. 针对致命差错高频场景（期权到期/保证金通知、SIN核验、活动投诉）制作场景化checklist卡片，纳入晨会抽查与月度考核，确保每位客服逐项执行。</p><p>2. 开展&#x27;承诺闭环与渠道一致性&#x27;专项培训：明确约定回复渠道必须100%遵守，承诺事项须在下线前完成或转交并告知客户预计时效，培训后以录音抽检方式验证。</p><p>3. 针对来电响应超时和非致命沟通问题，重新强调&#x27;10秒内接听+等待超过30秒必须发送安抚话术&#x27;的硬性服务标准，并在质检系统中设置自动预警。</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑤ 月度总结 -->
+<div class="section" id="sec-summary">
+  <div class="section-header"><div class="dot" style="background:var(--orange)"></div><div class="section-title">五、月度总结</div></div>
+  <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:20px 24px">
+    <div style="font-size:13px;line-height:1.9;color:var(--text);margin-bottom:20px;padding:16px 20px;background:#fafafa;border-left:3px solid var(--orange);border-radius:0 8px 8px 0">
+      <span style="color:var(--muted)">总结生成中，请稍后刷新</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+      <div style="background:#f8f9fb;border-radius:8px;padding:12px 14px;border-left:3px solid var(--orange)">
+        <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:6px">💬 在线客服</div>
+        <div style="font-size:12px;line-height:1.7">
+          <div>接通率 <span style="color:var(--green)">✓ 达标</span></div>
+          <div>满意度 <span style="color:var(--red)">✗ 未达标</span></div>
+          <div>一次性解决率 <span style="color:var(--green)">✓ 达标</span></div>
+          <div>处理时长 <span style="color:var(--green)">✓ 达标</span></div>
+        </div>
+      </div>
+      <div style="background:#f8f9fb;border-radius:8px;padding:12px 14px;border-left:3px solid var(--purple)">
+        <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:6px">📞 电话客服</div>
+        <div style="font-size:12px;line-height:1.7">
+          <div>总接通率 <span style="color:var(--green)">✓ 达标</span></div>
+          <div>20s接通率 <span style="color:var(--green)">✓ 达标</span></div>
+          <div>满意度 <span style="color:var(--green)">✓ 达标</span></div>
+          <div>通话时长 <span style="color:var(--green)">✓ 达标</span></div>
+          <div>一次性解决率 <span style="color:var(--green)">✓ 达标</span></div>
+        </div>
+      </div>
+      <div style="background:#f8f9fb;border-radius:8px;padding:12px 14px;border-left:3px solid var(--green)">
+        <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:6px">👥 人力人效</div>
+        <div style="font-size:12px;color:var(--muted)">（待填写）</div>
+      </div>
+      <div style="background:#f8f9fb;border-radius:8px;padding:12px 14px;border-left:3px solid var(--red)">
+        <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:6px">🔍 质检差错</div>
+        <div style="font-size:12px;line-height:1.7">
+          <div>在线差错率 <span style="color:var(--green)">✓ 达标</span> 0.50%</div>
+          <div>电话差错率 <span style="color:var(--green)">✓ 达标</span> 0.74%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+<div class="report-footer">CA 运营月报 · 2026年8月 · 数据来源：灯塔报表</div>
+
+<script>
+Chart.register(ChartDataLabels);
+const F = {family:"'DM Sans',sans-serif", size:10};
+const C = {};
+
+const L1 = ["26年3月", "26年4月", "26年5月", "26年6月", "26年7月", "26年8月"];
+const L2 = ["26年3月", "26年4月", "26年5月", "26年6月", "26年7月", "26年8月"];
+
+function barLine(id, labels, barData, lineData, bLabel, lLabel, bColor, lColor) {
+  if(C[id]) C[id].destroy();
+  C[id] = new Chart(document.getElementById(id).getContext('2d'), {
+    data: {labels, datasets: [
+      {type:'bar', label:bLabel, data:barData, backgroundColor:bColor+'33', borderColor:bColor,
+        borderWidth:1.5, yAxisID:'y',
+        datalabels:{display:true,anchor:'end',align:'top',offset:2,font:{...F,size:9},
+          color:bColor, formatter:v=>v!=null?v.toLocaleString():''}},
+      {type:'line', label:lLabel, data:lineData, borderColor:lColor, tension:.3,
+        borderWidth:2, pointRadius:3, yAxisID:'y1',
+        datalabels:{display:true,align:'bottom',offset:3,font:{...F,size:9},
+          color:lColor, formatter:v=>v!=null?v.toFixed(2)+'%':''}}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      layout:{padding:{top:18,right:16,left:4,bottom:4}},
+      plugins:{legend:{position:'bottom',labels:{font:F,boxWidth:10,padding:6}},datalabels:{}},
+      scales:{x:{ticks:{font:F},grid:{display:false}},
+        y:{ticks:{font:F},grid:{color:'#f0f0f0'}},
+        y1:{position:'right',min:0,max:100,ticks:{font:F,callback:v=>v+'%'},grid:{drawOnChartArea:false}}}}
+  });
+}
+
+function line3(id, labels, ds) {
+  if(C[id]) C[id].destroy();
+  const aligns=['top','bottom','top'], offsets=[3,6,3];
+  C[id] = new Chart(document.getElementById(id).getContext('2d'), {
+    type:'line',
+    data:{labels, datasets:ds.map((d,i)=>Object.assign({},d,{
+      datalabels:{display:true,align:aligns[i],offset:offsets[i],font:Object.assign({},F,{size:9}),
+        color:d.borderColor, formatter:v=>v!=null?v.toFixed(2)+'%':''}})) },
+    options:{responsive:true,maintainAspectRatio:false,
+      layout:{padding:{top:22,right:12,left:4,bottom:4}},
+      plugins:{legend:{position:'bottom',labels:{font:F,boxWidth:10,padding:6}},datalabels:{}},
+      scales:{x:{ticks:{font:F},grid:{display:false}},
+        y:{ticks:{font:F,callback:v=>v+'%'},grid:{color:'#f0f0f0'}}},
+      elements:{point:{radius:3},line:{tension:.3,borderWidth:2}}}
+  });
+}
+
+// 在线：工单量 + 30s接通率
+barLine('cOnlineVol', L1, [1866.0, 1844.0, 1855.0, 1907.0, 1233.0, 1200.0], [98.71, 98.16, 98.17, 98.79, 99.59, 99.92], '工单量', '30s接通率', '#ff8c00', '#1e40af');
+
+// 在线：满意度 + 一次性解决率 + 处理时长
+(function(){
+  if(C['cOnlineRates']) C['cOnlineRates'].destroy();
+  C['cOnlineRates'] = new Chart(document.getElementById('cOnlineRates').getContext('2d'),{
+    data:{labels:L1, datasets:[
+      {type:'line',label:'满意度',data:[81.66, 82.97, 88.15, 84.39, 82.27, 84.68],borderColor:'#059669',backgroundColor:'#05966922',
+        tension:.3,borderWidth:2,pointRadius:3,yAxisID:'y',
+        datalabels:{display:true,align:'bottom',offset:6,font:{...F,size:9},color:'#059669',
+          formatter:v=>v!=null?v.toFixed(2)+'%':''}},
+      {type:'line',label:'一次性解决率',data:[96.2, 95.72, 97.3, 96.91, 97.57, 97.75],borderColor:'#1e40af',backgroundColor:'#1e40af22',
+        tension:.3,borderWidth:2,pointRadius:3,yAxisID:'y',
+        datalabels:{display:true,align:'top',offset:6,font:{...F,size:9},color:'#1e40af',
+          formatter:v=>v!=null?v.toFixed(2)+'%':''}},
+      {type:'line',label:'处理时长',data:[13.16, 14.34, 12.55, 12.47, 12.87, 12.76],borderColor:'#dc2626',borderDash:[4,3],
+        backgroundColor:'#dc262622',tension:.3,borderWidth:2,pointRadius:3,yAxisID:'y1',
+        datalabels:{display:true,align:'bottom',offset:4,font:{...F,size:9},color:'#dc2626',
+          formatter:v=>v!=null?v+'m':''}}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      layout:{padding:{top:24,right:20,left:4,bottom:4}},
+      plugins:{legend:{position:'bottom',labels:{font:F,boxWidth:10,padding:6}},datalabels:{}},
+      scales:{x:{ticks:{font:F},grid:{display:false}},
+        y:{min:20,max:100,ticks:{font:F,callback:v=>v+'%'},grid:{color:'#f0f0f0'}},
+        y1:{position:'right',min:8,max:25,ticks:{font:F,callback:v=>v+'m'},grid:{drawOnChartArea:false}}},
+      elements:{point:{radius:3},line:{tension:.3,borderWidth:2}}}
+  });
+})();
+
+// 电话：呼入量 + 总接通率 + 20s接通率
+(function(){
+  if(C['cPhoneVol']) C['cPhoneVol'].destroy();
+  C['cPhoneVol'] = new Chart(document.getElementById('cPhoneVol').getContext('2d'),{
+    data:{labels:L2, datasets:[
+      {type:'bar',label:'呼入量',data:[3575.0, 2884.0, 3059.0, 3570.0, 2527.0, 2073.0],backgroundColor:'#7c3aed33',borderColor:'#7c3aed',
+        borderWidth:1.5,yAxisID:'y',
+        datalabels:{display:true,anchor:'center',align:'center',offset:0,font:{...F,size:9},color:'#7c3aed',
+          formatter:v=>v!=null?v.toLocaleString():''}},
+      {type:'line',label:'总接通率',data:[96.62, 95.91, 96.14, 95.29, 98.93, 97.68],borderColor:'#059669',tension:.3,borderWidth:2,
+        pointRadius:3,yAxisID:'y1',
+        datalabels:{display:true,align:'top',offset:4,font:{...F,size:9},color:'#059669',
+          formatter:v=>v!=null?v.toFixed(2)+'%':''}},
+      {type:'line',label:'20s接通率',data:[80.64, 72.95, 78.03, 78.77, 94.58, 88.81],borderColor:'#dc2626',tension:.3,borderWidth:2,
+        pointRadius:3,borderDash:[4,3],yAxisID:'y1',
+        datalabels:{display:true,align:'bottom',offset:4,font:{...F,size:9},color:'#dc2626',
+          formatter:v=>v!=null?v.toFixed(2)+'%':''}}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      layout:{padding:{top:28,right:12,left:4,bottom:8}},
+      plugins:{legend:{position:'bottom',labels:{font:F,boxWidth:10,padding:6}},datalabels:{}},
+      scales:{x:{ticks:{font:F,maxRotation:0},grid:{display:false}},
+        y:{min:0,max:6000,ticks:{font:F},grid:{color:'#f0f0f0'}},
+        y1:{position:'right',min:0,max:100,ticks:{font:F,callback:v=>v+'%'},
+          grid:{drawOnChartArea:false}}}}
+  });
+})();
+
+// 电话：满意度 + 一次性解决率 + 通话时长
+(function(){
+  if(C['cPhoneSatDur']) C['cPhoneSatDur'].destroy();
+  C['cPhoneSatDur'] = new Chart(document.getElementById('cPhoneSatDur').getContext('2d'),{
+    data:{labels:L2, datasets:[
+      {type:'line',label:'满意度',data:[92.06, 92.65, 94.25, 88.73, 92.66, 92.55],borderColor:'#059669',backgroundColor:'#05966922',
+        tension:.3,borderWidth:2,pointRadius:3,yAxisID:'y',
+        datalabels:{display:true,align:'bottom',offset:6,font:{...F,size:9},color:'#059669',
+          formatter:v=>v!=null?v.toFixed(1)+'%':''}},
+      {type:'line',label:'一次性解决率',data:[97.31, 96.97, 98.22, 97.64, 98.22, 98.34],borderColor:'#1e40af',backgroundColor:'#1e40af22',
+        tension:.3,borderWidth:2,pointRadius:3,yAxisID:'y',
+        datalabels:{display:true,align:'top',offset:6,font:{...F,size:9},color:'#1e40af',
+          formatter:v=>v!=null?v.toFixed(1)+'%':''}},
+      {type:'line',label:'通话时长',data:[6.33, 7.25, 6.8, 6.2, 6.63, 6.85],borderColor:'#dc2626',backgroundColor:'#dc262622',
+        tension:.3,borderWidth:2,pointRadius:3,yAxisID:'y1',
+        datalabels:{display:true,align:'bottom',offset:4,font:{...F,size:9},color:'#dc2626',
+          formatter:v=>v!=null?v+'m':''}}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      layout:{padding:{top:28,right:40,left:4,bottom:24}},
+      plugins:{legend:{position:'bottom',labels:{font:F,boxWidth:10,padding:8}},datalabels:{}},
+      scales:{x:{ticks:{font:F,maxRotation:0,padding:6},grid:{display:false}},
+        y:{min:70,max:100,ticks:{font:F,callback:v=>v+'%'},grid:{color:'#f0f0f0'}},
+        y1:{position:'right',min:5,max:10,ticks:{font:F,callback:v=>v+'m'},grid:{drawOnChartArea:false}}},
+      elements:{point:{radius:3},line:{tension:.3,borderWidth:2}}}
+  });
+})();
+
+// 人效趋势（在线 & 电话）
+(function(){
+  var F2={size:11,family:"'Inter',sans-serif"};
+  C['cEffCombined'] = new Chart(document.getElementById('cEffCombined').getContext('2d'),{
+    type:'line',
+    data:{labels:['1月','2月','3月','4月','5月'],datasets:[
+      {label:'在线人效',data:[145.73,146.47,152.14,139.04,161.10],borderColor:'#ff8c00',backgroundColor:'#ff8c0022',
+        tension:.3,borderWidth:2,pointRadius:4,yAxisID:'y',
+        datalabels:{display:true,align:'top',offset:3,font:{...F2,size:10},color:'#ff8c00',
+          formatter:v=>v!=null?Math.round(v):''}},
+      {label:'电话人效',data:[70.70,64.59,68.80,59.33,62.65],borderColor:'#7c3aed',backgroundColor:'#7c3aed22',
+        tension:.3,borderWidth:2,pointRadius:4,yAxisID:'y1',
+        datalabels:{display:true,align:'bottom',offset:4,font:{...F2,size:10},color:'#7c3aed',
+          formatter:v=>v!=null?Math.round(v):''}}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      layout:{padding:{top:20,right:12,left:4,bottom:4}},
+      plugins:{legend:{position:'bottom',labels:{font:F2,boxWidth:10,padding:8}},datalabels:{}},
+      scales:{
+        x:{ticks:{font:F2},grid:{display:false}},
+        y:{position:'left',min:80,max:170,ticks:{font:F2},grid:{color:'#f0f0f0'},
+          title:{display:true,text:'在线人效',font:F2,color:'#ff8c00'}},
+        y1:{position:'right',min:40,max:130,ticks:{font:F2},grid:{drawOnChartArea:false},
+          title:{display:true,text:'电话人效',font:F2,color:'#7c3aed'}}
+      }
+    }
+  });
+})();
+
+// 质检差错率趋势
+(function(){
+  if(C['cErr']) C['cErr'].destroy();
+  C['cErr'] = new Chart(document.getElementById('cErr').getContext('2d'),{
+    type:'line',
+    data:{labels:["26年3月", "26年4月", "26年5月", "26年6月", "26年7月", "26年8月"], datasets:[
+      {label:'在线差错率',data:[2.08, 1.14, 0.56, 1.14, 0.66, 0.5],borderColor:'#ff8c00',backgroundColor:'#ff8c0022',
+        tension:.3,borderWidth:2,pointRadius:3,
+        datalabels:{display:true,align:'top',offset:3,font:{...F,size:9},color:'#ff8c00',
+          formatter:v=>v!=null?v.toFixed(2)+'%':''}},
+      {label:'电话差错率',data:[0.37, 0.15, 0.52, 1.12, 0.58, 0.74],borderColor:'#7c3aed',borderDash:[4,3],
+        backgroundColor:'#7c3aed22',tension:.3,borderWidth:2,pointRadius:3,
+        datalabels:{display:true,align:'bottom',offset:4,font:{...F,size:9},color:'#7c3aed',
+          formatter:v=>v!=null?v.toFixed(2)+'%':''}}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      layout:{padding:{top:22,right:12,left:4,bottom:4}},
+      plugins:{legend:{position:'bottom',labels:{font:F,boxWidth:10,padding:6}},datalabels:{}},
+      scales:{x:{ticks:{font:F},grid:{display:false}},
+        y:{ticks:{font:F,callback:v=>v+'%'},grid:{color:'#f0f0f0'}}},
+      elements:{point:{radius:3},line:{tension:.3,borderWidth:2}}}
+  });
+})();
+</script>
+
+<script>
+function navTo(id, el) {
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const target = document.getElementById(id);
+  if (target) {
+    const offset = 130;
+    const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }
+}
+window.addEventListener('scroll', () => {
+  const sections = ['sec-online','sec-phone','sec-hc','sec-qc','sec-summary'];
+  const offset = 150;
+  let current = sections[0];
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top <= offset) current = id;
+  });
+  const map = {'sec-online':0,'sec-phone':1,'sec-hc':2,'sec-qc':3,'sec-summary':4};
+  document.querySelectorAll('.nav-tab').forEach((t,i) => {
+    t.classList.toggle('active', i === map[current]);
+  });
+});
+</script>
+</body>
+</html>
