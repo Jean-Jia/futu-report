@@ -4771,7 +4771,7 @@ function paintPhoneUnderperform(elId, cur, prev, weeklyRec, ps, periodLabel) {
   const _totalRated = (chData && chData.total_rated != null) ? Math.round(chData.total_rated) : null;
   const _totalBad   = (chData && chData.total_bad   != null) ? Math.round(chData.total_bad)   : null;
   const _totalSat   = (chData && chData.total_satisfied != null) ? Math.round(chData.total_satisfied) : null;
-  const _satRate    = (chData && chData.satisfaction_rate != null) ? Number(chData.satisfaction_rate) : null;
+  const _satRate    = (weeklyRec && weeklyRec.satisfaction != null) ? Number(weeklyRec.satisfaction) : null;
   const _badPct     = (_totalRated && _totalBad != null) ? (_totalBad / _totalRated * 100).toFixed(1) : null;
   const summaryHdr  = (_totalRated != null)
     ? `<div class="dis-summary-hdr" style="display:flex;gap:24px;flex-wrap:wrap;padding:8px 16px;background:#f8fafc;border-bottom:1px solid #e2e8f0;font-size:12px;color:#334155">
